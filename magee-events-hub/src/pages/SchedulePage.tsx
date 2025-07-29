@@ -367,20 +367,20 @@ const SchedulePage = () => {
 
     // Helper for event pill color
     const eventPillClass = (type: string) => {
-        if (type === 'pro-d') return 'bg-blue-100 text-blue-700';
-        if (type === 'holiday') return 'bg-green-100 text-green-700';
-        if (type === 'collab') return 'bg-yellow-100 text-yellow-700';
-        if (type === 'user-event') return 'bg-red-100 text-red-700';
-        return 'bg-gray-200 text-gray-700';
+        if (type === 'pro-d') return 'bg-blue-100 text-blue-700 dark:bg-blue-900/60 dark:text-blue-200';
+        if (type === 'holiday') return 'bg-green-100 text-green-700 dark:bg-green-900/60 dark:text-green-200';
+        if (type === 'collab') return 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/60 dark:text-yellow-200';
+        if (type === 'user-event') return 'bg-red-100 text-red-700 dark:bg-red-900/60 dark:text-red-200';
+        return 'bg-gray-200 text-gray-700 dark:bg-gray-700/60 dark:text-gray-200';
     };
     
     // Helper for badge color
     const badgeClass = (type: string) => {
-        if (type === 'pro-d') return 'bg-blue-100 text-blue-800';
-        if (type === 'holiday') return 'bg-green-100 text-green-800';
-        if (type === 'collab') return 'bg-yellow-100 text-yellow-800';
-        if (type === 'user-event') return 'bg-red-100 text-red-800';
-        return 'bg-gray-200 text-gray-800';
+        if (type === 'pro-d') return 'bg-blue-100 text-blue-800 dark:bg-blue-900/70 dark:text-blue-200';
+        if (type === 'holiday') return 'bg-green-100 text-green-800 dark:bg-green-900/70 dark:text-green-200';
+        if (type === 'collab') return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/70 dark:text-yellow-200';
+        if (type === 'user-event') return 'bg-red-100 text-red-800 dark:bg-red-900/70 dark:text-red-200';
+        return 'bg-gray-200 text-gray-800 dark:bg-gray-700/70 dark:text-gray-200';
     };
     
 
@@ -506,7 +506,7 @@ const SchedulePage = () => {
                                         </div>
                                         <div className="flex flex-col gap-1 mt-1 flex-1">
                                             {events.slice(0, 2).map(e => (
-                                                <div key={e.id} className={`truncate px-2 py-1 rounded-lg text-xs font-semibold flex items-center gap-1 ${eventPillClass(e.type)} dark:bg-pink-900/30 dark:text-pink-200`}> 
+                                                <div key={e.id} className={`truncate px-2 py-1 rounded-lg text-xs font-semibold flex items-center gap-1 ${eventPillClass(e.type)}`}> 
                                                     <span className="text-base">{e.icon}</span>
                                                     <span className="hidden sm:inline">{e.title.length > 20 ? e.title.slice(0, 12) + '…' : e.title}</span>
                                                     <span className="sm:hidden">{e.title.length > 15 ? e.title.slice(0, 8) + '…' : e.title}</span>
