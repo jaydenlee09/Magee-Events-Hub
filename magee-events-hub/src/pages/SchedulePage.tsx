@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 import { db } from "../firebase/firebase";
 import { collection, getDocs } from "firebase/firestore";
@@ -351,7 +351,6 @@ const SchedulePage = () => {
         const year = currentMonth.getFullYear();
         const month = currentMonth.getMonth();
         const firstDay = new Date(year, month, 1);
-        const lastDay = new Date(year, month + 1, 0);
 
         const start = new Date(firstDay);
         start.setDate(start.getDate() - start.getDay()); // back to Sunday
@@ -384,12 +383,7 @@ const SchedulePage = () => {
         return 'bg-gray-200 text-gray-800';
     };
     
-    // Helper for selected/today border
-    const tileBorder = (isToday: boolean, isSelected: boolean) => {
-        if (isSelected) return 'border-2 border-red-500';
-        if (isToday) return 'border-2 border-blue-600 shadow';
-        return 'border border-gray-200';
-    };
+
 
     // Helper to format time for display
     const formatTime = (timeString?: string) => {

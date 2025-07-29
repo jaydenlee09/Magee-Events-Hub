@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { db } from "../firebase/firebase";
 import { collection, addDoc } from "firebase/firestore";
-import { Calendar, PartyPopper, Trophy, BookOpen, Users, Music, Palette, Pizza, GraduationCap, Building2, Plus, Send } from "lucide-react";
+import { Calendar, PartyPopper, Trophy, BookOpen, Users, Music, Palette, Pizza, GraduationCap, Building2, Send } from "lucide-react";
 import PageFade from '../PageFade';
 
 console.log("✅ db connected", db);
@@ -34,16 +34,7 @@ const iconOptions = [
   { name: "Building2", icon: <Building2 /> },
 ];
 
-function generateTimeOptions(interval = 30) {
-  const times = [];
-  for (let h = 1; h <= 12; h++) {
-    for (let m = 0; m < 60; m += interval) {
-      const min = m.toString().padStart(2, '0');
-      times.push(`${h.toString().padStart(2, '0')}:${min}`);
-    }
-  }
-  return times;
-}
+
 
 const SubmitEventPage: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({

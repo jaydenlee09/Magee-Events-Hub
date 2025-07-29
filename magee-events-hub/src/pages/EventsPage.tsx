@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Calendar, Clock, MapPin, Users, PartyPopper, Trophy, BookOpen, Music, Palette, Pizza, GraduationCap, Building2, Heart, Share2 } from "lucide-react";
+import { Calendar, Clock, MapPin, Users, PartyPopper, Trophy, BookOpen, Music, Palette, Pizza, GraduationCap, Building2 } from "lucide-react";
 import { FaComments } from "react-icons/fa";
 import { db } from "../firebase/firebase";
 import { collection, getDocs, deleteDoc, doc, addDoc } from "firebase/firestore";
@@ -132,26 +132,7 @@ const EventsPage: React.FC = () => {
     }
   };
 
-  const getCategoryGradient = (category?: string) => {
-    switch (category?.toLowerCase()) {
-      case 'academic':
-        return 'from-red-500 to-red-600';
-      case 'sports':
-        return 'from-blue-500 to-blue-600';
-      case 'cultural':
-        return 'from-purple-500 to-purple-600';
-      case 'social':
-        return 'from-green-500 to-green-600';
-      case 'spirit day':
-        return 'from-yellow-500 to-yellow-600';
-      case 'club event':
-        return 'from-pink-500 to-pink-600';
-      case 'other':
-        return 'from-gray-500 to-gray-600';
-      default:
-        return 'from-gray-500 to-gray-600';
-    }
-  };
+
 
   const iconMap: Record<string, React.ReactNode> = {
     Calendar: <Calendar />,

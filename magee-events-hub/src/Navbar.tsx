@@ -4,7 +4,7 @@ import { IoMdAdd } from "react-icons/io";
 import { PiStudent } from "react-icons/pi";
 import { FiUser } from "react-icons/fi";
 import mageeLogo from './assets/Magee.png';
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "./firebase/firebase";
 import { Sun, Moon } from "lucide-react";
@@ -14,7 +14,6 @@ export default function Navbar() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const isAdmin = typeof window !== 'undefined' && localStorage.getItem("isAdmin") === "true";
-  const navigate = useNavigate();
   const location = useLocation();
 
   // Dark mode state

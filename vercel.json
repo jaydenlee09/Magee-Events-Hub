@@ -1,5 +1,8 @@
 {
-    "rewrites": [
-      { "source": "/(.*)", "destination": "/" }
-    ]
-  }
+  "buildCommand": "npm run build",
+  "outputDirectory": "magee-events-hub/dist",
+  "installCommand": "cd magee-events-hub && npm install",
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/" }
+  ]
+}
