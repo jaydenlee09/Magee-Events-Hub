@@ -409,7 +409,7 @@ const SchedulePage = () => {
     return (
         <>
             <PageFade />
-            <div className={`min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 p-6 relative overflow-hidden ${
+            <div className={`min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 px-4 sm:px-6 py-4 sm:py-6 relative overflow-hidden ${
                 typeof window !== 'undefined' && document.documentElement.classList.contains('dark')
                   ? 'animate-fadeIn-dark'
                   : 'animate-fadeIn'
@@ -434,35 +434,35 @@ const SchedulePage = () => {
                 </div>
                 <div className="w-full">
                     {/* Enhanced Header */}
-                    <div className="text-center mb-12 pt-20">
-                        <h1 className="text-5xl font-bold text-gray-900 dark:text-white mb-4 tracking-tight">
+                    <div className="text-center mb-8 sm:mb-12 pt-16 sm:pt-20">
+                        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4 tracking-tight">
                             Magee's Schedule
                         </h1>
-                        <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto leading-relaxed">
+                        <p className="text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto leading-relaxed px-4">
                             See upcoming holidays, pro-d days, and student events! 
                             Stay organized with our comprehensive school calendar.
                         </p>
                     </div>
-                <div className="flex flex-col lg:flex-row gap-8 w-full overflow-x-auto mx-auto max-w-none px-8">
+                <div className="flex flex-col lg:flex-row gap-4 sm:gap-6 md:gap-8 w-full overflow-x-auto mx-auto max-w-none px-2 sm:px-4 md:px-8">
                     {/* Enhanced Calendar */}
-                    <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-2xl p-8 border border-gray-100/50 dark:border-gray-700/50 flex flex-col mb-8 lg:mb-0 lg:flex-1">
-                        <div className="flex items-center justify-between mb-8">
-                            <h3 className="text-3xl font-bold text-gray-900 dark:text-white">
+                    <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-2xl sm:rounded-3xl shadow-2xl p-4 sm:p-6 md:p-8 border border-gray-100/50 dark:border-gray-700/50 flex flex-col mb-6 sm:mb-8 lg:mb-0 lg:flex-1">
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 sm:mb-8 gap-4">
+                            <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white text-center sm:text-left">
                                 {currentMonth.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
                             </h3>
-                            <div className="flex gap-3">
+                            <div className="flex justify-center sm:justify-end gap-2 sm:gap-3">
                                 <button
-                                    className="p-3 rounded-2xl border border-gray-200 dark:border-gray-700 bg-white/80 dark:bg-gray-800/80 hover:bg-red-50 dark:hover:bg-red-900/20 hover:border-red-300 dark:hover:border-red-700 transition-all duration-300 shadow-lg hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-400"
+                                    className="p-2 sm:p-3 rounded-xl sm:rounded-2xl border border-gray-200 dark:border-gray-700 bg-white/80 dark:bg-gray-800/80 hover:bg-red-50 dark:hover:bg-red-900/20 hover:border-red-300 dark:hover:border-red-700 transition-all duration-300 shadow-lg hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-400"
                                     onClick={() => {
                                         const newDate = new Date(currentMonth);
                                         newDate.setMonth(currentMonth.getMonth() - 1);
                                         setCurrentMonth(newDate);
                                     }}
                                 >
-                                    <FaAngleLeft size={20} color={darkMode ? '#e5e7eb' : '#374151'} />
+                                    <FaAngleLeft size={16} color={darkMode ? '#e5e7eb' : '#374151'} />
                                 </button>
                                 <button
-                                    className="px-6 py-3 rounded-2xl bg-gradient-to-r from-red-500 to-red-600 text-white font-semibold shadow-lg shadow-red-500/25 transition-all duration-300 hover:from-red-600 hover:to-red-700 hover:shadow-red-400/40 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-400"
+                                    className="px-4 sm:px-6 py-2 sm:py-3 rounded-xl sm:rounded-2xl bg-gradient-to-r from-red-500 to-red-600 text-white font-semibold shadow-lg shadow-red-500/25 transition-all duration-300 hover:from-red-600 hover:to-red-700 hover:shadow-red-400/40 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-400 text-sm sm:text-base"
                                     onClick={() => {
                                         setCurrentMonth(new Date());
                                         setSelectedDate(null);
@@ -471,25 +471,25 @@ const SchedulePage = () => {
                                     Today
                                 </button>
                                 <button
-                                    className="p-3 rounded-2xl border border-gray-200 dark:border-gray-700 bg-white/80 dark:bg-gray-800/80 hover:bg-red-50 dark:hover:bg-red-900/20 hover:border-red-300 dark:hover:border-red-700 transition-all duration-300 shadow-lg hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-400"
+                                    className="p-2 sm:p-3 rounded-xl sm:rounded-2xl border border-gray-200 dark:border-gray-700 bg-white/80 dark:bg-gray-800/80 hover:bg-red-50 dark:hover:bg-red-900/20 hover:border-red-300 dark:hover:border-red-700 transition-all duration-300 shadow-lg hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-400"
                                     onClick={() => {
                                         const newDate = new Date(currentMonth);
                                         newDate.setMonth(currentMonth.getMonth() + 1);
                                         setCurrentMonth(newDate);
                                     }}
                                 >
-                                    <FaAngleRight size={20} color={darkMode ? '#e5e7eb' : '#374151'} />
+                                    <FaAngleRight size={16} color={darkMode ? '#e5e7eb' : '#374151'} />
                                 </button>
                             </div>
                         </div>
-                        <div className="grid grid-cols-7 gap-2 mb-4">
+                        <div className="grid grid-cols-7 gap-1 sm:gap-2 mb-3 sm:mb-4">
                             {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(day => (
-                                <div key={day} className="text-center font-bold text-gray-500 dark:text-gray-400 py-3 border-b-2 border-gray-200 dark:border-gray-700 text-sm uppercase tracking-wider">
+                                <div key={day} className="text-center font-bold text-gray-500 dark:text-gray-400 py-2 sm:py-3 border-b-2 border-gray-200 dark:border-gray-700 text-xs sm:text-sm uppercase tracking-wider">
                                     {day}
                                 </div>
                             ))}
                         </div>
-                        <div className="grid grid-cols-7 gap-1 md:gap-2 flex-1">
+                        <div className="grid grid-cols-7 gap-1 flex-1">
                             {generateDays().map((date, index) => {
                                 const isToday = new Date().toDateString() === date.toDateString();
                                 const isCurrentMonth = date.getMonth() === currentMonth.getMonth();
@@ -498,22 +498,22 @@ const SchedulePage = () => {
                                 return (
                                     <div
                                         key={index}
-                                        className={`relative rounded-2xl px-2 pt-2 pb-3 min-h-[90px] md:min-h-[110px] lg:min-h-[130px] cursor-pointer transition-all duration-300 bg-white/90 dark:bg-gray-800/90 hover:bg-red-50 dark:hover:bg-red-900/20 overflow-hidden flex flex-col border border-gray-200/50 dark:border-gray-700/50 shadow-lg hover:shadow-xl hover:scale-105 ${isSelected ? 'ring-2 ring-red-500 shadow-red-500/25' : isToday ? 'ring-2 ring-red-400 shadow-red-400/25' : ''} ${!isCurrentMonth ? 'opacity-40' : ''}`}
+                                        className={`relative rounded-xl sm:rounded-2xl px-1 sm:px-2 pt-1 sm:pt-2 pb-2 sm:pb-3 min-h-[60px] sm:min-h-[80px] md:min-h-[100px] lg:min-h-[120px] cursor-pointer transition-all duration-300 bg-white/90 dark:bg-gray-800/90 hover:bg-red-50 dark:hover:bg-red-900/20 overflow-hidden flex flex-col border border-gray-200/50 dark:border-gray-700/50 shadow-lg hover:shadow-xl hover:scale-105 ${isSelected ? 'ring-2 ring-red-500 shadow-red-500/25' : isToday ? 'ring-2 ring-red-400 shadow-red-400/25' : ''} ${!isCurrentMonth ? 'opacity-40' : ''}`}
                                         onClick={() => setSelectedDate(date)}
                                     >
                                         <div className="text-right text-xs font-bold text-gray-700 dark:text-gray-200 pr-1">
                                             {date.getDate()}
                                         </div>
-                                        <div className="flex flex-col gap-1 mt-1 flex-1">
-                                            {events.slice(0, 2).map(e => (
-                                                <div key={e.id} className={`truncate px-2 py-1 rounded-lg text-xs font-semibold flex items-center gap-1 ${eventPillClass(e.type)}`}> 
-                                                    <span className="text-base">{e.icon}</span>
+                                        <div className="flex flex-col gap-0.5 sm:gap-1 mt-1 flex-1">
+                                            {events.slice(0, 1).map(e => (
+                                                <div key={e.id} className={`truncate px-1 sm:px-2 py-0.5 sm:py-1 rounded-md sm:rounded-lg text-xs font-semibold flex items-center gap-1 ${eventPillClass(e.type)}`}> 
+                                                    <span className="text-sm sm:text-base">{e.icon}</span>
                                                     <span className="hidden sm:inline">{e.title.length > 20 ? e.title.slice(0, 12) + '…' : e.title}</span>
-                                                    <span className="sm:hidden">{e.title.length > 15 ? e.title.slice(0, 8) + '…' : e.title}</span>
+                                                    <span className="sm:hidden">{e.title.length > 10 ? e.title.slice(0, 6) + '…' : e.title}</span>
                                                 </div>
                                             ))}
-                                            {events.length > 2 && (
-                                                <div className="text-[10px] text-gray-400 text-center">+{events.length - 2}</div>
+                                            {events.length > 1 && (
+                                                <div className="text-[8px] sm:text-[10px] text-gray-400 text-center">+{events.length - 1}</div>
                                             )}
                                         </div>
                                     </div>
@@ -522,37 +522,37 @@ const SchedulePage = () => {
                         </div>
                     </div>
                     {/* Enhanced Sidebar */}
-                    <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-2xl p-8 border border-gray-100/50 dark:border-gray-700/50 overflow-y-auto flex flex-col lg:w-[32rem]">
-                        <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 border-b-2 border-gray-200 dark:border-gray-700 pb-4">Events on {selectedDate ? selectedDate.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) : '...'}</h3>
+                    <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-2xl sm:rounded-3xl shadow-2xl p-4 sm:p-6 md:p-8 border border-gray-100/50 dark:border-gray-700/50 overflow-y-auto flex flex-col lg:w-[32rem]">
+                        <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-6 border-b-2 border-gray-200 dark:border-gray-700 pb-3 sm:pb-4">Events on {selectedDate ? selectedDate.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) : '...'}</h3>
                         {selectedDate && getEventsForDate(selectedDate).length > 0 ? (
-                            <div className="space-y-4">
+                            <div className="space-y-3 sm:space-y-4">
                                 {getEventsForDate(selectedDate).map(e => (
-                                    <div key={e.id} className="group relative bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-2xl p-6 border border-gray-200/50 dark:border-gray-700/50 shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105 hover:border-red-200 dark:hover:border-red-700 overflow-hidden">
+                                    <div key={e.id} className="group relative bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-gray-200/50 dark:border-gray-700/50 shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105 hover:border-red-200 dark:hover:border-red-700 overflow-hidden">
                                         {/* Gradient Overlay */}
                                         <div className="absolute inset-0 bg-gradient-to-br from-red-500/5 to-red-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                                         
-                                        <div className="relative flex items-start justify-between mb-4">
+                                        <div className="relative flex flex-col sm:flex-row sm:items-start sm:justify-between mb-3 sm:mb-4 gap-3">
                                             <div className="flex items-center gap-3 flex-1 min-w-0">
-                                                <div className="w-10 h-10 bg-gradient-to-br from-red-500 to-red-600 rounded-xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform duration-300 flex-shrink-0">
-                                                    <span className="text-lg">{e.icon}</span>
+                                                <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-red-500 to-red-600 rounded-lg sm:rounded-xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform duration-300 flex-shrink-0">
+                                                    <span className="text-sm sm:text-lg">{e.icon}</span>
                                                 </div>
                                                 <div className="flex-1 min-w-0">
-                                                    <h4 className="font-bold text-gray-900 dark:text-white leading-tight group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors duration-300 line-clamp-2">
+                                                    <h4 className="font-bold text-gray-900 dark:text-white leading-tight group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors duration-300 line-clamp-2 text-sm sm:text-base">
                                                         {e.title}
                                                     </h4>
                                                 </div>
                                             </div>
-                                            <span className={`flex items-center justify-center px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-wide border text-center ml-4 flex-shrink-0 ${badgeClass(e.type)}`}>
+                                            <span className={`flex items-center justify-center px-2 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs font-bold uppercase tracking-wide border text-center flex-shrink-0 ${badgeClass(e.type)}`}>
                                                 {e.type === 'pro-d' ? 'Pro-D' : e.type === 'holiday' ? 'Holiday' : e.category || 'Event'}
                                             </span>
                                         </div>
                                         
-                                        <div className="relative mb-4">
-                                            <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">{e.description}</p>
+                                        <div className="relative mb-3 sm:mb-4">
+                                            <p className="text-gray-600 dark:text-gray-300 text-xs sm:text-sm leading-relaxed">{e.description}</p>
                                         </div>
                                         
                                         {e.type === 'user-event' && (
-                                            <div className="relative space-y-2 text-xs text-gray-500 dark:text-gray-400">
+                                            <div className="relative space-y-1 sm:space-y-2 text-xs text-gray-500 dark:text-gray-400">
                                                 {e.time && (
                                                     <div className="flex items-center gap-2">
                                                         <span className="font-medium text-red-500">Time:</span>
@@ -577,14 +577,14 @@ const SchedulePage = () => {
                                 ))}
                             </div>
                         ) : (
-                            <div className="text-center py-12">
-                                <div className="w-20 h-20 bg-gradient-to-br from-gray-200 to-gray-300 dark:from-gray-600 dark:to-gray-700 rounded-3xl flex items-center justify-center text-4xl mx-auto mb-4">
+                            <div className="text-center py-8 sm:py-12">
+                                <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-gray-200 to-gray-300 dark:from-gray-600 dark:to-gray-700 rounded-2xl sm:rounded-3xl flex items-center justify-center text-3xl sm:text-4xl mx-auto mb-3 sm:mb-4">
                                     📅
                                 </div>
-                                <h3 className="text-xl font-bold text-gray-700 dark:text-gray-100 mb-2">
+                                <h3 className="text-lg sm:text-xl font-bold text-gray-700 dark:text-gray-100 mb-2">
                                     No events scheduled
                                 </h3>
-                                <p className="text-gray-500 dark:text-gray-400 text-sm">
+                                <p className="text-gray-500 dark:text-gray-400 text-xs sm:text-sm">
                                     Select a different date to view events
                                 </p>
                             </div>
