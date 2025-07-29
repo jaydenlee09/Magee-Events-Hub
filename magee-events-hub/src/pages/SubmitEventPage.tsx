@@ -203,14 +203,39 @@ const SubmitEventPage: React.FC = () => {
         <div className="max-w-5xl mx-auto relative z-10">
           {/* Form Container */}
           <div className="mt-8 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-2xl border border-gray-100/50 dark:border-gray-700/50 overflow-hidden">
-            {/* Simple Header */}
-            <div className="bg-gradient-to-r from-red-500 to-red-600 px-8 py-8 text-center text-white">
-              <h2 className="text-3xl font-bold mb-2">
+            {/* Enhanced Professional Header */}
+            <div className="relative overflow-hidden">
+              {/* Background matching card */}
+              <div className="absolute inset-0 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm"></div>
+              
+              {/* Subtle Pattern Overlay */}
+              <div className="absolute inset-0 opacity-5">
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(0,0,0,0.1)_1px,transparent_0)] bg-[length:20px_20px] dark:bg-[radial-gradient(circle_at_1px_1px,rgba(255,255,255,0.1)_1px,transparent_0)]"></div>
+              </div>
+              
+              {/* Content */}
+              <div className="relative px-8 py-12 text-center">
+                {/* Icon */}
+                <div className="w-20 h-20 bg-gradient-to-br from-red-500 to-red-600 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-2xl">
+                  <Send className="w-10 h-10 text-white" />
+                </div>
+                
+                {/* Main Title */}
+                <h2 className="text-4xl md:text-5xl font-bold mb-4 tracking-tight text-gray-900 dark:text-white">
                 Submit New Event
               </h2>
-              <p className="text-red-100 text-sm">
-                All fields marked with * are required
-              </p>
+                
+                {/* Subtitle */}
+                <p className="text-lg text-gray-600 dark:text-gray-300 mb-6 max-w-2xl mx-auto leading-relaxed">
+                  Share your event with the Magee community
+                </p>
+                
+                {/* Requirements Notice */}
+                <div className="inline-flex items-center gap-2 px-6 py-3 bg-red-50 dark:bg-red-900/30 rounded-2xl border border-red-200 dark:border-red-700 shadow-lg">
+                  <span className="text-2xl">📝</span>
+                  <span className="text-sm font-medium text-red-700 dark:text-red-200">All fields marked with * are required</span>
+                </div>
+              </div>
             </div>
 
             {/* Enhanced Form */}

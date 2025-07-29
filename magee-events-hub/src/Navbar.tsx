@@ -72,7 +72,8 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-6 py-2 bg-white/80 dark:bg-[#181c23] dark:border-b dark:border-pink-500/40 dark:shadow-pink-900/40 shadow-lg dark:shadow-2xl font-sans transition-colors backdrop-blur-md">
+    <>
+      <nav className="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-6 py-2 bg-white/80 dark:bg-[#181c23] dark:border-b dark:border-pink-500/40 dark:shadow-pink-900/40 shadow-lg dark:shadow-2xl font-sans transition-colors backdrop-blur-md">
       <div className="flex items-center gap-2">
         <span className="block h-8 w-auto mr-2">
           <img src={mageeLogo} alt="Logo" className="h-8 w-auto align-middle" />
@@ -110,23 +111,25 @@ export default function Navbar() {
         {isAdmin && (
           <Link
             to="/admin"
-            className={`flex items-center gap-1 px-4 py-2 rounded-lg font-medium transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-red-200
-              ${isActive("/admin") ? "bg-red-100 text-red-700 shadow dark:bg-pink-900/30 dark:text-white" : "text-gray-700 dark:text-white hover:bg-red-100 dark:hover:bg-gray-800 hover:text-red-700 dark:hover:text-white hover:scale-105 active:scale-95 hover:shadow-md dark:bg-gray-800"}
+            className={`flex items-center justify-center p-2 rounded-lg font-medium focus:outline-none focus:ring-2 focus:ring-red-500
+              ${isActive("/admin") ? "bg-red-100 text-red-700 shadow dark:bg-pink-900/30 dark:text-white" : "text-gray-800 dark:text-gray-100 bg-transparent"}
             `}
+            style={{ outline: 'none', borderColor: 'transparent' }}
+            title="Admin Panel"
           >
-            <FiUser size={20} color={darkMode ? '#fff' : undefined} />
-            <span>Admin</span>
+            <FiUser size={20} color={darkMode ? '#e5e7eb' : '#374151'} />
           </Link>
         )}
         {!isAdmin && (
           <button
-            className={`flex items-center gap-1 px-4 py-2 rounded-lg font-medium transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-red-200
-              ${isActive("/admin") ? "bg-red-100 text-red-700 shadow dark:bg-pink-900/30 dark:text-white" : "text-gray-700 dark:text-white hover:bg-red-100 dark:hover:bg-gray-800 hover:text-red-700 dark:hover:text-white hover:scale-105 active:scale-95 hover:shadow-md dark:bg-gray-800"}
+            className={`flex items-center justify-center p-2 rounded-lg font-medium focus:outline-none focus:ring-2 focus:ring-red-500
+              ${isActive("/admin") ? "bg-red-100 text-red-700 shadow dark:bg-pink-900/30 dark:text-white" : "text-gray-800 dark:text-gray-100 bg-transparent"}
             `}
+            style={{ outline: 'none', borderColor: 'transparent' }}
             onClick={handleAdminClick}
+            title="Admin Login"
           >
-            <FiUser size={20} color={darkMode ? '#fff' : undefined} />
-            <span>Admin</span>
+            <FiUser size={20} color={darkMode ? '#e5e7eb' : '#374151'} />
           </button>
         )}
         {isAdmin && (
@@ -143,26 +146,27 @@ export default function Navbar() {
           {darkMode ? <Sun size={20} className="text-yellow-400" /> : <Moon size={20} className="text-gray-700" />}
         </button>
       </div>
-      {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-          <form onSubmit={handlePasswordSubmit} className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-xs flex flex-col gap-4 relative">
-            <h2 className="text-xl font-bold text-red-700 mb-2">Admin Login</h2>
-            <input
-              type="password"
-              placeholder="Enter admin password"
-              value={password}
-              onChange={e => setPassword(e.target.value)}
-              className="w-full px-4 py-2 border-2 rounded-xl text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-100 border-gray-200"
-              autoFocus
-            />
-            {error && <div className="text-red-500 text-sm">{error}</div>}
-            <div className="flex gap-2 mt-2">
-              <button type="submit" className="flex-1 bg-gradient-to-r from-red-500 to-pink-500 text-white font-semibold py-2 rounded-lg shadow hover:from-pink-500 hover:to-red-500 transition">Login</button>
-              <button type="button" className="flex-1 bg-gradient-to-r from-gray-400 to-gray-600 text-white font-semibold py-2 rounded-lg shadow hover:from-gray-500 hover:to-gray-700 transition" onClick={() => setShowModal(false)}>Cancel</button>
-            </div>
-          </form>
-        </div>
-      )}
     </nav>
+    {showModal && (
+      <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/40 backdrop-blur-sm">
+        <form onSubmit={handlePasswordSubmit} className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-8 w-full max-w-xs flex flex-col gap-4 relative mx-4">
+          <h2 className="text-xl font-bold text-red-700 dark:text-red-400 mb-2">Admin Login</h2>
+          <input
+            type="password"
+            placeholder="Enter admin password"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+            className="w-full px-4 py-2 border-2 rounded-xl text-gray-700 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-100 border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700"
+            autoFocus
+          />
+          {error && <div className="text-red-500 text-sm">{error}</div>}
+          <div className="flex gap-2 mt-2">
+            <button type="submit" className="flex-1 bg-gradient-to-r from-red-500 to-pink-500 text-white font-semibold py-2 rounded-lg shadow hover:from-pink-500 hover:to-red-500 transition">Login</button>
+            <button type="button" className="flex-1 bg-gradient-to-r from-gray-400 to-gray-600 text-white font-semibold py-2 rounded-lg shadow hover:from-gray-500 hover:to-gray-700 transition" onClick={() => setShowModal(false)}>Cancel</button>
+          </div>
+        </form>
+      </div>
+    )}
+    </>
   );
 }
