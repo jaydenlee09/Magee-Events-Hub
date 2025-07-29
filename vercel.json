@@ -1,5 +1,5 @@
 {
-  "buildCommand": "npm run build",
+  "buildCommand": "cd magee-events-hub && npm run build",
   "outputDirectory": "magee-events-hub/dist",
   "installCommand": "cd magee-events-hub && npm install",
   "rewrites": [
