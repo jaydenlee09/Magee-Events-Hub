@@ -20,19 +20,19 @@ interface EventData {
 }
 
 const SkeletonCard = () => (
-  <div className="relative bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-3xl shadow-xl border border-gray-100/50 dark:border-gray-700/50 p-8 animate-pulse">
-    <div className="flex items-center gap-3 mb-4">
-      <div className="w-10 h-10 bg-gradient-to-br from-gray-200 to-gray-300 dark:from-gray-600 dark:to-gray-700 rounded-xl" />
-      <div className="h-6 w-40 bg-gradient-to-r from-gray-200 to-gray-300 dark:from-gray-600 dark:to-gray-700 rounded" />
+  <div className="relative bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl sm:rounded-3xl shadow-xl border border-gray-100/50 dark:border-gray-700/50 p-4 sm:p-6 md:p-8 animate-pulse">
+    <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
+      <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-gray-200 to-gray-300 dark:from-gray-600 dark:to-gray-700 rounded-lg sm:rounded-xl" />
+      <div className="h-5 sm:h-6 w-32 sm:w-40 bg-gradient-to-r from-gray-200 to-gray-300 dark:from-gray-600 dark:to-gray-700 rounded" />
     </div>
-    <div className="h-5 w-3/4 bg-gradient-to-r from-gray-200 to-gray-300 dark:from-gray-600 dark:to-gray-700 rounded mb-3" />
-    <div className="h-4 w-1/2 bg-gradient-to-r from-gray-200 to-gray-300 dark:from-gray-600 dark:to-gray-700 rounded mb-6" />
-    <div className="space-y-3 mb-6">
-      <div className="h-4 w-1/2 bg-gradient-to-r from-gray-200 to-gray-300 dark:from-gray-600 dark:to-gray-700 rounded" />
-      <div className="h-4 w-1/3 bg-gradient-to-r from-gray-200 to-gray-300 dark:from-gray-600 dark:to-gray-700 rounded" />
-      <div className="h-4 w-1/4 bg-gradient-to-r from-gray-200 to-gray-300 dark:from-gray-600 dark:to-gray-700 rounded" />
+    <div className="h-4 sm:h-5 w-3/4 bg-gradient-to-r from-gray-200 to-gray-300 dark:from-gray-600 dark:to-gray-700 rounded mb-2 sm:mb-3" />
+    <div className="h-3 sm:h-4 w-1/2 bg-gradient-to-r from-gray-200 to-gray-300 dark:from-gray-600 dark:to-gray-700 rounded mb-4 sm:mb-6" />
+    <div className="space-y-2 sm:space-y-3 mb-4 sm:mb-6">
+      <div className="h-3 sm:h-4 w-1/2 bg-gradient-to-r from-gray-200 to-gray-300 dark:from-gray-600 dark:to-gray-700 rounded" />
+      <div className="h-3 sm:h-4 w-1/3 bg-gradient-to-r from-gray-200 to-gray-300 dark:from-gray-600 dark:to-gray-700 rounded" />
+      <div className="h-3 sm:h-4 w-1/4 bg-gradient-to-r from-gray-200 to-gray-300 dark:from-gray-600 dark:to-gray-700 rounded" />
     </div>
-    <div className="h-12 w-full bg-gradient-to-r from-gray-200 to-gray-300 dark:from-gray-600 dark:to-gray-700 rounded-xl" />
+    <div className="h-8 sm:h-12 w-full bg-gradient-to-r from-gray-200 to-gray-300 dark:from-gray-600 dark:to-gray-700 rounded-lg sm:rounded-xl" />
   </div>
 );
 
@@ -319,7 +319,7 @@ const EventsPage: React.FC = () => {
       )}
 
       {/* Enhanced Main Content */}
-      <div className={`min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 p-6 relative overflow-hidden ${
+      <div className={`min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 px-4 sm:px-6 py-4 sm:py-6 relative overflow-hidden ${
         typeof window !== 'undefined' && document.documentElement.classList.contains('dark')
           ? 'animate-fadeIn-dark'
           : 'animate-fadeIn'
@@ -344,22 +344,22 @@ const EventsPage: React.FC = () => {
         </div>
         <div className="max-w-7xl mx-auto">
           {/* Enhanced Header */}
-          <div className="text-center mb-12 pt-20">
-            <h1 className="text-5xl font-bold text-gray-900 dark:text-white mb-4 tracking-tight">
+          <div className="text-center mb-8 sm:mb-12 pt-16 sm:pt-20">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4 tracking-tight">
               Magee Events Hub
             </h1>
-            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto leading-relaxed px-4">
               Discover, join, and enjoy amazing events happening at Magee! 
             </p>
           </div>
 
           {/* Enhanced Filter Buttons */}
-          <div className="flex flex-wrap gap-3 mb-10 justify-center">
+          <div className="flex flex-wrap gap-2 sm:gap-3 mb-6 sm:mb-10 justify-center px-2">
             {categories.map((category) => (
               <button
                 key={category}
                 onClick={() => setActiveFilter(category)}
-                className={`px-6 py-3 rounded-2xl font-semibold transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-red-200 dark:focus:ring-red-800 ${
+                className={`px-4 sm:px-6 py-2 sm:py-3 rounded-xl sm:rounded-2xl text-sm sm:text-base font-semibold transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-red-200 dark:focus:ring-red-800 ${
                   activeFilter === category
                     ? 'bg-gradient-to-r from-pink-500 to-red-500 text-white shadow-xl shadow-pink-500/30 scale-105'
                     : 'bg-white/80 dark:bg-gray-800/80 text-gray-700 dark:text-gray-200 hover:bg-red-50 dark:hover:bg-red-900/20 hover:border-red-300 dark:hover:border-red-700 border border-gray-200/50 dark:border-gray-700/50 backdrop-blur-sm'
@@ -371,7 +371,7 @@ const EventsPage: React.FC = () => {
           </div>
 
           {/* Enhanced Events Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
             {loading ? (
               <>
                 <SkeletonCard />
@@ -379,15 +379,15 @@ const EventsPage: React.FC = () => {
                 <SkeletonCard />
               </>
             ) : filteredEvents.length === 0 ? (
-              <div className="col-span-full text-center py-16">
-                <div className="max-w-md mx-auto">
-                  <div className="w-24 h-24 bg-gradient-to-br from-gray-200 to-gray-300 dark:from-gray-600 dark:to-gray-700 rounded-3xl flex items-center justify-center text-4xl mb-6 mx-auto">
+              <div className="col-span-full text-center py-8 sm:py-16">
+                <div className="max-w-md mx-auto px-4">
+                  <div className="w-16 h-16 sm:w-24 sm:h-24 bg-gradient-to-br from-gray-200 to-gray-300 dark:from-gray-600 dark:to-gray-700 rounded-2xl sm:rounded-3xl flex items-center justify-center text-2xl sm:text-4xl mb-4 sm:mb-6 mx-auto">
                     📅
                   </div>
-                  <h2 className="text-2xl font-bold text-gray-700 dark:text-gray-100 mb-3">
+                  <h2 className="text-xl sm:text-2xl font-bold text-gray-700 dark:text-gray-100 mb-2 sm:mb-3">
                     No events found
                   </h2>
-                  <p className="text-gray-500 dark:text-gray-400 text-lg leading-relaxed">
+                  <p className="text-gray-500 dark:text-gray-400 text-base sm:text-lg leading-relaxed">
                     There are no approved events at the moment. Check back soon or submit a new event to get things started!
                   </p>
                 </div>
@@ -395,59 +395,59 @@ const EventsPage: React.FC = () => {
             ) : (
               filteredEvents.map((event) => (
                 <div 
-                  className="group relative bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-xl border border-gray-100/50 dark:border-gray-700/50 p-8 transition-all duration-500 hover:shadow-2xl hover:scale-105 hover:border-pink-200 dark:hover:border-pink-700 overflow-hidden"
+                  className="group relative bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-2xl sm:rounded-3xl shadow-xl border border-gray-100/50 dark:border-gray-700/50 p-4 sm:p-6 md:p-8 transition-all duration-500 hover:shadow-2xl hover:scale-105 hover:border-pink-200 dark:hover:border-pink-700 overflow-hidden"
                   key={event.id}
                 >
                   {/* Gradient Overlay */}
                   <div className="absolute inset-0 bg-gradient-to-br from-red-500/5 to-red-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   
                   {/* Event Header */}
-                                     <div className="relative flex justify-between items-start mb-6">
-                     <div className="flex items-center gap-4 flex-1 min-w-0">
-                       <div className="w-12 h-12 bg-gradient-to-br from-red-500 to-red-600 rounded-2xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform duration-300 flex-shrink-0">
-                         {iconMap[event.icon || "Calendar"] || <Calendar />}
-                       </div>
-                       <div className="flex-1 min-w-0">
-                         <h3 className="text-xl font-bold text-gray-900 dark:text-white leading-tight group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors duration-300 line-clamp-2">
-                           {event.title}
-                         </h3>
-                       </div>
-                     </div>
-                     <span className={`flex items-center justify-center px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-wide border text-center ml-4 flex-shrink-0 ${getCategoryColor(event.category)}`}>
-                       {event.category}
-                     </span>
-                   </div>
+                  <div className="relative flex justify-between items-start mb-4 sm:mb-6">
+                    <div className="flex items-center gap-3 sm:gap-4 flex-1 min-w-0">
+                      <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-red-500 to-red-600 rounded-xl sm:rounded-2xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform duration-300 flex-shrink-0">
+                        {iconMap[event.icon || "Calendar"] || <Calendar />}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white leading-tight group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors duration-300 line-clamp-2">
+                          {event.title}
+                        </h3>
+                      </div>
+                    </div>
+                    <span className={`flex items-center justify-center px-2 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs font-bold uppercase tracking-wide border text-center ml-2 sm:ml-4 flex-shrink-0 ${getCategoryColor(event.category)}`}>
+                      {event.category}
+                    </span>
+                  </div>
 
                   {/* Description */}
-                  <div className="relative mb-6">
-                    <p className="text-gray-600 dark:text-gray-300 text-base leading-relaxed line-clamp-3">
+                  <div className="relative mb-4 sm:mb-6">
+                    <p className="text-gray-600 dark:text-gray-300 text-sm sm:text-base leading-relaxed line-clamp-3">
                       {event.description}
                     </p>
                   </div>
 
                   {/* Event Details */}
-                  <div className="relative space-y-3 mb-6">
-                                         <div className="flex items-center gap-3 text-sm text-gray-600 dark:text-gray-400">
-                       <Calendar className="w-4 h-4 text-red-500 flex-shrink-0" />
+                  <div className="relative space-y-2 sm:space-y-3 mb-4 sm:mb-6">
+                    <div className="flex items-center gap-2 sm:gap-3 text-xs sm:text-sm text-gray-600 dark:text-gray-400">
+                      <Calendar className="w-3 h-3 sm:w-4 sm:h-4 text-red-500 flex-shrink-0" />
                       <span className="font-medium">{formatDate(event.date)}</span>
                     </div>
-                                         <div className="flex items-center gap-3 text-sm text-gray-600 dark:text-gray-400">
-                       <Clock className="w-4 h-4 text-red-500 flex-shrink-0" />
+                    <div className="flex items-center gap-2 sm:gap-3 text-xs sm:text-sm text-gray-600 dark:text-gray-400">
+                      <Clock className="w-3 h-3 sm:w-4 sm:h-4 text-red-500 flex-shrink-0" />
                       <span className="font-medium">{formatTime(event.time)}</span>
                     </div>
-                                         <div className="flex items-center gap-3 text-sm text-gray-600 dark:text-gray-400">
-                       <MapPin className="w-4 h-4 text-red-500 flex-shrink-0" />
+                    <div className="flex items-center gap-2 sm:gap-3 text-xs sm:text-sm text-gray-600 dark:text-gray-400">
+                      <MapPin className="w-3 h-3 sm:w-4 sm:h-4 text-red-500 flex-shrink-0" />
                       <span className="font-medium">{event.location || "TBD"}</span>
                     </div>
-                                         <div className="flex items-center gap-3 text-sm text-gray-600 dark:text-gray-400">
-                       <Users className="w-4 h-4 text-red-500 flex-shrink-0" />
+                    <div className="flex items-center gap-2 sm:gap-3 text-xs sm:text-sm text-gray-600 dark:text-gray-400">
+                      <Users className="w-3 h-3 sm:w-4 sm:h-4 text-red-500 flex-shrink-0" />
                       <span className="font-medium">{event.targetAudience || "All students"}</span>
                     </div>
                   </div>
 
                   {/* Organizer */}
-                  <div className="relative pt-4 border-t border-gray-100 dark:border-gray-700 mb-6">
-                    <p className="text-sm text-gray-500 dark:text-gray-400">
+                  <div className="relative pt-3 sm:pt-4 border-t border-gray-100 dark:border-gray-700 mb-4 sm:mb-6">
+                    <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
                       Organized by <span className="font-semibold text-gray-900 dark:text-white">{event.organizer || "Unknown"}</span>
                     </p>
                   </div>
