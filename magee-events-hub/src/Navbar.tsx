@@ -78,8 +78,7 @@ export default function Navbar() {
         <span className="block h-6 sm:h-8 w-auto mr-1 sm:mr-2">
           <img src={mageeLogo} alt="Logo" className="h-6 sm:h-8 w-auto align-middle" />
         </span>
-        <span className="font-bold text-sm sm:text-lg tracking-tight text-gray-800 dark:text-gray-100 select-none hidden sm:block">Magee Events Hub</span>
-        <span className="font-bold text-sm tracking-tight text-gray-800 dark:text-gray-100 select-none sm:hidden">Magee</span>
+        <span className="font-bold text-sm sm:text-lg tracking-tight text-gray-800 dark:text-gray-100 select-none">Magee Events Hub</span>
       </div>
       <div className="flex items-center gap-1 sm:gap-2 md:gap-4">
         <Link
@@ -163,7 +162,7 @@ export default function Navbar() {
           {error && <div className="text-red-500 text-sm">{error}</div>}
           <div className="flex gap-2 mt-2">
             <button type="submit" className="flex-1 bg-gradient-to-r from-red-500 to-pink-500 text-white font-semibold py-2 rounded-lg shadow hover:from-pink-500 hover:to-red-500 transition">Login</button>
-            <button type="button" className="flex-1 bg-gradient-to-r from-gray-400 to-gray-600 text-white font-semibold py-2 rounded-lg shadow hover:from-gray-500 hover:to-gray-700 transition" onClick={() => setShowModal(false)}>Cancel</button>
+            <button type="button" className="flex-1 bg-gray-600 text-white font-semibold py-2 rounded-lg shadow hover:bg-gray-700 transition" onClick={() => setShowModal(false)}>Cancel</button>
           </div>
         </form>
       </div>

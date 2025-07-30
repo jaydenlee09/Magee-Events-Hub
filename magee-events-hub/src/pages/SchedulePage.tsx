@@ -414,23 +414,9 @@ const SchedulePage = () => {
                   ? 'animate-fadeIn-dark'
                   : 'animate-fadeIn'
               }`}>
-                {/* Subtle Grid Pattern */}
+                {/* Subtle Grid Pattern - Simplified */}
                 <div className="absolute inset-0 pointer-events-none">
-                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(0,0,0,0.08)_1px,transparent_0)] bg-[length:20px_20px] dark:bg-[radial-gradient(circle_at_1px_1px,rgba(255,255,255,0.08)_1px,transparent_0)]"></div>
-                </div>
-                
-                {/* Midnight Mist Glow - Dark Mode Only */}
-                <div className="absolute inset-0 pointer-events-none dark:block hidden">
-                  <div
-                    className="absolute inset-0 z-0"
-                    style={{
-                      backgroundImage: `
-                        radial-gradient(circle at 50% 140%, rgba(70, 85, 110, 0.25) 0%, transparent 60%),
-                        radial-gradient(circle at 50% 140%, rgba(99, 102, 241, 0.2) 0%, transparent 70%),
-                        radial-gradient(circle at 50% 140%, rgba(181, 184, 208, 0.15) 0%, transparent 80%)
-                      `,
-                    }}
-                  />
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(0,0,0,0.05)_1px,transparent_0)] bg-[length:20px_20px] dark:bg-[radial-gradient(circle_at_1px_1px,rgba(255,255,255,0.05)_1px,transparent_0)]"></div>
                 </div>
                 <div className="w-full">
                     {/* Enhanced Header */}
@@ -439,11 +425,10 @@ const SchedulePage = () => {
                             Magee's Schedule
                         </h1>
                         <p className="text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto leading-relaxed px-4">
-                            See upcoming holidays, pro-d days, and student events! 
-                            Stay organized with our comprehensive school calendar.
+                            See upcoming holidays, pro-d days, and student events at Magee! 
                         </p>
                     </div>
-                <div className="flex flex-col lg:flex-row gap-4 sm:gap-6 md:gap-8 w-full overflow-x-auto mx-auto max-w-none px-2 sm:px-4 md:px-8">
+                <div className="flex flex-col lg:flex-row gap-4 sm:gap-6 md:gap-8 w-full mx-auto max-w-none">
                     {/* Enhanced Calendar */}
                     <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-2xl sm:rounded-3xl shadow-2xl p-4 sm:p-6 md:p-8 border border-gray-100/50 dark:border-gray-700/50 flex flex-col mb-6 sm:mb-8 lg:mb-0 lg:flex-1">
                         <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 sm:mb-8 gap-4">
@@ -522,7 +507,7 @@ const SchedulePage = () => {
                         </div>
                     </div>
                     {/* Enhanced Sidebar */}
-                    <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-2xl sm:rounded-3xl shadow-2xl p-4 sm:p-6 md:p-8 border border-gray-100/50 dark:border-gray-700/50 overflow-y-auto flex flex-col lg:w-[32rem]">
+                    <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-2xl sm:rounded-3xl shadow-2xl p-4 sm:p-6 md:p-8 border border-gray-100/50 dark:border-gray-700/50 overflow-y-auto flex flex-col lg:w-[28rem]">
                         <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-6 border-b-2 border-gray-200 dark:border-gray-700 pb-3 sm:pb-4">Events on {selectedDate ? selectedDate.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) : '...'}</h3>
                         {selectedDate && getEventsForDate(selectedDate).length > 0 ? (
                             <div className="space-y-3 sm:space-y-4">

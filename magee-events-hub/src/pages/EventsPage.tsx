@@ -250,7 +250,7 @@ const EventsPage: React.FC = () => {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 dark:bg-black/80 backdrop-blur-md">
           <div className="relative bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl rounded-3xl shadow-2xl max-w-lg w-full mx-4 p-8 animate-fadeIn border border-white/20 dark:border-gray-700/50">
             <button
-              className="absolute top-6 right-6 text-gray-400 hover:text-red-500 text-3xl font-bold focus:outline-none transition-colors duration-200 hover:scale-110"
+              className="absolute top-6 right-6 bg-white dark:bg-gray-700 text-gray-400 hover:text-red-500 dark:hover:text-red-400 text-3xl font-bold focus:outline-none transition-colors duration-200 hover:scale-110 rounded-xl w-10 h-10 flex items-center justify-center shadow-lg"
               onClick={() => { setShowFeedbackModal(false); setFeedbackStatus(null); }}
               aria-label="Close feedback modal"
             >

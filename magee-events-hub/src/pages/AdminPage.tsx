@@ -85,11 +85,8 @@ const AdminPage: React.FC = () => {
       approvedAt: new Date(),
     });
 
-    console.log("✅ Event approved and added to Firestore:", approvedRef.id);
-
     // Step 2: Delete from pendingEvents
     await deleteDoc(doc(db, "pendingEvents", event.id));
-    console.log("🗑️ Event removed from pendingEvents");
 
     // Step 3: Update local state
     setEvents(events.filter((e) => e.id !== event.id));
