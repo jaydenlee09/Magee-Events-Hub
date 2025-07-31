@@ -283,7 +283,7 @@ const SubmitEventPage: React.FC = () => {
                   )}
                 </div>
               ))}
-            </div>
+              </div>
             <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
               <div 
                 className="bg-gradient-to-r from-red-500 to-red-600 h-2 rounded-full transition-all duration-500 ease-out"
@@ -302,50 +302,50 @@ const SubmitEventPage: React.FC = () => {
                   <div className="text-center mb-8">
                     <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Basic Information</h2>
                     <p className="text-gray-600 dark:text-gray-300">Let's start with the essentials</p>
-                  </div>
-
+                </div>
+                
                   {/* Icon Selection */}
-                  <div>
+                <div>
                     <label className="block text-lg font-semibold text-gray-700 dark:text-gray-300 mb-4">Choose Event Icon</label>
-                    <div className="grid grid-cols-6 gap-2 sm:gap-3 max-w-2xl mx-auto">
-                      {iconOptions.map(opt => (
-                        <button
-                          type="button"
-                          key={opt.name}
+                  <div className="grid grid-cols-6 gap-2 sm:gap-3 max-w-2xl mx-auto">
+                    {iconOptions.map(opt => (
+                      <button
+                        type="button"
+                        key={opt.name}
                           className={`group aspect-square w-14 h-14 sm:w-16 sm:h-16 p-2 sm:p-3 rounded-xl sm:rounded-2xl border-2 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-red-200 dark:focus:ring-red-800 hover:scale-110 flex items-center justify-center ${
-                            formData.icon === opt.name 
+                          formData.icon === opt.name 
                               ? 'border-red-500 bg-gradient-to-br from-red-500 to-red-600 text-white scale-110 shadow-xl' 
-                              : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-red-300 hover:bg-red-50 dark:hover:bg-red-900/20'
-                          }`}
-                          onClick={() => handleIconSelect(opt.name)}
+                            : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-red-300 hover:bg-red-50 dark:hover:bg-red-900/20'
+                        }`}
+                        onClick={() => handleIconSelect(opt.name)}
                         >
                           <div className={`text-xl sm:text-2xl transition-colors duration-300 ${
                             formData.icon === opt.name 
                               ? 'text-white group-hover:text-white' 
                               : 'text-gray-700 dark:text-gray-200 group-hover:text-red-600 dark:group-hover:text-red-400'
                           }`}>
-                            {opt.icon}
-                          </div>
-                        </button>
-                      ))}
-                    </div>
+                          {opt.icon}
+                        </div>
+                      </button>
+                    ))}
                   </div>
+                </div>
 
                   {/* Title */}
                   <div>
                     <label className="block text-lg font-semibold text-gray-700 dark:text-gray-300 mb-3">Event Title *</label>
                     <div className="relative">
-                      <input
-                        type="text"
-                        name="title"
-                        value={formData.title}
-                        onChange={handleChange}
+                    <input
+                      type="text"
+                      name="title"
+                      value={formData.title}
+                      onChange={handleChange}
                         className={`w-full px-6 py-4 border-2 rounded-2xl text-gray-700 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-400 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-red-100 font-sans text-lg border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-red-300 focus:border-red-500 ${
-                          errors.title ? 'border-red-400 bg-red-50 dark:bg-red-900/20' : ''
-                        }`}
+                        errors.title ? 'border-red-400 bg-red-50 dark:bg-red-900/20' : ''
+                      }`}
                         placeholder="Enter a catchy event title"
-                      />
-                      {errors.title && (
+                    />
+                    {errors.title && (
                         <div className="flex items-center gap-2 mt-3 text-red-600">
                           <AlertCircle className="w-5 h-5" />
                           <span className="text-sm">{errors.title}</span>
@@ -353,22 +353,22 @@ const SubmitEventPage: React.FC = () => {
                       )}
                     </div>
                   </div>
-
+                  
                   {/* Description */}
                   <div>
                     <label className="block text-lg font-semibold text-gray-700 dark:text-gray-300 mb-3">Description *</label>
                     <div className="relative">
-                      <textarea
-                        name="description"
-                        value={formData.description}
-                        onChange={handleChange}
-                        rows={4}
+                    <textarea
+                      name="description"
+                      value={formData.description}
+                      onChange={handleChange}
+                      rows={4}
                         className={`w-full px-6 py-4 border-2 rounded-2xl text-gray-700 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-400 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-red-100 font-sans text-lg border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-red-300 focus:border-red-500 resize-none ${
-                          errors.description ? 'border-red-400 bg-red-50 dark:bg-red-900/20' : ''
-                        }`}
+                        errors.description ? 'border-red-400 bg-red-50 dark:bg-red-900/20' : ''
+                      }`}
                         placeholder="Describe your event in detail..."
-                      />
-                      {errors.description && (
+                    />
+                    {errors.description && (
                         <div className="flex items-center gap-2 mt-3 text-red-600">
                           <AlertCircle className="w-5 h-5" />
                           <span className="text-sm">{errors.description}</span>
@@ -376,7 +376,7 @@ const SubmitEventPage: React.FC = () => {
                       )}
                     </div>
                   </div>
-
+                  
                   {/* Category */}
                   <div>
                     <label className="block text-lg font-semibold text-gray-700 dark:text-gray-300 mb-3">Category *</label>
@@ -600,67 +600,67 @@ const SubmitEventPage: React.FC = () => {
                           <AlertCircle className="w-5 h-5" />
                           <span className="text-sm">{errors.email}</span>
                         </div>
-                      )}
-                    </div>
-
-                    {/* Target Audience */}
-                    <div>
+                    )}
+                  </div>
+                  
+                  {/* Target Audience */}
+                  <div>
                       <label className="block text-lg font-semibold text-gray-700 dark:text-gray-300 mb-3">Target Audience</label>
-                      <select
-                        name="targetAudience"
-                        value={formData.targetAudience}
-                        onChange={(e) => {
-                          const value = e.target.value;
-                          if (value === "Other") {
-                            setIsOtherSelected(true);
-                            setFormData({ ...formData, targetAudience: "Other" });
-                          } else {
-                            setIsOtherSelected(false);
-                            setCustomTargetAudience("");
-                            setFormData({ ...formData, targetAudience: value });
-                          }
-                        }}
+                    <select
+                      name="targetAudience"
+                      value={formData.targetAudience}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        if (value === "Other") {
+                          setIsOtherSelected(true);
+                          setFormData({ ...formData, targetAudience: "Other" });
+                        } else {
+                          setIsOtherSelected(false);
+                          setCustomTargetAudience("");
+                          setFormData({ ...formData, targetAudience: value });
+                        }
+                      }}
                         className="w-full px-6 py-4 border-2 border-gray-200 dark:border-gray-700 rounded-2xl text-gray-700 dark:text-gray-100 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-red-100 hover:border-red-300 focus:border-red-500 font-sans text-lg bg-white dark:bg-gray-800 cursor-pointer"
-                      >
-                        <option value="">Select target audience</option>
-                        <option value="All students">All students</option>
-                        <option value="Grade 12 only">Grade 12 only</option>
-                        <option value="Grade 11 only">Grade 11 only</option>
-                        <option value="Grade 10 only">Grade 10 only</option>
-                        <option value="Grade 9 only">Grade 9 only</option>
-                        <option value="Club members only">Club members only</option>
-                        <option value="Other">Other (specify below)</option>
-                      </select>
-                      {isOtherSelected && (
-                        <input
-                          type="text"
-                          value={customTargetAudience}
-                          onChange={(e) => {
-                            setCustomTargetAudience(e.target.value);
-                            setFormData({ ...formData, targetAudience: e.target.value });
-                          }}
+                    >
+                      <option value="">Select target audience</option>
+                      <option value="All students">All students</option>
+                      <option value="Grade 12 only">Grade 12 only</option>
+                      <option value="Grade 11 only">Grade 11 only</option>
+                      <option value="Grade 10 only">Grade 10 only</option>
+                      <option value="Grade 9 only">Grade 9 only</option>
+                      <option value="Club members only">Club members only</option>
+                      <option value="Other">Other (specify below)</option>
+                    </select>
+                    {isOtherSelected && (
+                      <input
+                        type="text"
+                        value={customTargetAudience}
+                        onChange={(e) => {
+                          setCustomTargetAudience(e.target.value);
+                          setFormData({ ...formData, targetAudience: e.target.value });
+                        }}
                           className="w-full px-6 py-4 border-2 border-gray-200 dark:border-gray-700 rounded-2xl text-gray-700 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-400 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-red-100 hover:border-red-300 focus:border-red-500 font-sans text-lg bg-white dark:bg-gray-800 mt-3"
-                          placeholder="Specify target audience"
-                        />
-                      )}
-                    </div>
-
-                    {/* Notes */}
-                    <div className="md:col-span-2">
+                        placeholder="Specify target audience"
+                      />
+                    )}
+                  </div>
+                  
+                  {/* Notes */}
+                  <div className="md:col-span-2">
                       <label className="block text-lg font-semibold text-gray-700 dark:text-gray-300 mb-3">Additional Notes</label>
                       <div className="relative">
                         <FileText className="absolute left-4 top-4 text-gray-400 w-5 h-5" />
-                        <textarea
-                          name="notes"
-                          value={formData.notes}
-                          onChange={handleChange}
-                          rows={3}
+                    <textarea
+                      name="notes"
+                      value={formData.notes}
+                      onChange={handleChange}
+                      rows={3}
                           className="w-full pl-12 pr-6 py-4 border-2 rounded-2xl text-gray-700 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-400 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-red-100 font-sans text-lg border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-red-300 focus:border-red-500 resize-none"
                           placeholder="Any additional information about your event..."
                         />
-                      </div>
-                    </div>
                   </div>
+                </div>
+              </div>
 
                   <div className="flex justify-between">
                     <button
@@ -670,24 +670,24 @@ const SubmitEventPage: React.FC = () => {
                     >
                       Previous
                     </button>
-                    <button
-                      type="submit"
+                <button
+                  type="submit"
                       disabled={isSubmitting || !getStepValidation(3)}
                       className="px-8 py-4 rounded-2xl bg-gradient-to-r from-red-500 to-red-600 text-white font-semibold shadow-lg shadow-red-500/25 transition-all duration-300 hover:from-red-600 hover:to-red-700 hover:shadow-red-400/40 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-400 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center gap-3"
-                    >
-                      {isSubmitting ? (
+                >
+                  {isSubmitting ? (
                         <>
                           <div className="w-5 h-5 border-3 border-white border-t-transparent rounded-full animate-spin"></div>
-                          Submitting...
+                      Submitting...
                         </>
                       ) : (
                         <>
                           <Send className="w-5 h-5" />
                           Submit Event
                         </>
-                      )}
-                    </button>
-                  </div>
+                  )}
+                </button>
+              </div>
                 </div>
               )}
             </form>

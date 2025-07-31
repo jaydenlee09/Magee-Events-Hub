@@ -70,7 +70,7 @@ const AdminPage: React.FC = () => {
   const handleApprove = async (event: EventData) => {
   try {
     // Step 1: Add to approvedEvents collection with ALL fields
-    const approvedRef = await addDoc(collection(db, "approvedEvents"), {
+    await addDoc(collection(db, "approvedEvents"), {
       title: event.title ?? "Untitled Event",
       description: event.description ?? "No description",
       category: event.category ?? "Other",
