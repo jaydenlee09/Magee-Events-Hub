@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Calendar, Clock, MapPin, Users, PartyPopper, Trophy, BookOpen, Music, Palette, Pizza, GraduationCap, Building2 } from "lucide-react";
 import { FaComments } from "react-icons/fa";
+import { MdEvent } from "react-icons/md";
 import { db } from "../firebase/firebase";
 import { collection, getDocs, deleteDoc, doc, addDoc } from "firebase/firestore";
 import PageFade from '../PageFade';
@@ -381,14 +382,27 @@ const EventsPage: React.FC = () => {
             ) : filteredEvents.length === 0 ? (
               <div className="col-span-full text-center py-8 sm:py-16">
                 <div className="max-w-md mx-auto px-4">
-                  <div className="w-16 h-16 sm:w-24 sm:h-24 bg-gradient-to-br from-gray-200 to-gray-300 dark:from-gray-600 dark:to-gray-700 rounded-2xl sm:rounded-3xl flex items-center justify-center text-2xl sm:text-4xl mb-4 sm:mb-6 mx-auto">
-                    📅
+                  <div className="relative">
+                    {/* Reddish-pink radial blur glow effect */}
+                    <div className="absolute inset-0 bg-gradient-radial from-red-500/30 via-pink-500/25 to-transparent dark:from-red-400/40 dark:via-pink-400/35 dark:to-transparent rounded-3xl blur-3xl scale-125 transform"></div>
+                    
+                    {/* Icon container with enhanced styling */}
+                    <div className="relative w-20 h-20 sm:w-28 sm:h-28 bg-gradient-to-br from-white/90 via-gray-50/90 to-white/80 dark:from-gray-800/90 dark:via-gray-700/90 dark:to-gray-800/80 backdrop-blur-sm rounded-3xl sm:rounded-4xl flex items-center justify-center shadow-2xl border border-white/50 dark:border-gray-600/50 mx-auto mb-6 sm:mb-8 transform hover:scale-105 transition-all duration-500 ease-out group">
+                      {/* Inner glow */}
+                      <div className="absolute inset-0 bg-gradient-radial from-red-500/15 via-pink-500/12 to-transparent dark:from-red-400/20 dark:via-pink-400/18 dark:to-transparent rounded-3xl sm:rounded-4xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                      
+                      {/* Icon with enhanced styling */}
+                      <div className="relative">
+                        <MdEvent className="w-10 h-10 sm:w-14 sm:h-14 text-gray-600 dark:text-gray-300 group-hover:text-red-500 dark:group-hover:text-red-400 transition-all duration-500 ease-out transform group-hover:scale-110" />
+                      </div>
+                    </div>
                   </div>
-                  <h2 className="text-xl sm:text-2xl font-bold text-gray-700 dark:text-gray-100 mb-2 sm:mb-3">
+                  
+                  <h2 className="text-xl sm:text-2xl font-bold text-gray-700 dark:text-gray-100 mb-3 sm:mb-4">
                     No events found
                   </h2>
-                  <p className="text-gray-500 dark:text-gray-400 text-base sm:text-lg leading-relaxed">
-                    There are no approved events at the moment. Check back soon or submit a new event to get things started!
+                  <p className="text-gray-500 dark:text-gray-400 text-base sm:text-lg leading-relaxed max-w-sm mx-auto">
+                    There are no approved events at the moment. Check back soon or submit a new event!
                   </p>
                 </div>
               </div>

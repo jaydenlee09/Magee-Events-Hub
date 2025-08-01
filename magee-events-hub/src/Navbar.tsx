@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { FaCalendarAlt } from "react-icons/fa";
-import { IoMdAdd } from "react-icons/io";
+import { FaCalendarAlt, FaPaperPlane, FaStar } from "react-icons/fa";
 import { PiStudent } from "react-icons/pi";
 import { FiUser } from "react-icons/fi";
 import mageeLogo from './assets/Magee.png';
@@ -11,6 +10,7 @@ import { Sun, Moon } from "lucide-react";
 
 export default function Navbar() {
   const [showModal, setShowModal] = useState(false);
+  const [adminId, setAdminId] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const isAdmin = typeof window !== 'undefined' && localStorage.getItem("isAdmin") === "true";
@@ -41,33 +41,46 @@ export default function Navbar() {
 
   const handleAdminClick = () => {
     setShowModal(true);
+    setAdminId("");
     setPassword("");
     setError("");
   };
 
   const handlePasswordSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!adminId.trim() || !password.trim()) {
+      setError("Please enter both Admin ID and password.");
+      return;
+    }
+
     try {
+      // Use Firebase Authentication with the existing email format
       const userCredential = await signInWithEmailAndPassword(
         auth,
-        "jaydenjdlee@gmail.com",
+        `${adminId.trim()}@gmail.com`, // Use existing email format
         password
       );
-      if (userCredential.user.email === "jaydenjdlee@gmail.com") {
+      
+      if (userCredential.user) {
+        // Admin login successful
         localStorage.setItem("isAdmin", "true");
+        localStorage.setItem("adminId", adminId.trim());
         setShowModal(false);
         setError("");
         window.location.reload();
       } else {
-        setError("Not authorized as admin.");
+        setError("Invalid Admin ID or password.");
       }
     } catch (err) {
-      setError("Incorrect password or login failed.");
+      console.error("Login error:", err);
+      setError("Invalid Admin ID or password.");
     }
   };
 
   const handleLogout = () => {
     localStorage.removeItem("isAdmin");
+    localStorage.removeItem("adminId");
     window.location.reload();
   };
 
@@ -87,7 +100,7 @@ export default function Navbar() {
             ${isActive("/") ? "bg-red-100 text-red-700 shadow dark:bg-pink-900/30 dark:text-white" : "text-gray-700 dark:text-white hover:bg-red-100 dark:hover:bg-gray-800 hover:text-red-700 dark:hover:text-white hover:scale-105 active:scale-95 hover:shadow-md"}
           `}
         >
-          <FaCalendarAlt size={16} color={darkMode ? '#fff' : undefined} />
+          <FaStar size={16} color={darkMode ? '#fff' : undefined} />
           <span className="hidden sm:inline">Events</span>
         </Link>
         <Link
@@ -96,7 +109,7 @@ export default function Navbar() {
             ${isActive("/schedule") ? "bg-red-100 text-red-700 shadow dark:bg-pink-900/30 dark:text-white" : "text-gray-700 dark:text-white hover:bg-red-100 dark:hover:bg-gray-800 hover:text-red-700 dark:hover:text-white hover:scale-105 active:scale-95 hover:shadow-md"}
           `}
         >
-          <PiStudent size={16} color={darkMode ? '#fff' : undefined} />
+          <FaCalendarAlt size={16} color={darkMode ? '#fff' : undefined} />
           <span className="hidden sm:inline">Calendar</span>
         </Link>
         <Link
@@ -105,7 +118,7 @@ export default function Navbar() {
             ${isActive("/submit") ? "bg-red-100 text-red-700 shadow dark:bg-pink-900/30 dark:text-white" : "text-gray-700 dark:text-white hover:bg-red-100 dark:hover:bg-gray-800 hover:text-red-700 dark:hover:text-white hover:scale-105 active:scale-95 hover:shadow-md"}
           `}
         >
-          <IoMdAdd size={16} color={darkMode ? '#fff' : undefined} />
+          <FaPaperPlane size={16} color={darkMode ? '#fff' : undefined} />
           <span className="hidden sm:inline">Submit</span>
         </Link>
         {isAdmin && (
@@ -152,12 +165,19 @@ export default function Navbar() {
         <form onSubmit={handlePasswordSubmit} className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-8 w-full max-w-xs flex flex-col gap-4 relative mx-4">
           <h2 className="text-xl font-bold text-red-700 dark:text-red-400 mb-2">Admin Login</h2>
           <input
+            type="text"
+            placeholder="Enter Admin ID"
+            value={adminId}
+            onChange={e => setAdminId(e.target.value)}
+            className="w-full px-4 py-2 border-2 rounded-xl text-gray-700 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-100 border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700"
+            autoFocus
+          />
+          <input
             type="password"
             placeholder="Enter admin password"
             value={password}
             onChange={e => setPassword(e.target.value)}
             className="w-full px-4 py-2 border-2 rounded-xl text-gray-700 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-100 border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700"
-            autoFocus
           />
           {error && <div className="text-red-500 text-sm">{error}</div>}
           <div className="flex gap-2 mt-2">

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { FaAngleLeft, FaAngleRight, FaClock, FaMapMarkerAlt, FaUser, FaInfoCircle } from "react-icons/fa";
+import { FaAngleLeft, FaAngleRight, FaClock, FaMapMarkerAlt, FaUser, FaInfoCircle, FaGraduationCap, FaHeart, FaDrumstickBite, FaSnowflake, FaSnowman, FaSchool, FaUsers, FaSeedling, FaEgg, FaCrown, FaShieldAlt, FaBook, FaTools, FaFeather, FaHandshake } from "react-icons/fa";
+import { MdEvent, MdSportsSoccer, MdTheaterComedy, MdCelebration, MdPalette, MdBusiness, MdLocalFlorist, MdPets } from "react-icons/md";
 import { db } from "../firebase/firebase";
 import { collection, getDocs } from "firebase/firestore";
 import PageFade from '../PageFade';
@@ -11,7 +12,7 @@ interface ScheduleEvent {
     date: string;
     type: "pro-d" | "holiday" | "user-event" | "collab";
     description: string;
-    icon: string;
+    icon: React.ReactNode;
     category?: string;
     time?: string;
     location?: string;
@@ -27,7 +28,7 @@ const scheduleEvents: ScheduleEvent[] = [
         date: "2025-09-02",
         type: "holiday",
         description: "First day of classes for students",
-        icon: "🎒"
+        icon: <FaGraduationCap className="w-4 h-4" />
     },
     {
         id: "101",
@@ -35,7 +36,7 @@ const scheduleEvents: ScheduleEvent[] = [
         date: "2025-09-30",
         type: "holiday",
         description: "School closed for National Day of Truth & Reconciliation",
-        icon: "🧡"
+        icon: <FaHeart className="w-4 h-4" />
     },
     {
         id: "102",
@@ -43,7 +44,7 @@ const scheduleEvents: ScheduleEvent[] = [
         date: "2025-10-13",
         type: "holiday",
         description: "School closed for Thanksgiving Day",
-        icon: "🦃"
+        icon: <FaDrumstickBite className="w-4 h-4" />
     },
     {
         id: "103",
@@ -51,7 +52,7 @@ const scheduleEvents: ScheduleEvent[] = [
         date: "2025-11-11",
         type: "holiday",
         description: "School closed for Remembrance Day",
-        icon: "🌺"
+        icon: <MdLocalFlorist className="w-4 h-4" />
     },
     {
         id: "104",
@@ -59,7 +60,7 @@ const scheduleEvents: ScheduleEvent[] = [
         date: "2025-12-19",
         type: "holiday",
         description: "Last day of classes before winter break",
-        icon: "❄️"
+        icon: <FaSnowflake className="w-4 h-4" />
     },
     {
         id: "105",
@@ -67,7 +68,7 @@ const scheduleEvents: ScheduleEvent[] = [
         date: "2025-12-22",
         type: "holiday",
         description: "Winter vacation begins",
-        icon: "⛄"
+        icon: <FaSnowman className="w-4 h-4" />
     },
     {
         id: "106",
@@ -75,7 +76,7 @@ const scheduleEvents: ScheduleEvent[] = [
         date: "2026-01-02",
         type: "holiday",
         description: "Winter vacation ends",
-        icon: "⛄"
+        icon: <FaSnowman className="w-4 h-4" />
     },
     {
         id: "107",
@@ -83,7 +84,7 @@ const scheduleEvents: ScheduleEvent[] = [
         date: "2026-01-05",
         type: "holiday",
         description: "School resumes after winter break",
-        icon: "🏫"
+        icon: <FaSchool className="w-4 h-4" />
     },
     {
         id: "108",
@@ -91,7 +92,7 @@ const scheduleEvents: ScheduleEvent[] = [
         date: "2026-02-16",
         type: "holiday",
         description: "School closed for Family Day",
-        icon: "👨‍👩‍👧‍👦"
+        icon: <FaUsers className="w-4 h-4" />
     },
     {
         id: "109",
@@ -99,7 +100,7 @@ const scheduleEvents: ScheduleEvent[] = [
         date: "2026-03-13",
         type: "holiday",
         description: "Last day of classes before spring break",
-        icon: "🌸"
+        icon: <MdLocalFlorist className="w-4 h-4" />
     },
     {
         id: "110",
@@ -107,7 +108,7 @@ const scheduleEvents: ScheduleEvent[] = [
         date: "2026-03-16",
         type: "holiday",
         description: "Spring vacation begins",
-        icon: "🌷"
+        icon: <FaSeedling className="w-4 h-4" />
     },
     {
         id: "111",
@@ -115,7 +116,7 @@ const scheduleEvents: ScheduleEvent[] = [
         date: "2026-03-27",
         type: "holiday",
         description: "Spring vacation ends",
-        icon: "🌷"
+        icon: <FaSeedling className="w-4 h-4" />
     },
     {
         id: "112",
@@ -123,7 +124,7 @@ const scheduleEvents: ScheduleEvent[] = [
         date: "2026-03-30",
         type: "holiday",
         description: "School resumes after spring break",
-        icon: "🏫"
+        icon: <FaSchool className="w-4 h-4" />
     },
     {
         id: "113",
@@ -131,7 +132,7 @@ const scheduleEvents: ScheduleEvent[] = [
         date: "2026-04-03",
         type: "holiday",
         description: "School closed for Good Friday",
-        icon: "🐇"
+        icon: <MdPets className="w-4 h-4" />
     },
     {
         id: "114",
@@ -139,7 +140,7 @@ const scheduleEvents: ScheduleEvent[] = [
         date: "2026-04-06",
         type: "holiday",
         description: "School closed for Easter Monday",
-        icon: "🐣"
+        icon: <FaEgg className="w-4 h-4" />
     },
     {
         id: "115",
@@ -147,7 +148,7 @@ const scheduleEvents: ScheduleEvent[] = [
         date: "2026-05-18",
         type: "holiday",
         description: "School closed for Victoria Day",
-        icon: "👑"
+        icon: <FaCrown className="w-4 h-4" />
     },
     {
         id: "116",
@@ -155,7 +156,7 @@ const scheduleEvents: ScheduleEvent[] = [
         date: "2026-06-25",
         type: "holiday",
         description: "Last full day of classes for students",
-        icon: "🎓"
+        icon: <FaGraduationCap className="w-4 h-4" />
     },
     {
         id: "117",
@@ -163,7 +164,7 @@ const scheduleEvents: ScheduleEvent[] = [
         date: "2026-06-26",
         type: "holiday",
         description: "Administrative/School closing day",
-        icon: "🔒"
+        icon: <FaShieldAlt className="w-4 h-4" />
     },
     // --- Added Pro-D Days for 2025-2026 ---
     {
@@ -172,7 +173,7 @@ const scheduleEvents: ScheduleEvent[] = [
         date: "2025-09-26",
         type: "pro-d",
         description: "Professional Development Day (Date set by school) - No classes",
-        icon: "📚"
+        icon: <FaBook className="w-4 h-4" />
     },
     {
         id: "201",
@@ -180,7 +181,7 @@ const scheduleEvents: ScheduleEvent[] = [
         date: "2025-10-24",
         type: "pro-d",
         description: "Professional Development Day (Province wide) - No classes",
-        icon: "🛠️"
+        icon: <FaTools className="w-4 h-4" />
     },
     {
         id: "202",
@@ -188,7 +189,7 @@ const scheduleEvents: ScheduleEvent[] = [
         date: "2025-11-21",
         type: "pro-d",
         description: "Professional Development Day (District wide) - No classes",
-        icon: "🏫"
+        icon: <FaSchool className="w-4 h-4" />
     },
     {
         id: "203",
@@ -196,7 +197,7 @@ const scheduleEvents: ScheduleEvent[] = [
         date: "2026-02-13",
         type: "pro-d",
         description: "Professional Development Day (District wide) - No classes",
-        icon: "🏫"
+        icon: <FaSchool className="w-4 h-4" />
     },
     {
         id: "204",
@@ -204,7 +205,7 @@ const scheduleEvents: ScheduleEvent[] = [
         date: "2026-04-20",
         type: "pro-d",
         description: "Indigenous Focus Day (District wide) - No classes",
-        icon: "🪶"
+        icon: <FaFeather className="w-4 h-4" />
     },
     {
         id: "205",
@@ -212,7 +213,7 @@ const scheduleEvents: ScheduleEvent[] = [
         date: "2026-05-15",
         type: "pro-d",
         description: "Professional Development Day (Date set by school) - No classes",
-        icon: "📚"
+        icon: <FaBook className="w-4 h-4" />
     },
     // --- Added Collaboration Days for 2025-2026 ---
     {
@@ -221,7 +222,7 @@ const scheduleEvents: ScheduleEvent[] = [
         date: "2025-09-15",
         type: "collab",
         description: "AM Collaboration - Period 1 starts at 10:00",
-        icon: "🤝"
+        icon: <FaHandshake className="w-4 h-4" />
     },
     {
         id: "301",
@@ -229,7 +230,7 @@ const scheduleEvents: ScheduleEvent[] = [
         date: "2025-11-03",
         type: "collab",
         description: "AM Collaboration - Period 1 starts at 10:00",
-        icon: "🤝"
+        icon: <FaHandshake className="w-4 h-4" />
     },
     {
         id: "302",
@@ -237,7 +238,7 @@ const scheduleEvents: ScheduleEvent[] = [
         date: "2025-12-15",
         type: "collab",
         description: "PM Collaboration - Period 4 ends at 1:40",
-        icon: "🤝"
+        icon: <FaHandshake className="w-4 h-4" />
     },
     {
         id: "303",
@@ -245,7 +246,7 @@ const scheduleEvents: ScheduleEvent[] = [
         date: "2026-01-12",
         type: "collab",
         description: "AM Collaboration - Period 1 starts at 10:00",
-        icon: "🤝"
+        icon: <FaHandshake className="w-4 h-4" />
     },
     {
         id: "304",
@@ -253,7 +254,7 @@ const scheduleEvents: ScheduleEvent[] = [
         date: "2026-02-09",
         type: "collab",
         description: "AM Collaboration - Period 1 starts at 10:00",
-        icon: "🤝"
+        icon: <FaHandshake className="w-4 h-4" />
     },
     {
         id: "305",
@@ -261,7 +262,7 @@ const scheduleEvents: ScheduleEvent[] = [
         date: "2026-04-13",
         type: "collab",
         description: "AM Collaboration - Period 1 starts at 10:00",
-        icon: "🤝"
+        icon: <FaHandshake className="w-4 h-4" />
     },
     {
         id: "306",
@@ -269,7 +270,7 @@ const scheduleEvents: ScheduleEvent[] = [
         date: "2026-05-11",
         type: "collab",
         description: "AM Collaboration - Period 1 starts at 10:00",
-        icon: "🤝"
+        icon: <FaHandshake className="w-4 h-4" />
     },
     {
         id: "307",
@@ -277,7 +278,7 @@ const scheduleEvents: ScheduleEvent[] = [
         date: "2026-06-15",
         type: "collab",
         description: "PM Collaboration - Period 4 ends at 1:40",
-        icon: "🤝"
+        icon: <FaHandshake className="w-4 h-4" />
     },
 ];
 
@@ -326,19 +327,19 @@ const SchedulePage = () => {
     const getEventIcon = (category?: string) => {
         switch (category?.toLowerCase()) {
             case 'academic':
-                return '📚';
+                return <FaBook className="w-4 h-4" />;
             case 'sports':
-                return '⚽';
+                return <MdSportsSoccer className="w-4 h-4" />;
             case 'cultural':
-                return '🎭';
+                return <MdTheaterComedy className="w-4 h-4" />;
             case 'social':
-                return '🎉';
+                return <MdCelebration className="w-4 h-4" />;
             case 'spirit day':
-                return '🎨';
+                return <MdPalette className="w-4 h-4" />;
             case 'club event':
-                return '🏛️';
+                return <MdBusiness className="w-4 h-4" />;
             default:
-                return '📅';
+                return <MdEvent className="w-4 h-4" />;
         }
     };
 
@@ -600,7 +601,7 @@ const SchedulePage = () => {
                                 ) : (
                                     <div className="text-center py-8 sm:py-12">
                                         <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-gray-200 to-gray-300 dark:from-gray-600 dark:to-gray-700 rounded-2xl sm:rounded-3xl flex items-center justify-center text-3xl sm:text-4xl mx-auto mb-3 sm:mb-4">
-                                            📅
+                                            <MdEvent className="w-8 h-8 sm:w-10 sm:h-10 text-gray-500 dark:text-gray-400" />
                                         </div>
                                         <h3 className="text-lg sm:text-xl font-bold text-gray-700 dark:text-gray-100 mb-2">
                                             No events scheduled
