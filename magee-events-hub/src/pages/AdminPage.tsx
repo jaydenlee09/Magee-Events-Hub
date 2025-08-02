@@ -9,7 +9,7 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import PageFade from '../PageFade';
-// Removed: import "./AdminPage.css";
+import { FaCalendarAlt, FaUser, FaMapMarkerAlt, FaClock, FaEnvelope, FaUsers, FaStickyNote, FaCheck, FaTimes, FaEdit, FaEye, FaTrash, FaComments, FaChartBar } from "react-icons/fa";
 
 interface EventData {
   id: string;
@@ -24,7 +24,7 @@ interface EventData {
   targetAudience?: string;
   email?: string;
   notes?: string;
-  icon?: string; // <-- add icon field
+  icon?: string;
 }
 
 interface FeedbackData {
@@ -40,6 +40,8 @@ const AdminPage: React.FC = () => {
   const [editingEvent, setEditingEvent] = useState<EventData | null>(null);
   const [editForm, setEditForm] = useState<Partial<EventData>>({});
   const [isSaving, setIsSaving] = useState(false);
+  const [activeTab, setActiveTab] = useState<'events' | 'feedback'>('events');
+  const [selectedEvent, setSelectedEvent] = useState<EventData | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -68,33 +70,34 @@ const AdminPage: React.FC = () => {
   }, []);
 
   const handleApprove = async (event: EventData) => {
-  try {
-    // Step 1: Add to approvedEvents collection with ALL fields
-    await addDoc(collection(db, "approvedEvents"), {
-      title: event.title ?? "Untitled Event",
-      description: event.description ?? "No description",
-      category: event.category ?? "Other",
-      date: event.date ?? "Date not provided",
-      time: event.time ?? "Time not provided",
-      location: event.location ?? "Location not provided",
-      organizer: event.organizer ?? "Anonymous",
-      targetAudience: event.targetAudience ?? "All students",
-      email: event.email ?? "",
-      notes: event.notes ?? "",
-      icon: event.icon ?? "Calendar", // <-- pass icon field
-      approvedAt: new Date(),
-    });
+    try {
+      // Step 1: Add to approvedEvents collection with ALL fields
+      await addDoc(collection(db, "approvedEvents"), {
+        title: event.title ?? "Untitled Event",
+        description: event.description ?? "No description",
+        category: event.category ?? "Other",
+        date: event.date ?? "Date not provided",
+        time: event.time ?? "Time not provided",
+        location: event.location ?? "Location not provided",
+        organizer: event.organizer ?? "Anonymous",
+        targetAudience: event.targetAudience ?? "All students",
+        email: event.email ?? "",
+        notes: event.notes ?? "",
+        icon: event.icon ?? "Calendar",
+        approvedAt: new Date(),
+      });
 
-    // Step 2: Delete from pendingEvents
-    await deleteDoc(doc(db, "pendingEvents", event.id));
+      // Step 2: Delete from pendingEvents
+      await deleteDoc(doc(db, "pendingEvents", event.id));
 
-    // Step 3: Update local state
-    setEvents(events.filter((e) => e.id !== event.id));
-  } catch (error) {
-    console.error("❌ Failed to approve event:", error);
-    alert("Failed to approve event. Check console for details.");
-  }
-};
+      // Step 3: Update local state
+      setEvents(events.filter((e) => e.id !== event.id));
+    } catch (error) {
+      console.error("❌ Failed to approve event:", error);
+      alert("Failed to approve event. Check console for details.");
+    }
+  };
+
   const handleDecline = async (eventId: string) => {
     try {
       await deleteDoc(doc(db, "pendingEvents", eventId));
@@ -138,249 +141,462 @@ const AdminPage: React.FC = () => {
     setEditingEvent(null);
   };
 
+  const handleMarkFeedbackAsRead = async (feedbackId: string) => {
+    try {
+      await deleteDoc(doc(db, "feedback", feedbackId));
+      setFeedback(feedback.filter(f => f.id !== feedbackId));
+    } catch (error) {
+      console.error("Error marking feedback as read:", error);
+      alert("Failed to mark feedback as read. Please try again.");
+    }
+  };
+
+  const formatDate = (dateString: string) => {
+    if (!dateString) return "Not provided";
+    try {
+      return new Date(dateString).toLocaleDateString('en-US', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+    } catch {
+      return dateString;
+    }
+  };
+
   return (
     <>
       <PageFade />
-      <div className={
-        `min-h-screen bg-gray-50 dark:bg-gray-900 p-6 ` +
-        (typeof window !== 'undefined' && document.documentElement.classList.contains('dark')
-          ? 'animate-fadeIn-dark'
-          : 'animate-fadeIn')
-      }>
-        <div className="max-w-5xl mx-auto">
-          <h1 className="text-3xl md:text-4xl font-bold text-center text-red-700 mb-10 drop-shadow-lg">Submitted Events</h1>
-          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {events.length === 0 ? (
-              <div className="col-span-full text-center text-gray-500 dark:text-gray-300 text-lg font-medium py-10 bg-white dark:bg-gray-800/80 rounded-xl shadow">
-                <p>No events submitted yet.</p>
-              </div>
-            ) : (
-              events.map((event) => (
-                <div
-                  className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 flex flex-col gap-3 border border-gray-200 dark:border-gray-700 hover:shadow-2xl transition-shadow duration-200"
-                  key={event.id}
-                >
-                  <h2 className="text-xl font-semibold text-red-700 dark:text-red-300 mb-1 truncate">{event.title || "Untitled Event"}</h2>
-                  <p className="text-sm text-gray-500 dark:text-gray-300 mb-2"><span className="font-semibold text-gray-700 dark:text-gray-200">Category:</span> {event.category || "N/A"}</p>
-                  <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm">
-                    <p><span className="font-semibold text-gray-700 dark:text-gray-200">Date:</span> {event.date || "Not provided"}</p>
-                    <p><span className="font-semibold text-gray-700 dark:text-gray-200">Time:</span> {event.time || "Not provided"}</p>
-                    <p><span className="font-semibold text-gray-700 dark:text-gray-200">Location:</span> {event.location || "Not provided"}</p>
-                  </div>
-                  <p className="text-gray-700 dark:text-gray-200 text-sm mt-2"><span className="font-semibold">Description:</span> {event.description || "No description"}</p>
-                  <p className="text-gray-700 dark:text-gray-200 text-sm"><span className="font-semibold">Organizer:</span> {event.organizer || "Unknown"}</p>
-                  <p className="text-gray-700 dark:text-gray-200 text-sm"><span className="font-semibold">Target Audience:</span> {event.targetAudience || "All students"}</p>
-                  {event.email && <p className="text-gray-700 dark:text-gray-200 text-sm"><span className="font-semibold">Contact Email:</span> {event.email}</p>}
-                  {event.notes && <p className="text-gray-700 dark:text-gray-200 text-sm"><span className="font-semibold">Notes:</span> {event.notes}</p>}
-
-                  <div className="flex gap-3 mt-4">
-                    <button
-                      className="flex-1 bg-gradient-to-r from-red-500 to-pink-500 text-white font-semibold py-2 rounded-lg shadow hover:from-pink-500 hover:to-red-500 transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-red-400"
-                      onClick={() => handleApprove(event)}
-                    >
-                      Approve
-                    </button>
-                    <button
-                      className="flex-1 bg-gradient-to-r from-gray-400 to-gray-600 text-white font-semibold py-2 rounded-lg shadow hover:from-gray-500 hover:to-gray-700 transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-gray-400"
-                      onClick={() => handleDecline(event.id)}
-                    >
-                      Decline
-                    </button>
-                    <button
-                      className="flex-1 bg-gradient-to-r from-yellow-400 to-yellow-600 text-white font-semibold py-2 rounded-lg shadow hover:from-yellow-500 hover:to-yellow-700 transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-yellow-400"
-                      onClick={() => handleEditClick(event)}
-                    >
-                      Edit
-                    </button>
-                  </div>
-                </div>
-              ))
-            )}
+      <div className="h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 p-4 sm:p-6 overflow-hidden relative">
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 -z-10"></div>
+        <div className="max-w-7xl mx-auto pt-20 h-full overflow-y-auto">
+          {/* Header Section */}
+          <div className="mb-8">
+            <h1 className="text-4xl md:text-5xl font-bold text-center bg-gradient-to-r from-red-600 to-pink-600 bg-clip-text text-transparent mb-4">
+              Admin Dashboard
+            </h1>
+            <p className="text-center text-gray-600 dark:text-gray-300 text-lg">
+              Manage submitted events and user feedback
+            </p>
           </div>
-        </div>
-      </div>
-      {/* Feedback Section */}
-      <div className="max-w-5xl mx-auto mt-16">
-        <h2 className="text-3xl md:text-4xl font-bold text-center text-blue-700 mb-10 drop-shadow-lg">User Feedback</h2>
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {feedback.length === 0 ? (
-            <div className="col-span-full text-center text-gray-500 dark:text-gray-300 text-lg font-medium py-10 bg-white dark:bg-gray-800/80 rounded-xl shadow">
-              <p>No feedback received yet.</p>
-            </div>
-          ) : (
-            feedback.map((item) => (
-              <div
-                className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 flex flex-col gap-3 border border-gray-200 dark:border-gray-700 hover:shadow-2xl transition-shadow duration-200"
-                key={item.id}
-              >
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="text-2xl">💬</span>
-                  <h3 className="text-lg font-semibold text-blue-700 dark:text-blue-300">Feedback</h3>
+
+          {/* Stats Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg border border-gray-200 dark:border-gray-700">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Pending Events</p>
+                  <p className="text-3xl font-bold text-red-600 dark:text-red-400">{events.length}</p>
                 </div>
-                <p className="text-gray-700 dark:text-gray-200 text-sm leading-relaxed">
-                  {item.feedback}
-                </p>
-                <div className="mt-auto pt-3 border-t border-gray-100 dark:border-gray-700">
-                  {item.email && (
-                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">
-                      <span className="font-semibold">From:</span> {item.email}
-                    </p>
-                  )}
-                  <p className="text-xs text-gray-500 dark:text-gray-500">
-                    {item.submittedAt?.toDate ? 
-                      item.submittedAt.toDate().toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'short',
-                        day: 'numeric',
-                        hour: '2-digit',
-                        minute: '2-digit'
-                      }) : 
-                      'Date not available'
-                    }
-                  </p>
+                <div className="p-3 bg-red-100 dark:bg-red-900/30 rounded-xl">
+                  <FaCalendarAlt className="text-red-600 dark:text-red-400 text-2xl" />
                 </div>
               </div>
-            ))
+            </div>
+            
+            <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg border border-gray-200 dark:border-gray-700">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Feedback Received</p>
+                  <p className="text-3xl font-bold text-blue-600 dark:text-blue-400">{feedback.length}</p>
+                </div>
+                <div className="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-xl">
+                  <FaComments className="text-blue-600 dark:text-blue-400 text-2xl" />
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg border border-gray-200 dark:border-gray-700">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Total Items</p>
+                  <p className="text-3xl font-bold text-green-600 dark:text-green-400">{events.length + feedback.length}</p>
+                </div>
+                <div className="p-3 bg-green-100 dark:bg-green-900/30 rounded-xl">
+                  <FaChartBar className="text-green-600 dark:text-green-400 text-2xl" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Tab Navigation */}
+          <div className="flex space-x-1 bg-white dark:bg-gray-800 rounded-2xl p-2 shadow-lg border border-gray-200 dark:border-gray-700 mb-8">
+            <button
+              onClick={() => setActiveTab('events')}
+              className={`flex-1 flex items-center justify-center gap-2 py-3 px-6 rounded-xl font-semibold transition-all duration-200 ${
+                activeTab === 'events'
+                  ? 'bg-gradient-to-r from-red-500 to-pink-500 text-white shadow-lg'
+                  : 'text-gray-600 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400'
+              }`}
+            >
+              <FaCalendarAlt size={16} />
+              Pending Events ({events.length})
+            </button>
+            <button
+              onClick={() => setActiveTab('feedback')}
+              className={`flex-1 flex items-center justify-center gap-2 py-3 px-6 rounded-xl font-semibold transition-all duration-200 ${
+                activeTab === 'feedback'
+                  ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg'
+                  : 'text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400'
+              }`}
+            >
+              <FaComments size={16} />
+              User Feedback ({feedback.length})
+            </button>
+          </div>
+
+          {/* Content Sections */}
+          {activeTab === 'events' && (
+            <div className="space-y-6">
+              {events.length === 0 ? (
+                <div className="bg-white dark:bg-gray-800 rounded-2xl p-12 text-center shadow-lg border border-gray-200 dark:border-gray-700">
+                  <div className="text-6xl mb-4">🎉</div>
+                  <h3 className="text-2xl font-bold text-gray-700 dark:text-gray-200 mb-2">No Pending Events</h3>
+                  <p className="text-gray-500 dark:text-gray-400">All events have been processed!</p>
+                </div>
+              ) : (
+                <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                  {events.map((event) => (
+                    <div
+                      key={event.id}
+                      className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 hover:shadow-2xl transition-all duration-300 overflow-hidden group"
+                    >
+                      {/* Event Header */}
+                      <div className="p-6 border-b border-gray-100 dark:border-gray-700">
+                        <div className="flex items-start justify-between mb-3">
+                          <h3 className="text-xl font-bold text-gray-800 dark:text-gray-100 line-clamp-2">
+                            {event.title || "Untitled Event"}
+                          </h3>
+                          <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300">
+                            Pending
+                          </span>
+                        </div>
+                        
+                        <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 mb-3">
+                          <FaUser className="text-gray-400" />
+                          <span>{event.organizer || "Anonymous"}</span>
+                        </div>
+
+                        <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                          <FaMapMarkerAlt className="text-gray-400" />
+                          <span>{event.location || "Location not provided"}</span>
+                        </div>
+                      </div>
+
+                      {/* Event Details */}
+                      <div className="p-6 space-y-3">
+                        <div className="grid grid-cols-2 gap-4 text-sm">
+                          <div className="flex items-center gap-2">
+                            <FaCalendarAlt className="text-gray-400" />
+                            <span className="text-gray-600 dark:text-gray-300">
+                              {formatDate(event.date || "")}
+                            </span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <FaClock className="text-gray-400" />
+                            <span className="text-gray-600 dark:text-gray-300">
+                              {event.time || "Time not provided"}
+                            </span>
+                          </div>
+                        </div>
+
+                        {event.description && (
+                          <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-3">
+                            {event.description}
+                          </p>
+                        )}
+
+                        {event.targetAudience && (
+                          <div className="flex items-center gap-2 text-sm">
+                            <FaUsers className="text-gray-400" />
+                            <span className="text-gray-600 dark:text-gray-300">
+                              {event.targetAudience}
+                            </span>
+                          </div>
+                        )}
+
+                        {event.email && (
+                          <div className="flex items-center gap-2 text-sm">
+                            <FaEnvelope className="text-gray-400" />
+                            <span className="text-gray-600 dark:text-gray-300 truncate">
+                              {event.email}
+                            </span>
+                          </div>
+                        )}
+
+                        {event.notes && (
+                          <div className="flex items-start gap-2 text-sm">
+                            <FaStickyNote className="text-gray-400 mt-0.5" />
+                            <span className="text-gray-600 dark:text-gray-300 line-clamp-2">
+                              {event.notes}
+                            </span>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Action Buttons */}
+                      <div className="p-6 pt-0 space-y-3">
+                        <div className="flex gap-2">
+                          <button
+                            onClick={() => handleApprove(event)}
+                            className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-green-500 to-emerald-500 text-white font-semibold py-2.5 rounded-xl shadow hover:from-emerald-500 hover:to-green-500 transition-all duration-200 hover:shadow-lg"
+                          >
+                            <FaCheck size={14} />
+                            Approve
+                          </button>
+                          <button
+                            onClick={() => handleDecline(event.id)}
+                            className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-red-500 to-pink-500 text-white font-semibold py-2.5 rounded-xl shadow hover:from-pink-500 hover:to-red-500 transition-all duration-200 hover:shadow-lg"
+                          >
+                            <FaTimes size={14} />
+                            Decline
+                          </button>
+                        </div>
+                        <button
+                          onClick={() => handleEditClick(event)}
+                          className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-yellow-500 to-orange-500 text-white font-semibold py-2.5 rounded-xl shadow hover:from-orange-500 hover:to-yellow-500 transition-all duration-200 hover:shadow-lg"
+                        >
+                          <FaEdit size={14} />
+                          Edit Event
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
           )}
+
+          {activeTab === 'feedback' && (
+            <div className="space-y-6">
+              {feedback.length === 0 ? (
+                <div className="bg-white dark:bg-gray-800 rounded-2xl p-12 text-center shadow-lg border border-gray-200 dark:border-gray-700">
+                  <div className="text-6xl mb-4">💬</div>
+                  <h3 className="text-2xl font-bold text-gray-700 dark:text-gray-200 mb-2">No Feedback Yet</h3>
+                  <p className="text-gray-500 dark:text-gray-400">User feedback will appear here</p>
+                </div>
+              ) : (
+                <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                  {feedback.map((item) => (
+                    <div
+                      key={item.id}
+                      className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 hover:shadow-2xl transition-all duration-300"
+                    >
+                      <div className="p-6">
+                        <div className="flex items-center gap-3 mb-4">
+                          <div className="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-xl">
+                            <FaComments className="text-blue-600 dark:text-blue-400 text-xl" />
+                          </div>
+                          <div>
+                            <h3 className="font-semibold text-gray-800 dark:text-gray-100">User Feedback</h3>
+                            <p className="text-sm text-gray-500 dark:text-gray-400">
+                              {item.submittedAt?.toDate ? 
+                                item.submittedAt.toDate().toLocaleDateString('en-US', {
+                                  year: 'numeric',
+                                  month: 'short',
+                                  day: 'numeric',
+                                  hour: '2-digit',
+                                  minute: '2-digit'
+                                }) : 
+                                'Date not available'
+                              }
+                            </p>
+                          </div>
+                        </div>
+                        
+                        <p className="text-gray-700 dark:text-gray-200 leading-relaxed mb-4">
+                          {item.feedback}
+                        </p>
+                        
+                                                 {item.email && (
+                           <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 pt-3 border-t border-gray-100 dark:border-gray-700">
+                             <FaEnvelope className="text-gray-400" />
+                             <span>{item.email}</span>
+                           </div>
+                         )}
+                         
+                         <div className="pt-4">
+                           <button
+                             onClick={() => handleMarkFeedbackAsRead(item.id)}
+                             className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-green-500 to-emerald-500 text-white font-semibold py-2.5 rounded-xl shadow hover:from-emerald-500 hover:to-green-500 transition-all duration-200 hover:shadow-lg"
+                           >
+                             <FaCheck size={14} />
+                             Mark as Read
+                           </button>
+                         </div>
+                       </div>
+                     </div>
+                   ))}
+                 </div>
+               )}
+             </div>
+           )}
         </div>
       </div>
+
       {/* Edit Modal */}
       {editingEvent && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
-          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-8 w-full max-w-lg relative">
-            <h2 className="text-2xl font-bold text-red-700 dark:text-red-300 mb-4">Edit Event</h2>
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-1">Title</label>
-                <input
-                  type="text"
-                  name="title"
-                  value={editForm.title || ""}
-                  onChange={handleEditChange}
-                  className="w-full px-4 py-2 border-2 rounded-xl text-gray-700 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-100 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800"
-                />
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+          <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <div className="p-8">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100">Edit Event</h2>
+                <button
+                  onClick={handleEditCancel}
+                  className="text-gray-400 hover:text-red-500 text-2xl font-bold focus:outline-none transition-colors"
+                  aria-label="Close"
+                >
+                  ×
+                </button>
               </div>
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-1">Description</label>
-                <textarea
-                  name="description"
-                  value={editForm.description || ""}
-                  onChange={handleEditChange}
-                  className="w-full px-4 py-2 border-2 rounded-xl text-gray-700 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-100 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800"
-                />
-              </div>
-              <div className="grid grid-cols-2 gap-4">
+              
+              <div className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2">Event Title</label>
+                    <input
+                      type="text"
+                      name="title"
+                      value={editForm.title || ""}
+                      onChange={handleEditChange}
+                      className="w-full px-4 py-3 border-2 rounded-xl text-gray-700 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-100 border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 transition-colors"
+                      placeholder="Enter event title"
+                    />
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2">Category</label>
+                    <input
+                      type="text"
+                      name="category"
+                      value={editForm.category || ""}
+                      onChange={handleEditChange}
+                      className="w-full px-4 py-3 border-2 rounded-xl text-gray-700 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-100 border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 transition-colors"
+                      placeholder="Enter category"
+                    />
+                  </div>
+                </div>
+
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-1">Category</label>
-                  <input
-                    type="text"
-                    name="category"
-                    value={editForm.category || ""}
+                  <label className="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2">Description</label>
+                  <textarea
+                    name="description"
+                    value={editForm.description || ""}
                     onChange={handleEditChange}
-                    className="w-full px-4 py-2 border-2 rounded-xl text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-100 border-gray-200"
+                    rows={4}
+                    className="w-full px-4 py-3 border-2 rounded-xl text-gray-700 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-100 border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 transition-colors resize-none"
+                    placeholder="Enter event description"
                   />
                 </div>
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-1">Date</label>
-                  <input
-                    type="date"
-                    name="date"
-                    value={editForm.date || ""}
-                    onChange={handleEditChange}
-                    className="w-full px-4 py-2 border-2 rounded-xl text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-100 border-gray-200"
-                  />
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2">Date</label>
+                    <input
+                      type="date"
+                      name="date"
+                      value={editForm.date || ""}
+                      onChange={handleEditChange}
+                      className="w-full px-4 py-3 border-2 rounded-xl text-gray-700 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-red-100 border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 transition-colors"
+                    />
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2">Time</label>
+                    <input
+                      type="text"
+                      name="time"
+                      value={editForm.time || ""}
+                      onChange={handleEditChange}
+                      className="w-full px-4 py-3 border-2 rounded-xl text-gray-700 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-100 border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 transition-colors"
+                      placeholder="e.g., 2:00 PM"
+                    />
+                  </div>
                 </div>
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-1">Time</label>
-                  <input
-                    type="text"
-                    name="time"
-                    value={editForm.time || ""}
-                    onChange={handleEditChange}
-                    className="w-full px-4 py-2 border-2 rounded-xl text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-100 border-gray-200"
-                  />
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2">Location</label>
+                    <input
+                      type="text"
+                      name="location"
+                      value={editForm.location || ""}
+                      onChange={handleEditChange}
+                      className="w-full px-4 py-3 border-2 rounded-xl text-gray-700 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-100 border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 transition-colors"
+                      placeholder="Enter location"
+                    />
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2">Organizer</label>
+                    <input
+                      type="text"
+                      name="organizer"
+                      value={editForm.organizer || ""}
+                      onChange={handleEditChange}
+                      className="w-full px-4 py-3 border-2 rounded-xl text-gray-700 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-100 border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 transition-colors"
+                      placeholder="Enter organizer name"
+                    />
+                  </div>
                 </div>
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-1">Location</label>
-                  <input
-                    type="text"
-                    name="location"
-                    value={editForm.location || ""}
-                    onChange={handleEditChange}
-                    className="w-full px-4 py-2 border-2 rounded-xl text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-100 border-gray-200"
-                  />
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2">Target Audience</label>
+                    <input
+                      type="text"
+                      name="targetAudience"
+                      value={editForm.targetAudience || ""}
+                      onChange={handleEditChange}
+                      className="w-full px-4 py-3 border-2 rounded-xl text-gray-700 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-100 border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 transition-colors"
+                      placeholder="e.g., All students"
+                    />
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2">Contact Email</label>
+                    <input
+                      type="email"
+                      name="email"
+                      value={editForm.email || ""}
+                      onChange={handleEditChange}
+                      className="w-full px-4 py-3 border-2 rounded-xl text-gray-700 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-100 border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 transition-colors"
+                      placeholder="Enter contact email"
+                    />
+                  </div>
                 </div>
-              </div>
-              <div className="grid grid-cols-2 gap-4">
+
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-1">Organizer</label>
-                  <input
-                    type="text"
-                    name="organizer"
-                    value={editForm.organizer || ""}
-                    onChange={handleEditChange}
-                    className="w-full px-4 py-2 border-2 rounded-xl text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-100 border-gray-200"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-1">Target Audience</label>
-                  <input
-                    type="text"
-                    name="targetAudience"
-                    value={editForm.targetAudience || ""}
-                    onChange={handleEditChange}
-                    className="w-full px-4 py-2 border-2 rounded-xl text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-100 border-gray-200"
-                  />
-                </div>
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-1">Email</label>
-                  <input
-                    type="email"
-                    name="email"
-                    value={editForm.email || ""}
-                    onChange={handleEditChange}
-                    className="w-full px-4 py-2 border-2 rounded-xl text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-100 border-gray-200"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-1">Notes</label>
+                  <label className="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2">Additional Notes</label>
                   <input
                     type="text"
                     name="notes"
                     value={editForm.notes || ""}
                     onChange={handleEditChange}
-                    className="w-full px-4 py-2 border-2 rounded-xl text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-100 border-gray-200"
+                    className="w-full px-4 py-3 border-2 rounded-xl text-gray-700 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-100 border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 transition-colors"
+                    placeholder="Enter additional notes"
                   />
                 </div>
               </div>
+
+              <div className="flex gap-4 mt-8">
+                <button
+                  className="flex-1 bg-gradient-to-r from-red-500 to-pink-500 text-white font-semibold py-3 rounded-xl shadow hover:from-pink-500 hover:to-red-500 transition-all duration-200 hover:shadow-lg disabled:opacity-50"
+                  onClick={handleEditSave}
+                  disabled={isSaving}
+                >
+                  {isSaving ? "Saving..." : "Save Changes"}
+                </button>
+                <button
+                  className="flex-1 bg-gradient-to-r from-gray-400 to-gray-600 text-white font-semibold py-3 rounded-xl shadow hover:from-gray-500 hover:to-gray-700 transition-all duration-200 hover:shadow-lg disabled:opacity-50"
+                  onClick={handleEditCancel}
+                  disabled={isSaving}
+                >
+                  Cancel
+                </button>
+              </div>
             </div>
-            <div className="flex gap-3 mt-8">
-              <button
-                className="flex-1 bg-gradient-to-r from-red-500 to-pink-500 text-white font-semibold py-2 rounded-lg shadow hover:from-pink-500 hover:to-red-500 transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-red-400"
-                onClick={handleEditSave}
-                disabled={isSaving}
-              >
-                {isSaving ? "Saving..." : "Save Changes"}
-              </button>
-              <button
-                className="flex-1 bg-gradient-to-r from-gray-400 to-gray-600 text-white font-semibold py-2 rounded-lg shadow hover:from-gray-500 hover:to-gray-700 transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-gray-400"
-                onClick={handleEditCancel}
-                disabled={isSaving}
-              >
-                Cancel
-              </button>
-            </div>
-            <button
-              className="absolute top-3 right-3 text-gray-400 hover:text-red-500 text-2xl font-bold focus:outline-none"
-              onClick={handleEditCancel}
-              aria-label="Close"
-            >
-              ×
-            </button>
           </div>
         </div>
       )}
