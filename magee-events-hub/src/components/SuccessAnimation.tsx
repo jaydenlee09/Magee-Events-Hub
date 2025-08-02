@@ -30,6 +30,7 @@ const SuccessAnimation = ({ isVisible = false, onComplete = () => {} }: SuccessA
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animationRef = useRef<number | null>(null);
   const confettiParticles = useRef<ConfettiParticle[]>([]);
+  const pulseIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   // Confetti particle class
   class ConfettiParticleClass implements ConfettiParticle {
@@ -108,7 +109,8 @@ const SuccessAnimation = ({ isVisible = false, onComplete = () => {} }: SuccessA
 
   const createConfettiExplosion = useCallback((centerX: number, centerY: number) => {
     const particles: ConfettiParticle[] = [];
-    for (let i = 0; i < 150; i++) {
+    // Create more particles for a more dramatic effect
+    for (let i = 0; i < 200; i++) {
       particles.push(new ConfettiParticleClass(centerX, centerY));
     }
     confettiParticles.current = particles;
@@ -153,6 +155,11 @@ const SuccessAnimation = ({ isVisible = false, onComplete = () => {} }: SuccessA
     animateConfetti();
   }, [createConfettiExplosion, animateConfetti]);
 
+  const triggerPulseConfetti = useCallback(() => {
+    // Trigger confetti explosion on each pulse
+    startConfettiAnimation();
+  }, [startConfettiAnimation]);
+
   useEffect(() => {
     if (isVisible) {
       // Show checkmark after brief delay
@@ -160,20 +167,26 @@ const SuccessAnimation = ({ isVisible = false, onComplete = () => {} }: SuccessA
         setShowCheckmark(true);
       }, 200);
 
-      // Start confetti explosion after checkmark animation
-      const confettiTimer = setTimeout(() => {
+      // Start initial confetti explosion after checkmark animation
+      const initialConfettiTimer = setTimeout(() => {
         startConfettiAnimation();
       }, 800);
 
-      // Complete animation
-      const completeTimer = setTimeout(() => {
-        onComplete();
-      }, 4000);
+      // Start pulsing animation that triggers confetti
+      const pulseTimer = setTimeout(() => {
+        // Set up pulsing interval that triggers confetti every 2 seconds
+        pulseIntervalRef.current = setInterval(() => {
+          triggerPulseConfetti();
+        }, 2000);
+      }, 2000);
 
       return () => {
         clearTimeout(checkmarkTimer);
-        clearTimeout(confettiTimer);
-        clearTimeout(completeTimer);
+        clearTimeout(initialConfettiTimer);
+        clearTimeout(pulseTimer);
+        if (pulseIntervalRef.current) {
+          clearInterval(pulseIntervalRef.current);
+        }
         if (animationRef.current) {
           cancelAnimationFrame(animationRef.current);
         }
@@ -182,11 +195,14 @@ const SuccessAnimation = ({ isVisible = false, onComplete = () => {} }: SuccessA
       // Reset animation state
       setShowCheckmark(false);
       confettiParticles.current = [];
+      if (pulseIntervalRef.current) {
+        clearInterval(pulseIntervalRef.current);
+      }
       if (animationRef.current) {
         cancelAnimationFrame(animationRef.current);
       }
     }
-  }, [isVisible, onComplete, startConfettiAnimation]);
+  }, [isVisible, startConfettiAnimation, triggerPulseConfetti]);
 
   // Handle window resize
   useEffect(() => {
@@ -221,10 +237,19 @@ const SuccessAnimation = ({ isVisible = false, onComplete = () => {} }: SuccessA
             <div className={`
               relative w-full h-full rounded-full bg-gradient-to-br from-green-400 to-green-600 
               shadow-2xl transform transition-all duration-700 ease-out
-              ${showCheckmark ? 'scale-100 opacity-100' : 'scale-50 opacity-0'}
+              ${showCheckmark ? 'scale-100 opacity-100 animate-successPulse' : 'scale-50 opacity-0'}
             `}>
               {/* Animated background pulse */}
               <div className="absolute inset-0 rounded-full bg-gradient-to-br from-green-400 to-green-600 animate-ping opacity-20" />
+              
+              {/* Additional pulsing ring that triggers confetti */}
+              <div 
+                className="absolute inset-0 rounded-full border-4 border-green-300 animate-ping opacity-60"
+                style={{
+                  animationDuration: '2s',
+                  animationIterationCount: 'infinite'
+                }}
+              />
               
               {/* Checkmark */}
               <svg 

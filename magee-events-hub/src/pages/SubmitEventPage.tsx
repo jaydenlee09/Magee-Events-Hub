@@ -64,6 +64,7 @@ const SubmitEventPage: React.FC = () => {
   const [isOtherSelected, setIsOtherSelected] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
   const [errors, setErrors] = useState<Partial<FormData>>({});
+  const [stepErrors, setStepErrors] = useState<{[key: number]: Partial<FormData>}>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
@@ -73,10 +74,58 @@ const SubmitEventPage: React.FC = () => {
     if (errors[name as keyof FormData]) {
       setErrors({ ...errors, [name]: "" });
     }
+    // Clear step errors for the current field
+    if (stepErrors[currentStep]?.[name as keyof FormData]) {
+      setStepErrors(prev => ({
+        ...prev,
+        [currentStep]: {
+          ...prev[currentStep],
+          [name]: ""
+        }
+      }));
+    }
   };
 
   const handleIconSelect = (iconName: string) => {
     setFormData({ ...formData, icon: iconName });
+  };
+
+  const validateStep = (step: number): boolean => {
+    const newErrors: Partial<FormData> = {};
+    
+    switch (step) {
+      case 1:
+        if (!formData.title.trim()) newErrors.title = "Event title is required";
+        if (!formData.description.trim()) newErrors.description = "Description is required";
+        if (!formData.category) newErrors.category = "Please select a category";
+        if (!formData.icon) newErrors.icon = "Please select an icon";
+        break;
+        
+      case 2:
+        if (!formData.date) newErrors.date = "Event date is required";
+        else if (new Date(formData.date) < new Date()) {
+          newErrors.date = "Event date cannot be in the past";
+        }
+        
+        if (!formData.time) newErrors.time = "Start time is required";
+        else if (!/^(0[1-9]|1[0-2]):[0-5][0-9]$/.test(formData.time)) {
+          newErrors.time = "Enter time in hh:mm 12-hour format (e.g., 09:30)";
+        }
+        
+        if (!formData.location.trim()) newErrors.location = "Location is required";
+        break;
+        
+      case 3:
+        if (!formData.organizer.trim()) newErrors.organizer = "Organizer name is required";
+        
+        if (formData.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+          newErrors.email = "Please enter a valid email address";
+        }
+        break;
+    }
+    
+    setStepErrors(prev => ({ ...prev, [step]: newErrors }));
+    return Object.keys(newErrors).length === 0;
   };
 
   const validateForm = (): boolean => {
@@ -148,7 +197,9 @@ const SubmitEventPage: React.FC = () => {
   };
 
   const nextStep = () => {
-    if (currentStep < 3) setCurrentStep(currentStep + 1);
+    if (validateStep(currentStep)) {
+      if (currentStep < 3) setCurrentStep(currentStep + 1);
+    }
   };
 
   const prevStep = () => {
@@ -160,16 +211,28 @@ const SubmitEventPage: React.FC = () => {
   };
 
   const getStepValidation = (step: number) => {
+    // Check if the step has any errors
+    const stepError = stepErrors[step];
+    if (stepError && Object.keys(stepError).length > 0) {
+      return false;
+    }
+    
     switch (step) {
       case 1:
         return formData.title.trim() && formData.description.trim() && formData.category && formData.icon;
       case 2:
-        return formData.date && formData.time && formData.location.trim();
+        return formData.date && formData.time && formData.location.trim() && 
+               new Date(formData.date) >= new Date() && 
+               /^(0[1-9]|1[0-2]):[0-5][0-9]$/.test(formData.time);
       case 3:
         return formData.organizer.trim();
       default:
         return false;
     }
+  };
+
+  const getFieldError = (fieldName: keyof FormData, step: number) => {
+    return stepErrors[step]?.[fieldName] || errors[fieldName];
   };
 
   return (
@@ -282,6 +345,12 @@ const SubmitEventPage: React.FC = () => {
                       </button>
                     ))}
                   </div>
+                  {getFieldError('icon', 1) && (
+                    <div className="flex items-center gap-2 mt-3 text-red-600">
+                      <AlertCircle className="w-5 h-5" />
+                      <span className="text-sm">{getFieldError('icon', 1)}</span>
+                    </div>
+                  )}
                 </div>
 
                   {/* Title */}
@@ -294,14 +363,14 @@ const SubmitEventPage: React.FC = () => {
                       value={formData.title}
                       onChange={handleChange}
                         className={`w-full px-4 sm:px-6 py-3 sm:py-4 border-2 rounded-xl sm:rounded-2xl text-gray-700 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-400 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-red-100 font-sans text-base sm:text-lg border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-red-300 focus:border-red-500 ${
-                        errors.title ? 'border-red-400 bg-red-50 dark:bg-red-900/20' : ''
+                        getFieldError('title', 1) ? 'border-red-400 bg-red-50 dark:bg-red-900/20' : ''
                       }`}
                         placeholder="Enter a catchy event title"
                     />
-                    {errors.title && (
+                    {getFieldError('title', 1) && (
                         <div className="flex items-center gap-2 mt-3 text-red-600">
                           <AlertCircle className="w-5 h-5" />
-                          <span className="text-sm">{errors.title}</span>
+                          <span className="text-sm">{getFieldError('title', 1)}</span>
                         </div>
                       )}
                     </div>
@@ -317,14 +386,14 @@ const SubmitEventPage: React.FC = () => {
                       onChange={handleChange}
                       rows={4}
                         className={`w-full px-6 py-4 border-2 rounded-2xl text-gray-700 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-400 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-red-100 font-sans text-lg border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-red-300 focus:border-red-500 resize-none ${
-                        errors.description ? 'border-red-400 bg-red-50 dark:bg-red-900/20' : ''
+                        getFieldError('description', 1) ? 'border-red-400 bg-red-50 dark:bg-red-900/20' : ''
                       }`}
                         placeholder="Describe your event in detail..."
                     />
-                    {errors.description && (
+                    {getFieldError('description', 1) && (
                         <div className="flex items-center gap-2 mt-3 text-red-600">
                           <AlertCircle className="w-5 h-5" />
-                          <span className="text-sm">{errors.description}</span>
+                          <span className="text-sm">{getFieldError('description', 1)}</span>
                         </div>
                       )}
                     </div>
@@ -350,10 +419,10 @@ const SubmitEventPage: React.FC = () => {
                         </button>
                       ))}
                     </div>
-                    {errors.category && (
+                    {getFieldError('category', 1) && (
                       <div className="flex items-center gap-2 mt-3 text-red-600">
                         <AlertCircle className="w-5 h-5" />
-                        <span className="text-sm">{errors.category}</span>
+                        <span className="text-sm">{getFieldError('category', 1)}</span>
                       </div>
                     )}
                   </div>
@@ -391,21 +460,24 @@ const SubmitEventPage: React.FC = () => {
                           value={formData.date}
                           onChange={handleChange}
                           className={`w-full pl-12 pr-6 py-4 border-2 rounded-2xl text-gray-700 dark:text-gray-100 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-red-100 font-sans text-lg border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-red-300 focus:border-red-500 [&::-webkit-calendar-picker-indicator]:filter [&::-webkit-calendar-picker-indicator]:dark:invert ${
-                            errors.date ? 'border-red-400 bg-red-50 dark:bg-red-900/20' : ''
+                            getFieldError('date', 2) ? 'border-red-400 bg-red-50 dark:bg-red-900/20' : ''
                           }`}
                         />
                       </div>
-                      {errors.date && (
+                      {getFieldError('date', 2) && (
                         <div className="flex items-center gap-2 mt-3 text-red-600">
                           <AlertCircle className="w-5 h-5" />
-                          <span className="text-sm">{errors.date}</span>
+                          <span className="text-sm">{getFieldError('date', 2)}</span>
                         </div>
                       )}
                     </div>
 
                     {/* Time */}
                     <div>
-                      <label className="block text-lg font-semibold text-gray-700 dark:text-gray-300 mb-3">Start Time *</label>
+                      <div className="flex items-center gap-2 mb-3">
+                        <label className="block text-lg font-semibold text-gray-700 dark:text-gray-300">Start Time *</label>
+                        <span className="text-sm text-gray-500 dark:text-gray-400 font-medium">(e.g., 09:30, 2:45)</span>
+                      </div>
                       <div className="flex flex-col sm:flex-row gap-2 items-stretch sm:items-center">
                         <div className="relative flex-1">
                           <Clock className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
@@ -419,7 +491,7 @@ const SubmitEventPage: React.FC = () => {
                             }}
                             placeholder="hh:mm"
                             className={`w-full pl-12 pr-6 py-4 border-2 rounded-2xl text-gray-700 dark:text-gray-100 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-red-100 font-sans text-lg border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-red-300 focus:border-red-500 ${
-                              errors.time ? 'border-red-400 bg-red-50 dark:bg-red-900/20' : ''
+                              getFieldError('time', 2) ? 'border-red-400 bg-red-50 dark:bg-red-900/20' : ''
                             }`}
                             pattern="^(0[1-9]|1[0-2]):[0-5][0-9]$"
                             autoComplete="off"
@@ -442,10 +514,10 @@ const SubmitEventPage: React.FC = () => {
                           ))}
                         </div>
                       </div>
-                      {errors.time && (
+                      {getFieldError('time', 2) && (
                         <div className="flex items-center gap-2 mt-3 text-red-600">
                           <AlertCircle className="w-5 h-5" />
-                          <span className="text-sm">{errors.time}</span>
+                          <span className="text-sm">{getFieldError('time', 2)}</span>
                         </div>
                       )}
                     </div>
@@ -461,15 +533,15 @@ const SubmitEventPage: React.FC = () => {
                           value={formData.location}
                           onChange={handleChange}
                           className={`w-full pl-12 pr-6 py-4 border-2 rounded-2xl text-gray-700 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-400 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-red-100 font-sans text-lg border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-red-300 focus:border-red-500 ${
-                            errors.location ? 'border-red-400 bg-red-50 dark:bg-red-900/20' : ''
+                            getFieldError('location', 2) ? 'border-red-400 bg-red-50 dark:bg-red-900/20' : ''
                           }`}
                           placeholder="Where will this event take place?"
                         />
                       </div>
-                      {errors.location && (
+                      {getFieldError('location', 2) && (
                         <div className="flex items-center gap-2 mt-3 text-red-600">
                           <AlertCircle className="w-5 h-5" />
-                          <span className="text-sm">{errors.location}</span>
+                          <span className="text-sm">{getFieldError('location', 2)}</span>
                         </div>
                       )}
                     </div>
@@ -515,15 +587,15 @@ const SubmitEventPage: React.FC = () => {
                           value={formData.organizer}
                           onChange={handleChange}
                           className={`w-full pl-12 pr-6 py-4 border-2 rounded-2xl text-gray-700 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-400 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-red-100 font-sans text-lg border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-red-300 focus:border-red-500 ${
-                            errors.organizer ? 'border-red-400 bg-red-50 dark:bg-red-900/20' : ''
+                            getFieldError('organizer', 3) ? 'border-red-400 bg-red-50 dark:bg-red-900/20' : ''
                           }`}
                           placeholder="Your name"
                         />
                       </div>
-                      {errors.organizer && (
+                      {getFieldError('organizer', 3) && (
                         <div className="flex items-center gap-2 mt-3 text-red-600">
                           <AlertCircle className="w-5 h-5" />
-                          <span className="text-sm">{errors.organizer}</span>
+                          <span className="text-sm">{getFieldError('organizer', 3)}</span>
                         </div>
                       )}
                     </div>
@@ -539,15 +611,15 @@ const SubmitEventPage: React.FC = () => {
                           value={formData.email}
                           onChange={handleChange}
                           className={`w-full pl-12 pr-6 py-4 border-2 rounded-2xl text-gray-700 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-400 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-red-100 font-sans text-lg border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-red-300 focus:border-red-500 ${
-                            errors.email ? 'border-red-400 bg-red-50 dark:bg-red-900/20' : ''
+                            getFieldError('email', 3) ? 'border-red-400 bg-red-50 dark:bg-red-900/20' : ''
                           }`}
                           placeholder="your.email@example.com"
                         />
                       </div>
-                      {errors.email && (
+                      {getFieldError('email', 3) && (
                         <div className="flex items-center gap-2 mt-3 text-red-600">
                           <AlertCircle className="w-5 h-5" />
-                          <span className="text-sm">{errors.email}</span>
+                          <span className="text-sm">{getFieldError('email', 3)}</span>
                         </div>
                     )}
                   </div>
