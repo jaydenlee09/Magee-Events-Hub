@@ -3,6 +3,7 @@ import { db } from "../firebase/firebase";
 import { collection, addDoc } from "firebase/firestore";
 import { Calendar, PartyPopper, Trophy, BookOpen, Users, Music, Palette, Pizza, GraduationCap, Building2, Send, Handshake, Tv2, CheckCircle, AlertCircle, Clock, MapPin, User, Mail, FileText } from "lucide-react";
 import PageFade from '../PageFade';
+import SuccessAnimation from '../components/SuccessAnimation';
 
 interface FormData {
   title: string;
@@ -35,13 +36,13 @@ const iconOptions = [
 ];
 
 const categoryOptions = [
-  { value: "Academic", label: "Academic", icon: "📚", color: "from-blue-500 to-blue-600", glowColor: "blue" },
-  { value: "Sports", label: "Sports", icon: "⚽", color: "from-green-500 to-green-600", glowColor: "green" },
-  { value: "Cultural", label: "Cultural", icon: "🎭", color: "from-purple-500 to-purple-600", glowColor: "purple" },
-  { value: "Social", label: "Social", icon: "🎉", color: "from-pink-500 to-pink-600", glowColor: "pink" },
-  { value: "Spirit Day", label: "Spirit Day", icon: "🎨", color: "from-orange-500 to-orange-600", glowColor: "orange" },
-  { value: "Club Event", label: "Club Event", icon: "🏛️", color: "from-indigo-500 to-indigo-600", glowColor: "indigo" },
-  { value: "Other", label: "Other", icon: "✨", color: "from-gray-500 to-gray-600", glowColor: "gray" },
+  { value: "Academic", label: "Academic", icon: "📚", color: "from-blue-500 to-blue-600", glowColor: "blue", ringColor: "ring-blue-300", darkRingColor: "dark:ring-blue-600" },
+  { value: "Sports", label: "Sports", icon: "⚽", color: "from-green-500 to-green-600", glowColor: "green", ringColor: "ring-green-300", darkRingColor: "dark:ring-green-600" },
+  { value: "Cultural", label: "Cultural", icon: "🎭", color: "from-purple-500 to-purple-600", glowColor: "purple", ringColor: "ring-purple-300", darkRingColor: "dark:ring-purple-600" },
+  { value: "Social", label: "Social", icon: "🎉", color: "from-pink-500 to-pink-600", glowColor: "pink", ringColor: "ring-pink-300", darkRingColor: "dark:ring-pink-600" },
+  { value: "Spirit Day", label: "Spirit Day", icon: "🎨", color: "from-orange-500 to-orange-600", glowColor: "orange", ringColor: "ring-orange-300", darkRingColor: "dark:ring-orange-600" },
+  { value: "Club Event", label: "Club Event", icon: "🏛️", color: "from-indigo-500 to-indigo-600", glowColor: "indigo", ringColor: "ring-indigo-300", darkRingColor: "dark:ring-indigo-600" },
+  { value: "Other", label: "Other", icon: "✨", color: "from-gray-500 to-gray-600", glowColor: "gray", ringColor: "ring-gray-300", darkRingColor: "dark:ring-gray-600" },
 ];
 
 const SubmitEventPage: React.FC = () => {
@@ -175,58 +176,11 @@ const SubmitEventPage: React.FC = () => {
     <>
       <PageFade />
       
-      {/* Modern Success Modal with Confetti */}
-      {showSuccessModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 dark:bg-black/80 backdrop-blur-md p-4">
-          {/* Confetti Animation */}
-          <div className="absolute inset-0 pointer-events-none overflow-hidden">
-            {[...Array(50)].map((_, i) => (
-              <div
-                key={i}
-                className="absolute animate-confetti"
-                style={{
-                  left: `${Math.random() * 100}%`,
-                  animationDelay: `${Math.random() * 3}s`,
-                  animationDuration: `${2 + Math.random() * 2}s`,
-                  transform: `rotate(${Math.random() * 360}deg)`,
-                }}
-              >
-                <div 
-                  className={`w-2 h-2 rounded-full ${
-                    ['bg-red-500', 'bg-blue-500', 'bg-green-500', 'bg-yellow-500', 'bg-pink-500', 'bg-purple-500', 'bg-orange-500', 'bg-teal-500'][Math.floor(Math.random() * 8)]
-                  }`}
-                />
-              </div>
-            ))}
-          </div>
-          
-          <div className="relative bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl rounded-3xl shadow-2xl max-w-md w-full mx-4 p-8 animate-scaleIn border border-white/20 dark:border-gray-700/50">
-            <div className="text-center">
-              {/* Success Icon with Pulse Animation */}
-              <div className="relative w-24 h-24 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full flex items-center justify-center text-white text-5xl mx-auto mb-6 shadow-2xl animate-pulse">
-                <CheckCircle className="w-12 h-12" />
-                {/* Ripple Effect */}
-                <div className="absolute inset-0 rounded-full bg-gradient-to-br from-green-500 to-emerald-600 animate-ping opacity-20"></div>
-              </div>
-              
-              <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4 animate-slideInUp">
-                Event Submitted!
-              </h2>
-              <p className="text-gray-600 dark:text-gray-300 text-lg leading-relaxed mb-8 animate-slideInUp" style={{animationDelay: '0.2s'}}>
-                Your event has been successfully submitted and will be reviewed by an administrator. You'll be notified once it's approved!
-              </p>
-              
-              <button
-                onClick={() => setShowSuccessModal(false)}
-                className="px-12 py-4 rounded-xl bg-gradient-to-r from-green-500 to-emerald-600 text-white font-semibold shadow-lg shadow-green-500/25 transition-all duration-300 hover:from-emerald-500 hover:to-green-500 hover:shadow-green-400/40 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-green-400 animate-slideInUp"
-                style={{animationDelay: '0.4s'}}
-              >
-                Great!
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* Beautiful Success Animation */}
+      <SuccessAnimation 
+        isVisible={showSuccessModal}
+        onComplete={() => setShowSuccessModal(false)}
+      />
       
       <div className={`min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 px-4 sm:px-6 py-4 sm:py-6 relative overflow-hidden ${
         typeof window !== 'undefined' && document.documentElement.classList.contains('dark')
@@ -386,7 +340,7 @@ const SubmitEventPage: React.FC = () => {
                           key={cat.value}
                           className={`p-2 sm:p-3 md:p-4 rounded-xl sm:rounded-2xl border-2 transition-all duration-300 focus:outline-none hover:scale-105 flex items-center gap-1 sm:gap-2 md:gap-3 ${
                             formData.category === cat.value 
-                              ? `bg-gradient-to-br ${cat.color} text-white shadow-lg border-${cat.glowColor}-300 dark:border-white` 
+                              ? `bg-gradient-to-br ${cat.color} text-white shadow-xl shadow-${cat.glowColor}-500/50 border-${cat.glowColor}-400 dark:border-white ring-2 ${cat.ringColor} ${cat.darkRingColor}` 
                               : `bg-gradient-to-br ${cat.color} text-white hover:shadow-lg hover:shadow-${cat.glowColor}-500/50 hover:border-${cat.glowColor}-300 dark:hover:border-white border-transparent`
                           }`}
                           onClick={() => setFormData({ ...formData, category: cat.value })}
