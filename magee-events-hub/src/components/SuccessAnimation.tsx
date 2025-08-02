@@ -1,14 +1,53 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 
-const SuccessAnimation = ({ isVisible = false, onComplete = () => {} }) => {
+interface ConfettiParticle {
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  rotation: number;
+  rotationSpeed: number;
+  size: number;
+  gravity: number;
+  friction: number;
+  opacity: number;
+  decay: number;
+  color: string;
+  shape: 'rectangle' | 'circle';
+  getRandomColor(): string;
+  update(): void;
+  draw(ctx: CanvasRenderingContext2D): void;
+  isDead(): boolean;
+}
+
+interface SuccessAnimationProps {
+  isVisible?: boolean;
+  onComplete?: () => void;
+}
+
+const SuccessAnimation = ({ isVisible = false, onComplete = () => {} }: SuccessAnimationProps) => {
   const [showCheckmark, setShowCheckmark] = useState(false);
-  const canvasRef = useRef(null);
-  const animationRef = useRef(null);
-  const confettiParticles = useRef([]);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const animationRef = useRef<number | null>(null);
+  const confettiParticles = useRef<ConfettiParticle[]>([]);
 
   // Confetti particle class
-  class ConfettiParticle {
-    constructor(x, y) {
+  class ConfettiParticleClass implements ConfettiParticle {
+    x: number;
+    y: number;
+    vx: number;
+    vy: number;
+    rotation: number;
+    rotationSpeed: number;
+    size: number;
+    gravity: number;
+    friction: number;
+    opacity: number;
+    decay: number;
+    color: string;
+    shape: 'rectangle' | 'circle';
+
+    constructor(x: number, y: number) {
       this.x = x;
       this.y = y;
       this.vx = (Math.random() - 0.5) * 15; // Random horizontal velocity
@@ -24,7 +63,7 @@ const SuccessAnimation = ({ isVisible = false, onComplete = () => {} }) => {
       this.shape = Math.random() > 0.5 ? 'rectangle' : 'circle';
     }
 
-    getRandomColor() {
+    getRandomColor(): string {
       const colors = [
         '#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', 
         '#feca57', '#ff9ff3', '#54a0ff', '#5f27cd',
@@ -33,7 +72,7 @@ const SuccessAnimation = ({ isVisible = false, onComplete = () => {} }) => {
       return colors[Math.floor(Math.random() * colors.length)];
     }
 
-    update() {
+    update(): void {
       this.vx *= this.friction;
       this.vy += this.gravity;
       this.x += this.vx;
@@ -42,7 +81,7 @@ const SuccessAnimation = ({ isVisible = false, onComplete = () => {} }) => {
       this.opacity -= this.decay;
     }
 
-    draw(ctx) {
+    draw(ctx: CanvasRenderingContext2D): void {
       if (this.opacity <= 0) return;
 
       ctx.save();
@@ -62,15 +101,15 @@ const SuccessAnimation = ({ isVisible = false, onComplete = () => {} }) => {
       ctx.restore();
     }
 
-    isDead() {
+    isDead(): boolean {
       return this.opacity <= 0 || this.y > window.innerHeight + 100;
     }
   }
 
-  const createConfettiExplosion = useCallback((centerX, centerY) => {
-    const particles = [];
+  const createConfettiExplosion = useCallback((centerX: number, centerY: number) => {
+    const particles: ConfettiParticle[] = [];
     for (let i = 0; i < 150; i++) {
-      particles.push(new ConfettiParticle(centerX, centerY));
+      particles.push(new ConfettiParticleClass(centerX, centerY));
     }
     confettiParticles.current = particles;
   }, []);
@@ -80,6 +119,8 @@ const SuccessAnimation = ({ isVisible = false, onComplete = () => {} }) => {
     if (!canvas) return;
 
     const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+    
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     confettiParticles.current.forEach((particle, index) => {
