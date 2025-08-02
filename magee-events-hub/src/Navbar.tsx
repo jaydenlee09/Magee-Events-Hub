@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { FaCalendarAlt, FaPaperPlane, FaStar } from "react-icons/fa";
-import { PiStudent } from "react-icons/pi";
 import { FiUser } from "react-icons/fi";
 import mageeLogo from './assets/Magee.png';
 import { Link, useLocation } from "react-router-dom";
