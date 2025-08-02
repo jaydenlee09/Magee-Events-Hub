@@ -9,7 +9,7 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import PageFade from '../PageFade';
-import { FaCalendarAlt, FaUser, FaMapMarkerAlt, FaClock, FaEnvelope, FaUsers, FaStickyNote, FaCheck, FaTimes, FaEdit, FaEye, FaTrash, FaComments, FaChartBar } from "react-icons/fa";
+import { FaCalendarAlt, FaUser, FaMapMarkerAlt, FaClock, FaEnvelope, FaUsers, FaStickyNote, FaCheck, FaTimes, FaEdit, FaComments, FaChartBar } from "react-icons/fa";
 
 interface EventData {
   id: string;
@@ -41,7 +41,6 @@ const AdminPage: React.FC = () => {
   const [editForm, setEditForm] = useState<Partial<EventData>>({});
   const [isSaving, setIsSaving] = useState(false);
   const [activeTab, setActiveTab] = useState<'events' | 'feedback'>('events');
-  const [selectedEvent, setSelectedEvent] = useState<EventData | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
