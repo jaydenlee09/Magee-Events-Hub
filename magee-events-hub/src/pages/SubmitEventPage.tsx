@@ -35,13 +35,13 @@ const iconOptions = [
 ];
 
 const categoryOptions = [
-  { value: "Academic", label: "Academic", icon: "📚", color: "from-blue-500 to-blue-600" },
-  { value: "Sports", label: "Sports", icon: "⚽", color: "from-green-500 to-green-600" },
-  { value: "Cultural", label: "Cultural", icon: "🎭", color: "from-purple-500 to-purple-600" },
-  { value: "Social", label: "Social", icon: "🎉", color: "from-pink-500 to-pink-600" },
-  { value: "Spirit Day", label: "Spirit Day", icon: "🎨", color: "from-orange-500 to-orange-600" },
-  { value: "Club Event", label: "Club Event", icon: "🏛️", color: "from-indigo-500 to-indigo-600" },
-  { value: "Other", label: "Other", icon: "✨", color: "from-gray-500 to-gray-600" },
+  { value: "Academic", label: "Academic", icon: "📚", color: "from-blue-500 to-blue-600", glowColor: "blue" },
+  { value: "Sports", label: "Sports", icon: "⚽", color: "from-green-500 to-green-600", glowColor: "green" },
+  { value: "Cultural", label: "Cultural", icon: "🎭", color: "from-purple-500 to-purple-600", glowColor: "purple" },
+  { value: "Social", label: "Social", icon: "🎉", color: "from-pink-500 to-pink-600", glowColor: "pink" },
+  { value: "Spirit Day", label: "Spirit Day", icon: "🎨", color: "from-orange-500 to-orange-600", glowColor: "orange" },
+  { value: "Club Event", label: "Club Event", icon: "🏛️", color: "from-indigo-500 to-indigo-600", glowColor: "indigo" },
+  { value: "Other", label: "Other", icon: "✨", color: "from-gray-500 to-gray-600", glowColor: "gray" },
 ];
 
 const SubmitEventPage: React.FC = () => {
@@ -228,7 +228,11 @@ const SubmitEventPage: React.FC = () => {
         </div>
       )}
       
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-8 sm:py-12 md:py-16 px-4 sm:px-6 relative overflow-hidden">
+      <div className={`min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 px-4 sm:px-6 py-4 sm:py-6 relative overflow-hidden ${
+        typeof window !== 'undefined' && document.documentElement.classList.contains('dark')
+          ? 'animate-fadeIn-dark'
+          : 'animate-fadeIn'
+      }`}>
         {/* Subtle Grid Pattern */}
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(0,0,0,0.08)_1px,transparent_0)] bg-[length:20px_20px] dark:bg-[radial-gradient(circle_at_1px_1px,rgba(255,255,255,0.08)_1px,transparent_0)]"></div>
@@ -251,75 +255,70 @@ const SubmitEventPage: React.FC = () => {
         <div className="max-w-5xl mx-auto relative z-10">
           {/* Enhanced Header */}
           <div className="text-center mb-8 sm:mb-12 pt-16 sm:pt-20">
-            <div className="inline-flex items-center gap-3 mb-6">
-              <div className="w-16 h-16 bg-gradient-to-br from-red-500 to-red-600 rounded-2xl flex items-center justify-center text-white shadow-2xl">
-                <Sparkles className="w-8 h-8" />
-              </div>
-              <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-gray-900 dark:text-white tracking-tight">
-                Submit New Event
-              </h1>
-            </div>
-            <p className="text-lg sm:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4 tracking-tight">
+              Submit New Event
+            </h1>
+            <p className="text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto leading-relaxed px-4">
               Share your event with the Magee community and help create amazing experiences for everyone!
             </p>
           </div>
 
           {/* Progress Bar */}
-          <div className="mb-6 sm:mb-8 md:mb-12">
-            <div className="flex items-center justify-between mb-3 sm:mb-4">
+          <div className="mb-6 sm:mb-8 md:mb-10">
+            <div className="flex items-center justify-between mb-2 sm:mb-3 md:mb-4">
               {[1, 2, 3].map((step) => (
                 <div key={step} className="flex items-center">
-                  <div className={`w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-xs sm:text-sm font-bold transition-all duration-300 ${
+                  <div className={`w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center text-xs sm:text-sm font-bold transition-all duration-300 ${
                     currentStep >= step 
                       ? 'bg-gradient-to-br from-red-500 to-red-600 text-white shadow-lg' 
                       : 'bg-gray-200 dark:bg-gray-700 text-gray-500'
                   }`}>
-                    {getStepValidation(step) ? <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5" /> : step}
+                    {getStepValidation(step) ? <CheckCircle className="w-3 h-3 sm:w-4 sm:h-4 md:w-5 md:h-5" /> : step}
                   </div>
                   {step < 3 && (
-                    <div className={`w-8 sm:w-16 h-1 mx-1 sm:mx-2 rounded-full transition-all duration-300 ${
+                    <div className={`w-4 sm:w-8 md:w-16 h-1 mx-1 sm:mx-2 rounded-full transition-all duration-300 ${
                       currentStep > step ? 'bg-gradient-to-r from-red-500 to-red-600' : 'bg-gray-200 dark:bg-gray-700'
                     }`}></div>
                   )}
                 </div>
               ))}
               </div>
-            <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+            <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1 sm:h-2">
               <div 
-                className="bg-gradient-to-r from-red-500 to-red-600 h-2 rounded-full transition-all duration-500 ease-out"
+                className="bg-gradient-to-r from-red-500 to-red-600 h-1 sm:h-2 rounded-full transition-all duration-500 ease-out"
                 style={{ width: `${getProgressPercentage()}%` }}
               ></div>
             </div>
           </div>
 
           {/* Enhanced Form Container */}
-          <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-2xl border border-gray-100/50 dark:border-gray-700/50 overflow-hidden">
-            <form onSubmit={handleSubmit} className="p-6 sm:p-8 md:p-12">
+          <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-2xl sm:rounded-3xl shadow-2xl border border-gray-100/50 dark:border-gray-700/50 overflow-hidden">
+            <form onSubmit={handleSubmit} className="p-4 sm:p-6 md:p-8 lg:p-12">
               
               {/* Step 1: Basic Information */}
               {currentStep === 1 && (
-                <div className="space-y-8 animate-fadeIn">
+                <div className="space-y-8">
                   <div className="text-center mb-8">
-                    <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Basic Information</h2>
+                    <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-2">Basic Information</h2>
                     <p className="text-gray-600 dark:text-gray-300">Let's start with the essentials</p>
                 </div>
                 
                   {/* Icon Selection */}
                 <div>
                     <label className="block text-lg font-semibold text-gray-700 dark:text-gray-300 mb-4">Choose Event Icon</label>
-                  <div className="grid grid-cols-6 gap-2 sm:gap-3 max-w-2xl mx-auto">
+                  <div className="grid grid-cols-4 sm:grid-cols-6 gap-3 sm:gap-4 max-w-2xl mx-auto">
                     {iconOptions.map(opt => (
                       <button
                         type="button"
                         key={opt.name}
-                          className={`group aspect-square w-14 h-14 sm:w-16 sm:h-16 p-2 sm:p-3 rounded-xl sm:rounded-2xl border-2 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-red-200 dark:focus:ring-red-800 hover:scale-110 flex items-center justify-center ${
+                          className={`group aspect-square w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 p-2 sm:p-3 rounded-xl sm:rounded-2xl border-2 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-red-200 dark:focus:ring-red-800 hover:scale-110 flex items-center justify-center ${
                           formData.icon === opt.name 
                               ? 'border-red-500 bg-gradient-to-br from-red-500 to-red-600 text-white scale-110 shadow-xl' 
                             : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-red-300 hover:bg-red-50 dark:hover:bg-red-900/20'
                         }`}
                         onClick={() => handleIconSelect(opt.name)}
                         >
-                          <div className={`text-xl sm:text-2xl transition-colors duration-300 ${
+                          <div className={`text-lg sm:text-xl md:text-2xl transition-colors duration-300 ${
                             formData.icon === opt.name 
                               ? 'text-white group-hover:text-white' 
                               : 'text-gray-700 dark:text-gray-200 group-hover:text-red-600 dark:group-hover:text-red-400'
@@ -333,14 +332,14 @@ const SubmitEventPage: React.FC = () => {
 
                   {/* Title */}
                   <div>
-                    <label className="block text-lg font-semibold text-gray-700 dark:text-gray-300 mb-3">Event Title *</label>
+                    <label className="block text-base sm:text-lg font-semibold text-gray-700 dark:text-gray-300 mb-2 sm:mb-3">Event Title *</label>
                     <div className="relative">
                     <input
                       type="text"
                       name="title"
                       value={formData.title}
                       onChange={handleChange}
-                        className={`w-full px-6 py-4 border-2 rounded-2xl text-gray-700 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-400 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-red-100 font-sans text-lg border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-red-300 focus:border-red-500 ${
+                        className={`w-full px-4 sm:px-6 py-3 sm:py-4 border-2 rounded-xl sm:rounded-2xl text-gray-700 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-400 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-red-100 font-sans text-base sm:text-lg border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-red-300 focus:border-red-500 ${
                         errors.title ? 'border-red-400 bg-red-50 dark:bg-red-900/20' : ''
                       }`}
                         placeholder="Enter a catchy event title"
@@ -379,25 +378,21 @@ const SubmitEventPage: React.FC = () => {
                   
                   {/* Category */}
                   <div>
-                    <label className="block text-lg font-semibold text-gray-700 dark:text-gray-300 mb-3">Category *</label>
+                    <label className="block text-base sm:text-lg font-semibold text-gray-700 dark:text-gray-300 mb-2 sm:mb-3">Category *</label>
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 sm:gap-3">
                       {categoryOptions.map(cat => (
                         <button
                           type="button"
                           key={cat.value}
-                          className={`p-3 sm:p-4 rounded-xl sm:rounded-2xl border-2 transition-all duration-300 focus:outline-none hover:scale-105 flex items-center gap-2 sm:gap-3 ${
+                          className={`p-2 sm:p-3 md:p-4 rounded-xl sm:rounded-2xl border-2 transition-all duration-300 focus:outline-none hover:scale-105 flex items-center gap-1 sm:gap-2 md:gap-3 ${
                             formData.category === cat.value 
-                              ? `border-gray-300 dark:border-white bg-gradient-to-br ${cat.color} text-white shadow-lg` 
-                              : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-red-300 hover:bg-red-50 dark:hover:bg-red-900/20'
+                              ? `bg-gradient-to-br ${cat.color} text-white shadow-lg border-${cat.glowColor}-300 dark:border-white` 
+                              : `bg-gradient-to-br ${cat.color} text-white hover:shadow-lg hover:shadow-${cat.glowColor}-500/50 hover:border-${cat.glowColor}-300 dark:hover:border-white border-transparent`
                           }`}
                           onClick={() => setFormData({ ...formData, category: cat.value })}
                         >
-                          <span className="text-xl sm:text-2xl">{cat.icon}</span>
-                          <span className={`font-semibold text-sm sm:text-base ${
-                            formData.category === cat.value 
-                              ? 'text-white' 
-                              : 'text-gray-700 dark:text-white'
-                          }`}>{cat.label}</span>
+                          <span className="text-lg sm:text-xl md:text-2xl">{cat.icon}</span>
+                          <span className="font-semibold text-xs sm:text-sm md:text-base text-white">{cat.label}</span>
                         </button>
                       ))}
                     </div>
@@ -414,7 +409,7 @@ const SubmitEventPage: React.FC = () => {
                       type="button"
                       onClick={nextStep}
                       disabled={!getStepValidation(1)}
-                      className="px-8 py-4 rounded-2xl bg-gradient-to-r from-red-500 to-red-600 text-white font-semibold shadow-lg shadow-red-500/25 transition-all duration-300 hover:from-red-600 hover:to-red-700 hover:shadow-red-400/40 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-400 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+                      className="px-6 sm:px-8 py-3 sm:py-4 rounded-xl sm:rounded-2xl bg-gradient-to-r from-red-500 to-red-600 text-white font-semibold shadow-lg shadow-red-500/25 transition-all duration-300 hover:from-red-600 hover:to-red-700 hover:shadow-red-400/40 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-400 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 text-sm sm:text-base"
                     >
                       Next Step
                     </button>
@@ -424,9 +419,9 @@ const SubmitEventPage: React.FC = () => {
 
               {/* Step 2: Date & Time */}
               {currentStep === 2 && (
-                <div className="space-y-8 animate-fadeIn">
+                <div className="space-y-8">
                   <div className="text-center mb-8">
-                    <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">When & Where</h2>
+                    <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-2">When & Where</h2>
                     <p className="text-gray-600 dark:text-gray-300">Set the date, time, and location</p>
                   </div>
 
@@ -530,7 +525,7 @@ const SubmitEventPage: React.FC = () => {
                     <button
                       type="button"
                       onClick={prevStep}
-                      className="px-6 sm:px-8 py-3 sm:py-4 rounded-xl sm:rounded-2xl border-2 border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 font-semibold transition-all duration-300 hover:border-red-300 hover:text-red-600 focus:outline-none focus:ring-2 focus:ring-red-400"
+                      className="px-4 sm:px-6 md:px-8 py-3 sm:py-4 rounded-xl sm:rounded-2xl border-2 border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 font-semibold transition-all duration-300 hover:border-red-300 hover:text-red-600 focus:outline-none focus:ring-2 focus:ring-red-400 text-sm sm:text-base"
                     >
                       Previous
                     </button>
@@ -538,7 +533,7 @@ const SubmitEventPage: React.FC = () => {
                       type="button"
                       onClick={nextStep}
                       disabled={!getStepValidation(2)}
-                      className="px-6 sm:px-8 py-3 sm:py-4 rounded-xl sm:rounded-2xl bg-gradient-to-r from-red-500 to-red-600 text-white font-semibold shadow-lg shadow-red-500/25 transition-all duration-300 hover:from-red-600 hover:to-red-700 hover:shadow-red-400/40 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-400 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+                      className="px-4 sm:px-6 md:px-8 py-3 sm:py-4 rounded-xl sm:rounded-2xl bg-gradient-to-r from-red-500 to-red-600 text-white font-semibold shadow-lg shadow-red-500/25 transition-all duration-300 hover:from-red-600 hover:to-red-700 hover:shadow-red-400/40 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-400 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 text-sm sm:text-base"
                     >
                       Next Step
                     </button>
@@ -548,9 +543,9 @@ const SubmitEventPage: React.FC = () => {
 
               {/* Step 3: Organizer Details */}
               {currentStep === 3 && (
-                <div className="space-y-8 animate-fadeIn">
+                <div className="space-y-8">
                   <div className="text-center mb-8">
-                    <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Final Details</h2>
+                    <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-2">Final Details</h2>
                     <p className="text-gray-600 dark:text-gray-300">Tell us the final details of your event</p>
                   </div>
 
@@ -628,6 +623,7 @@ const SubmitEventPage: React.FC = () => {
                       <option value="Grade 11 only">Grade 11 only</option>
                       <option value="Grade 10 only">Grade 10 only</option>
                       <option value="Grade 9 only">Grade 9 only</option>
+                      <option value="Grade 8 only">Grade 8 only</option>
                       <option value="Club members only">Club members only</option>
                       <option value="Other">Other (specify below)</option>
                     </select>
@@ -673,16 +669,16 @@ const SubmitEventPage: React.FC = () => {
                 <button
                   type="submit"
                       disabled={isSubmitting || !getStepValidation(3)}
-                      className="px-8 py-4 rounded-2xl bg-gradient-to-r from-red-500 to-red-600 text-white font-semibold shadow-lg shadow-red-500/25 transition-all duration-300 hover:from-red-600 hover:to-red-700 hover:shadow-red-400/40 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-400 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center gap-3"
+                      className="px-6 sm:px-8 py-3 sm:py-4 rounded-xl sm:rounded-2xl bg-gradient-to-r from-red-500 to-red-600 text-white font-semibold shadow-lg shadow-red-500/25 transition-all duration-300 hover:from-red-600 hover:to-red-700 hover:shadow-red-400/40 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-400 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center gap-2 sm:gap-3 text-sm sm:text-base"
                 >
                   {isSubmitting ? (
                         <>
-                          <div className="w-5 h-5 border-3 border-white border-t-transparent rounded-full animate-spin"></div>
+                          <div className="w-4 h-4 sm:w-5 sm:h-5 border-3 border-white border-t-transparent rounded-full animate-spin"></div>
                       Submitting...
                         </>
                       ) : (
                         <>
-                          <Send className="w-5 h-5" />
+                          <Send className="w-4 h-4 sm:w-5 sm:h-5" />
                           Submit Event
                         </>
                   )}

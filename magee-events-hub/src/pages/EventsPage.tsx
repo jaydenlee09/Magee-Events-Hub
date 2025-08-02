@@ -174,71 +174,71 @@ const EventsPage: React.FC = () => {
       <PageFade />
       {/* Enhanced Modal Overlay */}
       {selectedEvent && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 dark:bg-black/80 backdrop-blur-md">
-          <div className="relative bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl rounded-3xl shadow-2xl max-w-2xl w-full mx-4 p-8 animate-fadeIn border border-white/20 dark:border-gray-700/50">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 dark:bg-black/80 backdrop-blur-md p-4">
+          <div className="relative bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl rounded-2xl sm:rounded-3xl shadow-2xl max-w-2xl w-full mx-auto animate-fadeIn border border-white/20 dark:border-gray-700/50 max-h-[90vh] overflow-y-auto">
             <button
-              className="absolute top-6 right-6 bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:text-red-500 dark:hover:text-red-400 hover:bg-gray-300 dark:hover:bg-gray-600 text-3xl font-bold focus:outline-none transition-all duration-200 hover:scale-110 rounded-xl w-10 h-10 flex items-center justify-center"
+              className="absolute top-4 right-4 sm:top-6 sm:right-6 bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:text-red-500 dark:hover:text-red-400 hover:bg-gray-300 dark:hover:bg-gray-600 text-2xl sm:text-3xl font-bold focus:outline-none transition-all duration-200 hover:scale-110 rounded-xl w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center"
               onClick={() => setSelectedEvent(null)}
               aria-label="Close details modal"
             >
               ×
             </button>
             
-            <div className="flex items-start gap-6 mb-6">
-              <div className="flex-shrink-0">
-                                 <div className="w-16 h-16 bg-gradient-to-br from-red-500 to-red-600 rounded-2xl flex items-center justify-center text-white text-2xl shadow-lg">
+            <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-6 mb-6 p-4 sm:p-0">
+              <div className="flex-shrink-0 mx-auto sm:mx-0">
+                <div className="w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-br from-red-500 to-red-600 rounded-xl sm:rounded-2xl flex items-center justify-center text-white text-xl sm:text-2xl shadow-lg">
                   {iconMap[selectedEvent.icon || "Calendar"] || <Calendar />}
                 </div>
               </div>
-              <div className="flex-1 min-w-0">
-                <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-3 leading-tight">
+              <div className="flex-1 min-w-0 text-center sm:text-left">
+                <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-3 leading-tight">
                   {selectedEvent.title}
                 </h2>
-                <span className={`inline-flex items-center px-4 py-2 rounded-full text-sm font-semibold border ${getCategoryColor(selectedEvent.category)}`}>
+                <span className={`inline-flex items-center px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-semibold border ${getCategoryColor(selectedEvent.category)}`}>
                   {selectedEvent.category}
                 </span>
               </div>
             </div>
             
-            <div className="prose prose-gray dark:prose-invert max-w-none mb-8">
-              <p className="text-gray-700 dark:text-gray-200 text-lg leading-relaxed whitespace-pre-line">
+            <div className="prose prose-gray dark:prose-invert max-w-none mb-6 sm:mb-8 px-4 sm:px-0">
+              <p className="text-gray-700 dark:text-gray-200 text-base sm:text-lg leading-relaxed whitespace-pre-line">
                 {selectedEvent.description}
               </p>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-                             <div className="flex items-center gap-3 p-4 bg-gray-50 dark:bg-gray-800 rounded-xl">
-                 <Calendar className="w-6 h-6 text-red-500 flex-shrink-0" />
-                <div>
-                  <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Date</p>
-                  <p className="font-semibold text-gray-900 dark:text-white">{formatDate(selectedEvent.date)}</p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-6 sm:mb-8 px-4 sm:px-0">
+              <div className="flex items-center gap-3 p-3 sm:p-4 bg-gray-50 dark:bg-gray-800 rounded-xl">
+                <Calendar className="w-5 h-5 sm:w-6 sm:h-6 text-red-500 flex-shrink-0" />
+                <div className="min-w-0 flex-1">
+                  <p className="text-xs sm:text-sm font-medium text-gray-500 dark:text-gray-400">Date</p>
+                  <p className="font-semibold text-gray-900 dark:text-white text-sm sm:text-base truncate">{formatDate(selectedEvent.date)}</p>
                 </div>
               </div>
-                             <div className="flex items-center gap-3 p-4 bg-gray-50 dark:bg-gray-800 rounded-xl">
-                 <Clock className="w-6 h-6 text-red-500 flex-shrink-0" />
-                <div>
-                  <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Time</p>
-                  <p className="font-semibold text-gray-900 dark:text-white">{formatTime(selectedEvent.time)}</p>
+              <div className="flex items-center gap-3 p-3 sm:p-4 bg-gray-50 dark:bg-gray-800 rounded-xl">
+                <Clock className="w-5 h-5 sm:w-6 sm:h-6 text-red-500 flex-shrink-0" />
+                <div className="min-w-0 flex-1">
+                  <p className="text-xs sm:text-sm font-medium text-gray-500 dark:text-gray-400">Time</p>
+                  <p className="font-semibold text-gray-900 dark:text-white text-sm sm:text-base">{formatTime(selectedEvent.time)}</p>
                 </div>
               </div>
-                             <div className="flex items-center gap-3 p-4 bg-gray-50 dark:bg-gray-800 rounded-xl">
-                 <MapPin className="w-6 h-6 text-red-500 flex-shrink-0" />
-                <div>
-                  <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Location</p>
-                  <p className="font-semibold text-gray-900 dark:text-white">{selectedEvent.location || "TBD"}</p>
+              <div className="flex items-center gap-3 p-3 sm:p-4 bg-gray-50 dark:bg-gray-800 rounded-xl">
+                <MapPin className="w-5 h-5 sm:w-6 sm:h-6 text-red-500 flex-shrink-0" />
+                <div className="min-w-0 flex-1">
+                  <p className="text-xs sm:text-sm font-medium text-gray-500 dark:text-gray-400">Location</p>
+                  <p className="font-semibold text-gray-900 dark:text-white text-sm sm:text-base truncate">{selectedEvent.location || "TBD"}</p>
                 </div>
               </div>
-                             <div className="flex items-center gap-3 p-4 bg-gray-50 dark:bg-gray-800 rounded-xl">
-                 <Users className="w-6 h-6 text-red-500 flex-shrink-0" />
-                <div>
-                  <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Target Audience</p>
-                  <p className="font-semibold text-gray-900 dark:text-white">{selectedEvent.targetAudience || "All students"}</p>
+              <div className="flex items-center gap-3 p-3 sm:p-4 bg-gray-50 dark:bg-gray-800 rounded-xl">
+                <Users className="w-5 h-5 sm:w-6 sm:h-6 text-red-500 flex-shrink-0" />
+                <div className="min-w-0 flex-1">
+                  <p className="text-xs sm:text-sm font-medium text-gray-500 dark:text-gray-400">Target Audience</p>
+                  <p className="font-semibold text-gray-900 dark:text-white text-sm sm:text-base truncate">{selectedEvent.targetAudience || "All students"}</p>
                 </div>
               </div>
             </div>
             
-            <div className="pt-6 border-t border-gray-200 dark:border-gray-700">
-              <p className="text-sm text-gray-500 dark:text-gray-400">
+            <div className="pt-4 sm:pt-6 border-t border-gray-200 dark:border-gray-700 px-4 sm:px-0">
+              <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
                 Organized by <span className="font-semibold text-gray-900 dark:text-white">{selectedEvent.organizer || "Unknown"}</span>
               </p>
             </div>
@@ -248,65 +248,65 @@ const EventsPage: React.FC = () => {
 
       {/* Enhanced Feedback Modal */}
       {showFeedbackModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 dark:bg-black/80 backdrop-blur-md">
-          <div className="relative bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl rounded-3xl shadow-2xl max-w-lg w-full mx-4 p-8 animate-fadeIn border border-white/20 dark:border-gray-700/50">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 dark:bg-black/80 backdrop-blur-md p-4">
+          <div className="relative bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl rounded-2xl sm:rounded-3xl shadow-2xl max-w-lg w-full mx-auto animate-fadeIn border border-white/20 dark:border-gray-700/50 max-h-[90vh] overflow-y-auto">
             <button
-              className="absolute top-6 right-6 bg-white dark:bg-gray-700 text-gray-400 hover:text-red-500 dark:hover:text-red-400 text-3xl font-bold focus:outline-none transition-colors duration-200 hover:scale-110 rounded-xl w-10 h-10 flex items-center justify-center shadow-lg"
+              className="absolute top-4 right-4 sm:top-6 sm:right-6 bg-white dark:bg-gray-700 text-gray-400 hover:text-red-500 dark:hover:text-red-400 text-2xl sm:text-3xl font-bold focus:outline-none transition-colors duration-200 hover:scale-110 rounded-xl w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center shadow-lg"
               onClick={() => { setShowFeedbackModal(false); setFeedbackStatus(null); }}
               aria-label="Close feedback modal"
             >
               ×
             </button>
             
-            <div className="text-center mb-8">
-              <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-2xl flex items-center justify-center text-white text-2xl mx-auto mb-4 shadow-lg">
+            <div className="text-center mb-6 sm:mb-8 px-4 sm:px-0">
+              <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl sm:rounded-2xl flex items-center justify-center text-white text-xl sm:text-2xl mx-auto mb-3 sm:mb-4 shadow-lg">
                 💬
               </div>
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-2">
                 Send Feedback
               </h2>
-              <p className="text-gray-600 dark:text-gray-300">
+              <p className="text-gray-600 dark:text-gray-300 text-sm sm:text-base">
                 Help us improve by sharing your thoughts
               </p>
             </div>
             
-            <form onSubmit={handleFeedbackSubmit} className="space-y-6">
+            <form onSubmit={handleFeedbackSubmit} className="space-y-4 sm:space-y-6 px-4 sm:px-0">
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Your Feedback
                 </label>
                 <textarea
                   value={feedback}
                   onChange={e => setFeedback(e.target.value)}
                   rows={4}
-                  className="w-full px-4 py-3 border-2 border-gray-200 dark:border-gray-700 rounded-xl text-gray-700 dark:text-gray-100 placeholder-gray-400 transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-blue-100 dark:focus:ring-blue-900 hover:border-blue-300 focus:border-blue-500 resize-none font-sans bg-white dark:bg-gray-800"
+                  className="w-full px-3 sm:px-4 py-3 border-2 border-gray-200 dark:border-gray-700 rounded-xl text-gray-700 dark:text-gray-100 placeholder-gray-400 transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-blue-100 dark:focus:ring-blue-900 hover:border-blue-300 focus:border-blue-500 resize-none font-sans bg-white dark:bg-gray-800 text-sm sm:text-base"
                   placeholder="Share your thoughts, suggestions, or concerns..."
                   required
                 />
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Email (Optional)
                 </label>
                 <input
                   type="email"
                   value={feedbackEmail}
                   onChange={e => setFeedbackEmail(e.target.value)}
-                  className="w-full px-4 py-3 border-2 border-gray-200 dark:border-gray-700 rounded-xl text-gray-700 dark:text-gray-100 placeholder-gray-400 transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-blue-100 dark:focus:ring-blue-900 hover:border-blue-300 focus:border-blue-500 font-sans bg-white dark:bg-gray-800"
+                  className="w-full px-3 sm:px-4 py-3 border-2 border-gray-200 dark:border-gray-700 rounded-xl text-gray-700 dark:text-gray-100 placeholder-gray-400 transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-blue-100 dark:focus:ring-blue-900 hover:border-blue-300 focus:border-blue-500 font-sans bg-white dark:bg-gray-800 text-sm sm:text-base"
                   placeholder="your.email@example.com"
                 />
               </div>
               
               <button
                 type="submit"
-                className="w-full py-4 rounded-xl bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-semibold shadow-lg shadow-blue-500/25 transition-all duration-200 hover:from-cyan-500 hover:to-blue-500 hover:shadow-cyan-400/40 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                className="w-full py-3 sm:py-4 rounded-xl bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-semibold shadow-lg shadow-blue-500/25 transition-all duration-200 hover:from-cyan-500 hover:to-blue-500 hover:shadow-cyan-400/40 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm sm:text-base"
               >
                 Send Feedback
               </button>
               
               {feedbackStatus && (
-                <div className={`mt-4 p-4 rounded-xl text-center font-medium ${
+                <div className={`mt-4 p-3 sm:p-4 rounded-xl text-center font-medium text-sm sm:text-base ${
                   feedbackStatus.startsWith('Thank') 
                     ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300 border border-green-200 dark:border-green-700' 
                     : 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300 border border-red-200 dark:border-red-700'
@@ -493,11 +493,11 @@ const EventsPage: React.FC = () => {
 
       {/* Enhanced Feedback Button */}
       <button
-        className="fixed bottom-8 right-8 z-40 bg-gradient-to-r from-blue-500 to-cyan-500 text-white rounded-2xl shadow-2xl px-6 py-4 font-semibold text-lg flex items-center gap-3 transition-all duration-300 transform hover:scale-110 hover:shadow-3xl hover:shadow-blue-400/50 focus:outline-none focus:ring-4 focus:ring-blue-300 backdrop-blur-sm"
+        className="fixed bottom-4 right-4 sm:bottom-8 sm:right-8 z-40 bg-gradient-to-r from-blue-500 to-cyan-500 text-white rounded-xl sm:rounded-2xl shadow-2xl px-4 sm:px-6 py-3 sm:py-4 font-semibold text-sm sm:text-lg flex items-center gap-2 sm:gap-3 transition-all duration-300 transform hover:scale-110 hover:shadow-3xl hover:shadow-blue-400/50 focus:outline-none focus:ring-4 focus:ring-blue-300 backdrop-blur-sm"
         onClick={() => setShowFeedbackModal(true)}
         aria-label="Send Feedback"
       >
-        <FaComments size={24} />
+        <FaComments size={20} className="sm:w-6 sm:h-6" />
         <span className="hidden sm:inline">Send Feedback</span>
       </button>
     </>

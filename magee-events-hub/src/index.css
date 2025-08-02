@@ -122,6 +122,8 @@ h1, h2, h3, h4, h5, h6 {
   animation: gradient-rotate 3s ease infinite;
 }
 
+
+
 /* Smooth scrolling */
 html {
   scroll-behavior: smooth;
