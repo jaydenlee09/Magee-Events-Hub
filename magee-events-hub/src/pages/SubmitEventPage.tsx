@@ -385,9 +385,9 @@ const SubmitEventPage: React.FC = () => {
                         <button
                           type="button"
                           key={cat.value}
-                          className={`p-3 sm:p-4 rounded-xl sm:rounded-2xl border-2 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-red-200 dark:focus:ring-red-800 hover:scale-105 flex items-center gap-2 sm:gap-3 ${
+                          className={`p-3 sm:p-4 rounded-xl sm:rounded-2xl border-2 transition-all duration-300 focus:outline-none hover:scale-105 flex items-center gap-2 sm:gap-3 ${
                             formData.category === cat.value 
-                              ? `border-red-500 bg-gradient-to-br ${cat.color} text-white shadow-lg` 
+                              ? `border-gray-300 dark:border-white bg-gradient-to-br ${cat.color} text-white shadow-lg` 
                               : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-red-300 hover:bg-red-50 dark:hover:bg-red-900/20'
                           }`}
                           onClick={() => setFormData({ ...formData, category: cat.value })}

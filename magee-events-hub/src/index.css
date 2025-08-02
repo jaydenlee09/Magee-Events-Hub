@@ -90,6 +90,18 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
+@keyframes gradient-rotate {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
 .animate-fadeIn {
   animation: fadeIn 0.6s ease-out;
 }
@@ -104,6 +116,10 @@ h1, h2, h3, h4, h5, h6 {
 
 .animate-slideInUp {
   animation: slideInUp 0.6s ease-out;
+}
+
+.animate-gradient-rotate {
+  animation: gradient-rotate 3s ease infinite;
 }
 
 /* Smooth scrolling */
