@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { db } from "../firebase/firebase";
 import { collection, addDoc } from "firebase/firestore";
-import { Calendar, PartyPopper, Trophy, BookOpen, Users, Music, Palette, Pizza, GraduationCap, Building2, Send, Handshake, Tv2, Sparkles, CheckCircle, AlertCircle, Clock, MapPin, User, Mail, FileText } from "lucide-react";
+import { Calendar, PartyPopper, Trophy, BookOpen, Users, Music, Palette, Pizza, GraduationCap, Building2, Send, Handshake, Tv2, CheckCircle, AlertCircle, Clock, MapPin, User, Mail, FileText } from "lucide-react";
 import PageFade from '../PageFade';
 
 interface FormData {
