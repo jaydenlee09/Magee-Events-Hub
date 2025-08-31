@@ -1,24 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
-
-interface ConfettiParticle {
-  x: number;
-  y: number;
-  vx: number;
-  vy: number;
-  rotation: number;
-  rotationSpeed: number;
-  size: number;
-  gravity: number;
-  friction: number;
-  opacity: number;
-  decay: number;
-  color: string;
-  shape: 'rectangle' | 'circle';
-  getRandomColor(): string;
-  update(): void;
-  draw(ctx: CanvasRenderingContext2D): void;
-  isDead(): boolean;
-}
+import { useState, useEffect } from 'react';
 
 interface SuccessAnimationProps {
   isVisible?: boolean;
@@ -27,282 +7,215 @@ interface SuccessAnimationProps {
 
 const SuccessAnimation = ({ isVisible = false, onComplete = () => {} }: SuccessAnimationProps) => {
   const [showCheckmark, setShowCheckmark] = useState(false);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const animationRef = useRef<number | null>(null);
-  const confettiParticles = useRef<ConfettiParticle[]>([]);
-  const pulseIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Confetti particle class
-  class ConfettiParticleClass implements ConfettiParticle {
-    x: number;
-    y: number;
-    vx: number;
-    vy: number;
-    rotation: number;
-    rotationSpeed: number;
-    size: number;
-    gravity: number;
-    friction: number;
-    opacity: number;
-    decay: number;
-    color: string;
-    shape: 'rectangle' | 'circle';
-
-    constructor(x: number, y: number) {
-      this.x = x;
-      this.y = y;
-      this.vx = (Math.random() - 0.5) * 15; // Random horizontal velocity
-      this.vy = (Math.random() - 0.5) * 15 - 5; // Random vertical velocity (upward bias)
-      this.rotation = Math.random() * 360;
-      this.rotationSpeed = (Math.random() - 0.5) * 10;
-      this.size = Math.random() * 8 + 4;
-      this.gravity = 0.3;
-      this.friction = 0.99;
-      this.opacity = 1;
-      this.decay = Math.random() * 0.015 + 0.005;
-      this.color = this.getRandomColor();
-      this.shape = Math.random() > 0.5 ? 'rectangle' : 'circle';
-    }
-
-    getRandomColor(): string {
-      const colors = [
-        '#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', 
-        '#feca57', '#ff9ff3', '#54a0ff', '#5f27cd',
-        '#00d2d3', '#ff9f43', '#ee5a6f', '#0abde3'
-      ];
-      return colors[Math.floor(Math.random() * colors.length)];
-    }
-
-    update(): void {
-      this.vx *= this.friction;
-      this.vy += this.gravity;
-      this.x += this.vx;
-      this.y += this.vy;
-      this.rotation += this.rotationSpeed;
-      this.opacity -= this.decay;
-    }
-
-    draw(ctx: CanvasRenderingContext2D): void {
-      if (this.opacity <= 0) return;
-
-      ctx.save();
-      ctx.globalAlpha = this.opacity;
-      ctx.translate(this.x, this.y);
-      ctx.rotate((this.rotation * Math.PI) / 180);
-      ctx.fillStyle = this.color;
-
-      if (this.shape === 'rectangle') {
-        ctx.fillRect(-this.size / 2, -this.size / 2, this.size, this.size);
-      } else {
-        ctx.beginPath();
-        ctx.arc(0, 0, this.size / 2, 0, Math.PI * 2);
-        ctx.fill();
-      }
-
-      ctx.restore();
-    }
-
-    isDead(): boolean {
-      return this.opacity <= 0 || this.y > window.innerHeight + 100;
-    }
-  }
-
-  const createConfettiExplosion = useCallback((centerX: number, centerY: number) => {
-    const particles: ConfettiParticle[] = [];
-    // Create more particles for a more dramatic effect
-    for (let i = 0; i < 200; i++) {
-      particles.push(new ConfettiParticleClass(centerX, centerY));
-    }
-    confettiParticles.current = particles;
-  }, []);
-
-  const animateConfetti = useCallback(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-    
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    confettiParticles.current.forEach((particle, index) => {
-      particle.update();
-      particle.draw(ctx);
-
-      if (particle.isDead()) {
-        confettiParticles.current.splice(index, 1);
-      }
-    });
-
-    if (confettiParticles.current.length > 0) {
-      animationRef.current = requestAnimationFrame(animateConfetti);
-    }
-  }, []);
-
-  const startConfettiAnimation = useCallback(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    // Set canvas size
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
-    // Create explosion from center
-    const centerX = window.innerWidth / 2;
-    const centerY = window.innerHeight / 2;
-    
-    createConfettiExplosion(centerX, centerY);
-    animateConfetti();
-  }, [createConfettiExplosion, animateConfetti]);
-
-  const triggerPulseConfetti = useCallback(() => {
-    // Trigger confetti explosion on each pulse
-    startConfettiAnimation();
-  }, [startConfettiAnimation]);
-
+  // Main animation sequence
   useEffect(() => {
     if (isVisible) {
-      // Show checkmark after brief delay
+      // Show checkmark with slight delay
       const checkmarkTimer = setTimeout(() => {
         setShowCheckmark(true);
-      }, 200);
-
-      // Start initial confetti explosion after checkmark animation
-      const initialConfettiTimer = setTimeout(() => {
-        startConfettiAnimation();
-      }, 800);
-
-      // Start pulsing animation that triggers confetti
-      const pulseTimer = setTimeout(() => {
-        // Set up pulsing interval that triggers confetti every 2 seconds
-        pulseIntervalRef.current = setInterval(() => {
-          triggerPulseConfetti();
-        }, 2000);
-      }, 2000);
+      }, 300);
 
       return () => {
         clearTimeout(checkmarkTimer);
-        clearTimeout(initialConfettiTimer);
-        clearTimeout(pulseTimer);
-        if (pulseIntervalRef.current) {
-          clearInterval(pulseIntervalRef.current);
-        }
-        if (animationRef.current) {
-          cancelAnimationFrame(animationRef.current);
-        }
       };
     } else {
       // Reset animation state
       setShowCheckmark(false);
-      confettiParticles.current = [];
-      if (pulseIntervalRef.current) {
-        clearInterval(pulseIntervalRef.current);
-      }
-      if (animationRef.current) {
-        cancelAnimationFrame(animationRef.current);
-      }
     }
-  }, [isVisible, startConfettiAnimation, triggerPulseConfetti]);
-
-  // Handle window resize
-  useEffect(() => {
-    const handleResize = () => {
-      const canvas = canvasRef.current;
-      if (canvas) {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-      }
-    };
-
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  }, [isVisible]);
 
   if (!isVisible) return null;
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-      {/* Confetti Canvas */}
-      <canvas
-        ref={canvasRef}
-        className="absolute inset-0 pointer-events-none"
-        style={{ zIndex: 10 }}
-      />
+    <div className="fixed inset-0 flex items-center justify-center z-50">
+      {/* Dark overlay with blur effect */}
+      <div className="absolute inset-0 bg-black/70 backdrop-blur-sm"></div>
       
       {/* Success Card */}
-      <div className="relative z-20 bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl rounded-3xl shadow-2xl max-w-md w-full mx-4 p-8 animate-scaleIn border border-white/20 dark:border-gray-700/50">
-        <div className="text-center">
-          {/* Success Circle with Checkmark */}
-          <div className="relative w-24 h-24 mx-auto mb-6">
-            <div className={`
-              relative w-full h-full rounded-full bg-gradient-to-br from-green-400 to-green-600 
-              shadow-2xl transform transition-all duration-700 ease-out
-              ${showCheckmark ? 'scale-100 opacity-100 animate-successPulse' : 'scale-50 opacity-0'}
-            `}>
-              {/* Animated background pulse */}
-              <div className="absolute inset-0 rounded-full bg-gradient-to-br from-green-400 to-green-600 animate-ping opacity-20" />
+      <div 
+        className="relative z-20 bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl rounded-3xl shadow-2xl max-w-lg w-full mx-4 overflow-hidden transform transition-all duration-500"
+        style={{
+          boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 30px rgba(0, 0, 0, 0.1)',
+          animation: 'scaleIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards'
+        }}
+      >
+        {/* Top accent gradient bar with modern subtle animation */}
+        <div className="h-1.5 bg-gradient-to-r from-red-400 via-red-500 to-red-600 w-full relative overflow-hidden">
+          <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/30 to-transparent" 
+               style={{
+                 animation: 'shimmer 2s infinite',
+                 backgroundSize: '200% 100%',
+               }}
+          ></div>
+        </div>
+        
+        <div className="px-8 py-10 sm:px-10 sm:py-12">
+          <div className="text-center">
+            {/* Success Circle with Checkmark */}
+            <div className="relative w-32 h-32 mx-auto mb-10">
+              {/* Outer decorative glow effects */}
+              <div className="absolute inset-0 -z-10">
+                <div className={`
+                  absolute -inset-10 bg-gradient-to-r from-red-400/10 via-red-500/15 to-red-600/10 rounded-full blur-3xl transform transition-all duration-1500 ease-out
+                  ${showCheckmark ? 'scale-100 opacity-70' : 'scale-0 opacity-0'}
+                `}></div>
+                <div className={`
+                  absolute -inset-6 bg-gradient-to-r from-red-400/15 via-red-500/20 to-red-600/15 rounded-full blur-2xl transform transition-all duration-1200 ease-out delay-100
+                  ${showCheckmark ? 'scale-100 opacity-80' : 'scale-0 opacity-0'}
+                `}></div>
+              </div>
               
-              {/* Additional pulsing ring that triggers confetti */}
-              <div 
-                className="absolute inset-0 rounded-full border-4 border-green-300 animate-ping opacity-60"
-                style={{
-                  animationDuration: '2s',
-                  animationIterationCount: 'infinite'
-                }}
-              />
-              
-              {/* Checkmark */}
-              <svg 
-                className="absolute inset-0 w-full h-full p-6" 
-                viewBox="0 0 24 24" 
-                fill="none"
-              >
-                <path
-                  d="M9 12l2 2 4-4"
-                  stroke="white"
-                  strokeWidth="3"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className={`
-                    transition-all duration-600 ease-out delay-300
-                    ${showCheckmark ? 'opacity-100' : 'opacity-0'}
-                  `}
-                  style={{
-                    strokeDasharray: 20,
-                    strokeDashoffset: showCheckmark ? 0 : 20,
-                    transition: 'stroke-dashoffset 0.6s ease-out 0.3s, opacity 0.6s ease-out 0.3s'
-                  }}
-                />
-              </svg>
-              
-              {/* Outer glow ring */}
+              {/* Main success circle */}
               <div className={`
-                absolute -inset-2 rounded-full border-2 border-green-300 
-                transition-all duration-1000 ease-out
-                ${showCheckmark ? 'scale-150 opacity-0' : 'scale-100 opacity-60'}
-              `} />
-              
-              {/* Inner highlight */}
-              <div className="absolute inset-2 rounded-full bg-white opacity-20" />
+                relative w-full h-full rounded-full bg-gradient-to-br from-red-400 to-red-500 
+                shadow-2xl shadow-red-500/30 transform transition-all duration-700 ease-out
+                ${showCheckmark ? 'scale-100 opacity-100' : 'scale-50 opacity-0'}
+              `}
+                style={{
+                  animation: showCheckmark ? 'successPop 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards' : 'none'
+                }}
+              >
+                {/* Subtle animated background pulse */}
+                <div className="absolute inset-0 rounded-full bg-gradient-to-br from-red-300/50 to-red-500/50 opacity-0"
+                     style={{animation: 'gentlePulse 4s ease-in-out infinite 0.5s'}} />
+                
+                {/* Modern inner gloss effect */}
+                <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/30 via-white/10 to-transparent"></div>
+                
+                {/* Checkmark with enhanced animation */}
+                <svg 
+                  className="absolute inset-0 w-full h-full p-3.5" 
+                  viewBox="0 0 24 24" 
+                  fill="none"
+                >
+                  {/* Checkmark highlight base */}
+                  <path
+                    d="M7 13l3 3 7-7"
+                    stroke="rgba(255,255,255,0.4)"
+                    strokeWidth="5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className={`
+                      transition-all duration-700 ease-out delay-100
+                      ${showCheckmark ? 'opacity-100' : 'opacity-0'}
+                    `}
+                    style={{
+                      strokeDasharray: 30,
+                      strokeDashoffset: showCheckmark ? 0 : 30,
+                      transition: 'stroke-dashoffset 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s, opacity 0.6s ease-out 0.1s',
+                      filter: 'blur(1px)'
+                    }}
+                  />
+                  
+                  {/* Main checkmark */}
+                  <path
+                    d="M7 13l3 3 7-7"
+                    stroke="white"
+                    strokeWidth="3"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className={`
+                      transition-all duration-700 ease-out delay-200
+                      ${showCheckmark ? 'opacity-100' : 'opacity-0'}
+                    `}
+                    style={{
+                      strokeDasharray: 30,
+                      strokeDashoffset: showCheckmark ? 0 : 30,
+                      transition: 'stroke-dashoffset 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s, opacity 0.6s ease-out 0.2s'
+                    }}
+                  />
+                </svg>
+              </div>
             </div>
+            
+            {/* Success message with enhanced typography */}
+            <h2 
+              className="text-3xl sm:text-4xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-gray-800 to-gray-600 dark:from-white dark:to-gray-200"
+              style={{
+                animation: 'slideInUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards',
+                opacity: 0,
+                transform: 'translateY(20px)',
+                animationDelay: '0.4s'
+              }}
+            >
+              Event Submitted!
+            </h2>
+            
+            <p 
+              className="text-gray-600 dark:text-gray-300 text-base sm:text-lg leading-relaxed mb-10"
+              style={{
+                animation: 'slideInUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards',
+                opacity: 0,
+                transform: 'translateY(15px)',
+                animationDelay: '0.6s'
+              }}
+            >
+              Your event has been successfully submitted and will be reviewed by an administrator. You'll be notified once it's approved!
+            </p>
+            
+            {/* Enhanced button with better hover effects */}
+            <button
+              onClick={onComplete}
+              className="px-10 py-3.5 rounded-xl bg-gradient-to-r from-red-500 to-red-600 text-white font-semibold shadow-lg shadow-red-500/25 transition-all duration-300 hover:shadow-red-500/40 focus:outline-none focus:ring-2 focus:ring-red-400 group relative overflow-hidden"
+              style={{
+                animation: 'slideInUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards',
+                opacity: 0,
+                transform: 'translateY(15px)',
+                animationDelay: '0.8s'
+              }}
+            >
+              <span className="relative z-10 flex items-center justify-center gap-2">
+                Continue
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
+              </span>
+              
+              {/* Enhanced hover background effect */}
+              <div className="absolute inset-0 h-full w-full bg-gradient-to-r from-red-600 via-red-500 to-red-700 transform scale-x-0 origin-left group-hover:scale-x-100 transition-transform duration-500"></div>
+              
+              {/* Button highlight effect */}
+              <div className="absolute top-0 left-0 w-full h-1/3 bg-gradient-to-b from-white/20 to-transparent"></div>
+            </button>
           </div>
-          
-          <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4 animate-slideInUp">
-            Event Submitted!
-          </h2>
-          <p className="text-gray-600 dark:text-gray-300 text-lg leading-relaxed mb-8 animate-slideInUp" style={{animationDelay: '0.2s'}}>
-            Your event has been successfully submitted and will be reviewed by an administrator. You'll be notified once it's approved!
-          </p>
-          
-          <button
-            onClick={onComplete}
-            className="px-12 py-4 rounded-xl bg-gradient-to-r from-green-500 to-emerald-600 text-white font-semibold shadow-lg shadow-green-500/25 transition-all duration-300 hover:from-emerald-500 hover:to-green-500 hover:shadow-green-400/40 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-green-400 animate-slideInUp"
-            style={{animationDelay: '0.4s'}}
-          >
-            Great!
-          </button>
         </div>
       </div>
+      
+      {/* Add animation styles */}
+      <style dangerouslySetInnerHTML={{__html: `
+        @keyframes scaleIn {
+          0% { transform: scale(0.9); opacity: 0; }
+          100% { transform: scale(1); opacity: 1; }
+        }
+        
+        @keyframes slideInUp {
+          0% { transform: translateY(20px); opacity: 0; }
+          100% { transform: translateY(0); opacity: 1; }
+        }
+        
+        @keyframes successPop {
+          0% { transform: scale(0.8); }
+          40% { transform: scale(1.1); }
+          70% { transform: scale(0.95); }
+          100% { transform: scale(1); }
+        }
+        
+        @keyframes shimmer {
+          0% { background-position: -200% 0; }
+          100% { background-position: 200% 0; }
+        }
+        
+        @keyframes shimmerEffect {
+          0% { transform: translateX(-100%) rotate(-45deg); }
+          100% { transform: translateX(100%) rotate(-45deg); }
+        }
+        
+        @keyframes gentlePulse {
+          0%, 100% { opacity: 0; }
+          50% { opacity: 0.4; }
+        }
+      `}} />
     </div>
   );
 };

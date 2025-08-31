@@ -24,8 +24,8 @@ const PageFade: React.FC = () => {
       className="fixed inset-0 z-[9999] transition-opacity duration-500 pointer-events-none"
       style={{
         backgroundColor: typeof window !== 'undefined' && document.documentElement.classList.contains('dark')
-          ? 'black'
-          : 'white',
+          ? 'rgba(0,0,0,0.8)'
+          : 'rgba(255,255,255,0.8)',
         opacity: visible ? 1 : 0,
       }}
     />

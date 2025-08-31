@@ -4,7 +4,6 @@ import EventsPage from "./pages/EventsPage";
 import SchedulePage from "./pages/SchedulePage";
 import SubmitEventPage from "./pages/SubmitEventPage";
 import AdminPage from "./pages/AdminPage";
-import './App.css';
 
 function App() {
   const isAdmin = typeof window !== 'undefined' && localStorage.getItem("isAdmin") === "true";

@@ -4,6 +4,7 @@ import { MdEvent, MdSportsSoccer, MdTheaterComedy, MdCelebration, MdPalette, MdB
 import { db } from "../firebase/firebase";
 import { collection, getDocs } from "firebase/firestore";
 import PageFade from '../PageFade';
+import AnimatedBackground from "../components/AnimatedBackground";
 // Removed: import './SchedulePage.css';
 
 interface ScheduleEvent {
@@ -397,11 +398,23 @@ const SchedulePage = () => {
         
         // If it's in 24-hour format, convert to 12-hour
         try {
-            const [hours, minutes] = timeString.split(':');
-            const hour = parseInt(hours);
+            // First verify that we have a valid time format (##:## or #:##)
+            if (!/^\d{1,2}:\d{2}$/.test(timeString)) {
+                return timeString;
+            }
+            
+            const [hoursStr, minutesStr] = timeString.split(':');
+            const hour = parseInt(hoursStr, 10);
+            const minutes = parseInt(minutesStr, 10);
+            
+            // Validate parsed values
+            if (isNaN(hour) || isNaN(minutes)) {
+                return timeString;
+            }
+            
             const ampm = hour >= 12 ? 'PM' : 'AM';
             const hour12 = hour % 12 || 12;
-            return `${hour12}:${minutes} ${ampm}`;
+            return `${hour12}:${minutes.toString().padStart(2, '0')} ${ampm}`;
         } catch (error) {
             return timeString; // Return original if parsing fails
         }
@@ -409,8 +422,9 @@ const SchedulePage = () => {
 
     return (
         <>
+            <AnimatedBackground />
             <PageFade />
-            <div className={`min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 px-4 sm:px-6 py-4 sm:py-6 relative overflow-hidden ${
+            <div className={`min-h-screen px-4 sm:px-6 py-4 sm:py-6 relative overflow-hidden bg-transparent z-10 ${
                 typeof window !== 'undefined' && document.documentElement.classList.contains('dark')
                   ? 'animate-fadeIn-dark'
                   : 'animate-fadeIn'
@@ -418,6 +432,20 @@ const SchedulePage = () => {
                 {/* Subtle Grid Pattern - Simplified */}
                 <div className="absolute inset-0 pointer-events-none">
                   <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(0,0,0,0.05)_1px,transparent_0)] bg-[length:20px_20px] dark:bg-[radial-gradient(circle_at_1px_1px,rgba(255,255,255,0.05)_1px,transparent_0)]"></div>
+                </div>
+
+                {/* Red Glow Effect - Dark Mode Only */}
+                <div className="absolute inset-0 pointer-events-none dark:block hidden">
+                  <div
+                    className="absolute inset-0 z-0"
+                    style={{
+                      backgroundImage: `
+                        radial-gradient(circle at 50% 140%, rgba(110, 70, 70, 0.5) 0%, transparent 60%),
+                        radial-gradient(circle at 50% 140%, rgba(241, 99, 99, 0.4) 0%, transparent 70%),
+                        radial-gradient(circle at 50% 140%, rgba(208, 181, 181, 0.3) 0%, transparent 80%)
+                      `,
+                    }}
+                  />
                 </div>
                 <div className="w-full">
                     {/* Enhanced Header */}
@@ -599,16 +627,92 @@ const SchedulePage = () => {
                                         ))}
                                     </div>
                                 ) : (
-                                    <div className="text-center py-8 sm:py-12">
-                                        <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-gray-200 to-gray-300 dark:from-gray-600 dark:to-gray-700 rounded-2xl sm:rounded-3xl flex items-center justify-center text-3xl sm:text-4xl mx-auto mb-3 sm:mb-4">
-                                            <MdEvent className="w-8 h-8 sm:w-10 sm:h-10 text-gray-500 dark:text-gray-400" />
+                                    <div className="text-center py-8 sm:py-12 max-w-md mx-auto">
+                                        {/* Calendar with empty day illustration - Red Theme */}
+                                        <div className="relative w-24 h-24 sm:w-32 sm:h-32 mx-auto mb-6 animate-float">
+                                            {/* Soft glow */}
+                                            <div className="absolute inset-0 bg-red-100/70 dark:bg-red-900/30 rounded-2xl blur-lg opacity-50"></div>
+                                            
+                                            {/* Calendar card */}
+                                            <div className="relative bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden border border-gray-200 dark:border-gray-700 w-full h-full flex flex-col">
+                                                {/* Calendar header */}
+                                                <div className="bg-gradient-to-r from-red-500 to-red-600 dark:from-red-600 dark:to-red-700 h-1/4 flex items-center justify-center">
+                                                    <div className="flex space-x-1.5 mt-0.5">
+                                                        <div className="w-1 h-1 bg-white/60 rounded-full"></div>
+                                                        <div className="w-1 h-1 bg-white/60 rounded-full"></div>
+                                                        <div className="w-1 h-1 bg-white/60 rounded-full"></div>
+                                                    </div>
+                                                </div>
+                                                
+                                                {/* Calendar body with animated dashed outline */}
+                                                <div className="flex-1 flex items-center justify-center">
+                                                    <div className="w-2/3 h-2/3 rounded-lg border-2 border-dashed border-red-300 dark:border-red-600/70 animate-pulse flex items-center justify-center">
+                                                        <svg className="w-4 h-4 text-red-400 dark:text-red-500 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                                        </svg>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <h3 className="text-lg sm:text-xl font-bold text-gray-700 dark:text-gray-100 mb-2">
-                                            No events scheduled
+                                        
+                                        <h3 className="text-xl sm:text-2xl font-bold text-gray-800 dark:text-gray-100 mb-3 sm:mb-4">
+                                            <span className="bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-red-600 dark:from-red-400 dark:to-red-500">
+                                                No events scheduled
+                                            </span>
                                         </h3>
-                                        <p className="text-gray-500 dark:text-gray-400 text-xs sm:text-sm">
-                                            Select a different date to view events
+                                        
+                                        <p className="text-gray-600 dark:text-gray-300 text-sm sm:text-base mb-6">
+                                            There are no events on this date
                                         </p>
+                                        
+                                        <div className="flex justify-center">
+                                            <button 
+                                                onClick={() => {
+                                                    // Find the next upcoming event from the selected date
+                                                    const currentDate = selectedDate || new Date();
+                                                    
+                                                    // Format the current date in YYYY-MM-DD format without timezone issues
+                                                    const year = currentDate.getFullYear();
+                                                    const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+                                                    const day = String(currentDate.getDate()).padStart(2, '0');
+                                                    const currentDateStr = `${year}-${month}-${day}`;
+                                                    
+                                                    // Filter future events (including today)
+                                                    const futureEvents = allEvents.filter(event => {
+                                                        return event.date >= currentDateStr;
+                                                    }).sort((a, b) => a.date.localeCompare(b.date));
+                                                    
+                                                    // If there are future events, navigate to the closest one
+                                                    if (futureEvents.length > 0) {
+                                                        const nextEvent = futureEvents[0];
+                                                        
+                                                        // Parse date parts to create a date that won't be affected by timezone
+                                                        const [nextYear, nextMonth, nextDay] = nextEvent.date.split('-').map(Number);
+                                                        
+                                                        // Create date with local timezone (months are 0-indexed in JS)
+                                                        const nextEventDate = new Date(nextYear, nextMonth - 1, nextDay);
+                                                        
+                                                        // Update the month view if needed
+                                                        if (nextEventDate.getMonth() !== currentMonth.getMonth() ||
+                                                            nextEventDate.getFullYear() !== currentMonth.getFullYear()) {
+                                                            setCurrentMonth(new Date(nextYear, nextMonth - 1, 1)); // Set to first of month
+                                                        }
+                                                        
+                                                        // Select the exact date of the next event
+                                                        setSelectedDate(nextEventDate);
+                                                    } else {
+                                                        // If no future events, show an alert
+                                                        alert("No upcoming events found.");
+                                                    }
+                                                }}
+                                                className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-medium rounded-full shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105"
+                                            >
+                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13a1 1 0 102 0V9.414l1.293 1.293a1 1 0 001.414-1.414z" clipRule="evenodd" />
+                                                </svg>
+                                                Jump to Next Event
+                                            </button>
+                                        </div>
                                     </div>
                                 )}
                             </div>
