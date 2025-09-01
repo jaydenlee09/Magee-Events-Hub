@@ -74,20 +74,20 @@ const FilterButtons: React.FC<FilterButtonsProps> = ({
       {/* Category Pills - Horizontal Scrollable (Primary Filtering Interface) */}
       <div className="relative">
         {/* Scrollable Categories */}
-        <div className="flex overflow-x-auto pb-3 scrollbar-hide pl-4 md:pl-8 lg:pl-12 pr-4 gap-2.5">
+        <div className="flex overflow-x-auto pb-2 xs:pb-3 scrollbar-hide pl-4 md:pl-8 lg:pl-12 pr-4 gap-1.5 xs:gap-2 sm:gap-2.5">
           <button
             onClick={() => {
               setActiveFilter("All Events");
               setSelectedClubFilter(null);
             }}
-            className={`flex-shrink-0 flex items-center gap-1.5 px-4 py-2.5 rounded-full transition-all ${
+            className={`flex-shrink-0 flex items-center gap-1 xs:gap-1.5 px-2.5 xs:px-3 sm:px-4 py-1.5 xs:py-2 sm:py-2.5 rounded-full transition-all text-xs xs:text-sm sm:text-base ${
               activeFilter === "All Events" && !selectedClubFilter
                 ? 'bg-gradient-to-r from-red-500 to-red-600 text-white shadow-md shadow-red-500/20'
                 : 'bg-white/90 dark:bg-gray-800/90 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-700 hover:border-red-300 dark:hover:border-red-700 shadow-sm'
             }`}
             aria-label="Filter by All Events"
           >
-            <div className="flex items-center justify-center">
+            <div className="flex items-center justify-center w-3.5 h-3.5 xs:w-4 xs:h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 xl:w-[25px] xl:h-[25px]">
               {categoryIcons["All Events"]}
             </div>
             <span className="whitespace-nowrap font-medium">All Events</span>
@@ -100,14 +100,14 @@ const FilterButtons: React.FC<FilterButtonsProps> = ({
                 setActiveFilter(category);
                 setSelectedClubFilter(null);
               }}
-              className={`flex-shrink-0 flex items-center gap-1.5 px-4 py-2.5 rounded-full transition-all ${
+              className={`flex-shrink-0 flex items-center gap-1 xs:gap-1.5 px-2.5 xs:px-3 sm:px-4 py-1.5 xs:py-2 sm:py-2.5 rounded-full transition-all text-xs xs:text-sm sm:text-base ${
                 activeFilter === category && !selectedClubFilter
                   ? 'bg-gradient-to-r ' + getCategoryGradient(category) + ' text-white shadow-md'
                   : 'bg-white/90 dark:bg-gray-800/90 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-700 hover:border-red-300 dark:hover:border-red-700 shadow-sm'
               }`}
               aria-label={`Filter by ${category}`}
             >
-              <div className="flex items-center justify-center">
+              <div className="flex items-center justify-center w-3.5 h-3.5 xs:w-4 xs:h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 xl:w-[25px] xl:h-[25px]">
                 {categoryIcons[category]}
               </div>
               <span className="whitespace-nowrap font-medium">{category}</span>

@@ -28,14 +28,14 @@ export const categories = [
  * Map each category to its corresponding icon with responsive sizing
  */
 export const categoryIcons: Record<string, React.ReactNode> = {
-  "All Events": <Calendar className="w-2.5 h-2.5 xs:w-3 xs:h-3 sm:w-4 sm:h-4 md:w-5 md:h-5 mr-0.5 xs:mr-1 sm:mr-1.5 md:mr-2" />,
-  "Academic": <AcademicIcon className="w-2.5 h-2.5 xs:w-3 xs:h-3 sm:w-4 sm:h-4 md:w-5 md:h-5 mr-0.5 xs:mr-1 sm:mr-1.5 md:mr-2" />,
-  "Sports": <Trophy className="w-2.5 h-2.5 xs:w-3 xs:h-3 sm:w-4 sm:h-4 md:w-5 md:h-5 mr-0.5 xs:mr-1 sm:mr-1.5 md:mr-2" />,
-  "Cultural": <Theater className="w-2.5 h-2.5 xs:w-3 xs:h-3 sm:w-4 sm:h-4 md:w-5 md:h-5 mr-0.5 xs:mr-1 sm:mr-1.5 md:mr-2" />,
-  "Social": <HeartHandshake className="w-2.5 h-2.5 xs:w-3 xs:h-3 sm:w-4 sm:h-4 md:w-5 md:h-5 mr-0.5 xs:mr-1 sm:mr-1.5 md:mr-2" />,
-  "Spirit Day": <Sparkles className="w-2.5 h-2.5 xs:w-3 xs:h-3 sm:w-4 sm:h-4 md:w-5 md:h-5 mr-0.5 xs:mr-1 sm:mr-1.5 md:mr-2" />,
-  "Club Event": <Users className="w-2.5 h-2.5 xs:w-3 xs:h-3 sm:w-4 sm:h-4 md:w-5 md:h-5 mr-0.5 xs:mr-1 sm:mr-1.5 md:mr-2" />,
-  "Other": <ClipboardList className="w-2.5 h-2.5 xs:w-3 xs:h-3 sm:w-4 sm:h-4 md:w-5 md:h-5 mr-0.5 xs:mr-1 sm:mr-1.5 md:mr-2" />,
+  "All Events": <Calendar className="w-2.5 h-2.5 xs:w-3 xs:h-3 sm:w-4 sm:h-4 md:w-5 md:h-5 lg:w-6 lg:h-6 xl:w-[25px] xl:h-[25px] mr-0.5 xs:mr-1 sm:mr-1.5 md:mr-2" />,
+  "Academic": <AcademicIcon className="w-2.5 h-2.5 xs:w-3 xs:h-3 sm:w-4 sm:h-4 md:w-5 md:h-5 lg:w-6 lg:h-6 xl:w-[25px] xl:h-[25px] mr-0.5 xs:mr-1 sm:mr-1.5 md:mr-2" />,
+  "Sports": <Trophy className="w-2.5 h-2.5 xs:w-3 xs:h-3 sm:w-4 sm:h-4 md:w-5 md:h-5 lg:w-6 lg:h-6 xl:w-[25px] xl:h-[25px] mr-0.5 xs:mr-1 sm:mr-1.5 md:mr-2" />,
+  "Cultural": <Theater className="w-2.5 h-2.5 xs:w-3 xs:h-3 sm:w-4 sm:h-4 md:w-5 md:h-5 lg:w-6 lg:h-6 xl:w-[25px] xl:h-[25px] mr-0.5 xs:mr-1 sm:mr-1.5 md:mr-2" />,
+  "Social": <HeartHandshake className="w-2.5 h-2.5 xs:w-3 xs:h-3 sm:w-4 sm:h-4 md:w-5 md:h-5 lg:w-6 lg:h-6 xl:w-[25px] xl:h-[25px] mr-0.5 xs:mr-1 sm:mr-1.5 md:mr-2" />,
+  "Spirit Day": <Sparkles className="w-2.5 h-2.5 xs:w-3 xs:h-3 sm:w-4 sm:h-4 md:w-5 md:h-5 lg:w-6 lg:h-6 xl:w-[25px] xl:h-[25px] mr-0.5 xs:mr-1 sm:mr-1.5 md:mr-2" />,
+  "Club Event": <Users className="w-2.5 h-2.5 xs:w-3 xs:h-3 sm:w-4 sm:h-4 md:w-5 md:h-5 lg:w-6 lg:h-6 xl:w-[25px] xl:h-[25px] mr-0.5 xs:mr-1 sm:mr-1.5 md:mr-2" />,
+  "Other": <ClipboardList className="w-2.5 h-2.5 xs:w-3 xs:h-3 sm:w-4 sm:h-4 md:w-5 md:h-5 lg:w-6 lg:h-6 xl:w-[25px] xl:h-[25px] mr-0.5 xs:mr-1 sm:mr-1.5 md:mr-2" />,
 };
 
 /**

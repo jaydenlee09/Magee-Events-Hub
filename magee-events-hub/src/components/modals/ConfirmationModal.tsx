@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 interface ConfirmationModalProps {
   isOpen: boolean;
@@ -10,7 +10,7 @@ interface ConfirmationModalProps {
 }
 
 /**
- * Reusable confirmation modal component
+ * Reusable confirmation modal component with smooth animations
  */
 const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   isOpen,
@@ -20,25 +20,60 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   onConfirm,
   onCancel
 }) => {
-  if (!isOpen) return null;
+  const [isVisible, setIsVisible] = useState(false);
+  const [isClosing, setIsClosing] = useState(false);
+  
+  useEffect(() => {
+    if (isOpen) {
+      setIsVisible(true);
+      setIsClosing(false);
+    }
+  }, [isOpen]);
+  
+  const handleClose = () => {
+    setIsClosing(true);
+    // Wait for animation to complete before calling onCancel
+    setTimeout(() => {
+      setIsVisible(false);
+      onCancel();
+    }, 300); // Match animation duration (0.3s)
+  };
+  
+  const handleConfirm = () => {
+    setIsClosing(true);
+    // Wait for animation to complete before calling onConfirm
+    setTimeout(() => {
+      setIsVisible(false);
+      onConfirm();
+    }, 300); // Match animation duration (0.3s)
+  };
+
+  if (!isOpen && !isVisible) return null;
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50">
-      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onCancel}></div>
+      <div 
+        className={`absolute inset-0 bg-black/60 backdrop-blur-sm ${
+          isClosing ? 'animate-fadeOut' : 'animate-fadeIn'
+        }`} 
+        onClick={handleClose}
+      ></div>
       
-      <div className="relative bg-white dark:bg-gray-800 rounded-2xl p-6 sm:p-8 max-w-md w-11/12 shadow-2xl">
+      <div className={`relative bg-white dark:bg-gray-800 rounded-2xl p-6 sm:p-8 max-w-md w-11/12 shadow-2xl ${
+        isClosing ? 'animate-scaleOut' : 'animate-scaleIn'
+      }`}>
         <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-2">{title}</h3>
         <p className="text-gray-700 dark:text-gray-300 mb-6">{message}</p>
         
         <div className="flex justify-end gap-3">
           <button
-            onClick={onCancel}
+            onClick={handleClose}
             className="px-4 py-2 rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
           >
             Cancel
           </button>
           <button
-            onClick={onConfirm}
+            onClick={handleConfirm}
             className="px-4 py-2 rounded-lg bg-red-500 text-white hover:bg-red-600 transition-colors"
           >
             {confirmButtonText}

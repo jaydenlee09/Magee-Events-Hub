@@ -362,98 +362,98 @@ const EventsPage: React.FC = () => {
       <AnimatedBackground />
       {/* Club Details Modal */}
       {selectedClub && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 dark:bg-black/80 backdrop-blur-xl p-4">
-          <div className="relative bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl rounded-2xl sm:rounded-3xl shadow-2xl max-w-2xl w-full mx-auto animate-fadeIn border border-white/20 dark:border-gray-700/50 max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 dark:bg-black/80 backdrop-blur-xl p-2 xs:p-3 sm:p-4">
+          <div className="relative bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl rounded-xl xs:rounded-2xl sm:rounded-3xl shadow-2xl max-w-[95%] xs:max-w-[85%] sm:max-w-md md:max-w-lg w-full mx-auto animate-fadeIn border border-white/20 dark:border-gray-700/50 max-h-[85vh] overflow-y-auto">
             <button
-              className="absolute top-4 right-4 sm:top-6 sm:right-6 bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:text-red-500 dark:hover:text-red-400 hover:bg-gray-300 dark:hover:bg-gray-600 text-2xl sm:text-3xl font-bold focus:outline-none transition-all duration-200 hover:scale-110 rounded-xl w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center"
+              className="absolute top-1.5 right-1.5 xs:top-2 xs:right-2 sm:top-3 sm:right-3 md:top-4 md:right-4 bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:text-red-500 dark:hover:text-red-400 hover:bg-gray-300 dark:hover:bg-gray-600 text-lg xs:text-xl sm:text-2xl font-bold focus:outline-none transition-all duration-200 hover:scale-110 rounded-lg sm:rounded-xl w-6 h-6 xs:w-7 xs:h-7 sm:w-8 sm:h-8 md:w-9 md:h-9 flex items-center justify-center"
               onClick={() => setSelectedClub(null)}
             >
               ×
             </button>
 
-            <div className="p-6 sm:p-8">
+            <div className="p-3 xs:p-4 sm:p-5 md:p-6">
               {/* Club Header */}
-              <div className="flex items-center gap-6 mb-8">
-                <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-red-500 to-red-600 rounded-2xl flex items-center justify-center text-white shadow-lg">
-                  {iconMap[selectedClub.icon || "Users"] || <Users className="w-8 h-8 sm:w-10 sm:h-10" />}
+              <div className="flex items-start gap-2.5 xs:gap-3 sm:gap-4 md:gap-5 mb-3 xs:mb-4 sm:mb-5 md:mb-6">
+                <div className="w-10 h-10 xs:w-12 xs:h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-gradient-to-br from-red-500 to-red-600 rounded-lg xs:rounded-xl sm:rounded-2xl flex items-center justify-center text-white shadow-lg">
+                  {iconMap[selectedClub.icon || "Users"] || <Users className="w-5 h-5 xs:w-6 xs:h-6 sm:w-7 sm:h-7 md:w-8 md:h-8" />}
                 </div>
-                <div>
-                  <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-2">
+                <div className="flex-1 min-w-0">
+                  <h2 className="text-base xs:text-lg sm:text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-1 truncate">
                     {selectedClub.name}
                   </h2>
-                  <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-200">
+                  <span className="inline-flex items-center px-1.5 xs:px-2 py-0.5 rounded-full text-xs font-medium bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-200">
                     {selectedClub.category}
                   </span>
                 </div>
               </div>
 
               {/* Club Description */}
-              <div className="prose prose-gray dark:prose-invert max-w-none mb-8">
-                <p className="text-gray-700 dark:text-gray-200 text-lg leading-relaxed">
+              <div className="prose prose-gray dark:prose-invert max-w-none mb-3 xs:mb-4 sm:mb-5 md:mb-6">
+                <p className="text-gray-700 dark:text-gray-200 text-xs xs:text-sm sm:text-base leading-relaxed">
                   {selectedClub.description}
                 </p>
               </div>
 
               {/* Meeting Details */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+              <div className="grid grid-cols-1 xs:grid-cols-2 gap-1.5 xs:gap-2 sm:gap-3 mb-3 xs:mb-4 sm:mb-6">
                 {selectedClub.meetingDays && (
-                  <div className="flex items-center gap-3 p-4 bg-gray-50 dark:bg-gray-800 rounded-xl">
-                    <Calendar className="w-6 h-6 text-red-500" />
+                  <div className="flex items-center gap-1.5 xs:gap-2 p-2 xs:p-2.5 sm:p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                    <Calendar className="w-3.5 h-3.5 xs:w-4 xs:h-4 sm:w-5 sm:h-5 text-red-500 flex-shrink-0" />
                     <div>
-                      <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Meeting Days</p>
-                      <p className="font-semibold text-gray-900 dark:text-white">{selectedClub.meetingDays}</p>
+                      <p className="text-[10px] xs:text-xs font-medium text-gray-500 dark:text-gray-400">Meeting Days</p>
+                      <p className="font-semibold text-gray-900 dark:text-white text-xs xs:text-xs sm:text-sm">{selectedClub.meetingDays}</p>
                     </div>
                   </div>
                 )}
                 {selectedClub.meetingTime && (
-                  <div className="flex items-center gap-3 p-4 bg-gray-50 dark:bg-gray-800 rounded-xl">
-                    <Clock className="w-6 h-6 text-red-500" />
+                  <div className="flex items-center gap-1.5 xs:gap-2 p-2 xs:p-2.5 sm:p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                    <Clock className="w-3.5 h-3.5 xs:w-4 xs:h-4 sm:w-5 sm:h-5 text-red-500 flex-shrink-0" />
                     <div>
-                      <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Meeting Time</p>
-                      <p className="font-semibold text-gray-900 dark:text-white">{selectedClub.meetingTime}</p>
+                      <p className="text-[10px] xs:text-xs font-medium text-gray-500 dark:text-gray-400">Meeting Time</p>
+                      <p className="font-semibold text-gray-900 dark:text-white text-xs xs:text-xs sm:text-sm">{selectedClub.meetingTime}</p>
                     </div>
                   </div>
                 )}
                 {selectedClub.location && (
-                  <div className="flex items-center gap-3 p-4 bg-gray-50 dark:bg-gray-800 rounded-xl">
-                    <MapPin className="w-6 h-6 text-red-500" />
+                  <div className="flex items-center gap-1.5 xs:gap-2 p-2 xs:p-2.5 sm:p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                    <MapPin className="w-3.5 h-3.5 xs:w-4 xs:h-4 sm:w-5 sm:h-5 text-red-500 flex-shrink-0" />
                     <div>
-                      <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Location</p>
-                      <p className="font-semibold text-gray-900 dark:text-white">{selectedClub.location}</p>
+                      <p className="text-[10px] xs:text-xs font-medium text-gray-500 dark:text-gray-400">Location</p>
+                      <p className="font-semibold text-gray-900 dark:text-white text-xs xs:text-xs sm:text-sm">{selectedClub.location}</p>
                     </div>
                   </div>
                 )}
                 {selectedClub.members !== undefined && (
-                  <div className="flex items-center gap-3 p-4 bg-gray-50 dark:bg-gray-800 rounded-xl">
-                    <Users className="w-6 h-6 text-red-500" />
+                  <div className="flex items-center gap-1.5 xs:gap-2 p-2 xs:p-2.5 sm:p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                    <Users className="w-3.5 h-3.5 xs:w-4 xs:h-4 sm:w-5 sm:h-5 text-red-500 flex-shrink-0" />
                     <div>
-                      <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Members</p>
-                      <p className="font-semibold text-gray-900 dark:text-white">{selectedClub.members} members</p>
+                      <p className="text-[10px] xs:text-xs font-medium text-gray-500 dark:text-gray-400">Members</p>
+                      <p className="font-semibold text-gray-900 dark:text-white text-xs xs:text-xs sm:text-sm">{selectedClub.members} members</p>
                     </div>
                   </div>
                 )}
               </div>
 
               {/* Sponsor Info and Contact Section */}
-              <div className="pt-6 border-t border-gray-200 dark:border-gray-700 space-y-6">
+              <div className="pt-2 xs:pt-3 sm:pt-4 border-t border-gray-200 dark:border-gray-700 space-y-2 xs:space-y-3 sm:space-y-4">
                 {/* Sponsor Info */}
                 {selectedClub.sponsor && (
-                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                  <p className="text-[10px] xs:text-xs sm:text-sm text-gray-500 dark:text-gray-400">
                     Sponsored by <span className="font-semibold text-gray-900 dark:text-white">{selectedClub.sponsor}</span>
                   </p>
                 )}
 
                 {/* Contact Leaders Section */}
-                <div className="space-y-3">
-                  <p className="text-sm font-medium text-gray-900 dark:text-white">Contact Club Leaders</p>
-                  <div className="flex items-center gap-3 p-4 bg-gray-50 dark:bg-gray-800/50 rounded-xl border border-gray-200/50 dark:border-gray-700/50">
-                    <div className="w-10 h-10 bg-red-100 dark:bg-red-900/30 rounded-lg flex items-center justify-center text-red-600 dark:text-red-400">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <div className="space-y-1 xs:space-y-1.5 sm:space-y-2">
+                  <p className="text-[10px] xs:text-xs sm:text-sm font-medium text-gray-900 dark:text-white">Contact Club Leaders</p>
+                  <div className="flex items-center gap-1.5 xs:gap-2 p-2 xs:p-2.5 sm:p-3 bg-gray-50 dark:bg-gray-800/50 rounded-lg border border-gray-200/50 dark:border-gray-700/50">
+                    <div className="w-6 h-6 xs:w-7 xs:h-7 sm:w-8 sm:h-8 bg-red-100 dark:bg-red-900/30 rounded-lg flex items-center justify-center text-red-600 dark:text-red-400 flex-shrink-0">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="w-3 h-3 xs:w-3.5 xs:h-3.5 sm:w-4 sm:h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
                         <polyline points="22,6 12,13 2,6"></polyline>
                       </svg>
                     </div>
-                    <a href={`mailto:${selectedClub.leaderEmail || 'club.leader@learn.vsb.bc.ca'}`} className="text-red-600 dark:text-red-400 font-medium hover:text-red-700 dark:hover:text-red-300 transition-colors flex-1 truncate">
+                    <a href={`mailto:${selectedClub.leaderEmail || 'club.leader@learn.vsb.bc.ca'}`} className="text-red-600 dark:text-red-400 font-medium hover:text-red-700 dark:hover:text-red-300 transition-colors flex-1 truncate text-[10px] xs:text-xs sm:text-sm">
                       {selectedClub.leaderEmail || 'club.leader@learn.vsb.bc.ca'}
                     </a>
                     <button
@@ -466,16 +466,16 @@ const EventsPage: React.FC = () => {
                         }
                       }}
                       id="clubEmailCopyButton"
-                      className="group relative ml-2 w-8 h-8 bg-white dark:bg-gray-800 rounded-lg flex items-center justify-center text-gray-500 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 border border-gray-200 dark:border-gray-700 transition-all duration-200 hover:border-red-200 dark:hover:border-red-800"
+                      className="group relative ml-1 xs:ml-2 w-5 h-5 xs:w-6 xs:h-6 sm:w-7 sm:h-7 bg-white dark:bg-gray-800 rounded-md xs:rounded-lg flex items-center justify-center text-gray-500 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 border border-gray-200 dark:border-gray-700 transition-all duration-200 hover:border-red-200 dark:hover:border-red-800 flex-shrink-0"
                     >
-                      <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 transition-opacity duration-200 group-[.copied]:opacity-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="w-2.5 h-2.5 xs:w-3 xs:h-3 sm:w-3.5 sm:h-3.5 transition-opacity duration-200 group-[.copied]:opacity-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                         <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                         <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
                       </svg>
-                      <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 absolute opacity-0 transition-opacity duration-200 text-green-500 dark:text-green-400 group-[.copied]:opacity-100" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="w-2.5 h-2.5 xs:w-3 xs:h-3 sm:w-3.5 sm:h-3.5 absolute opacity-0 transition-opacity duration-200 text-green-500 dark:text-green-400 group-[.copied]:opacity-100" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                         <polyline points="20 6 9 17 4 12"></polyline>
                       </svg>
-                      <span className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white text-xs py-1 px-2 rounded opacity-0 transition-opacity duration-200 group-[.copied]:opacity-100 whitespace-nowrap">
+                      <span className="absolute -top-6 xs:-top-7 sm:-top-8 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white text-[8px] xs:text-[10px] sm:text-xs py-0.5 px-1 xs:px-1.5 rounded opacity-0 transition-opacity duration-200 group-[.copied]:opacity-100 whitespace-nowrap">
                         Copied!
                       </span>
                     </button>
@@ -524,12 +524,12 @@ const EventsPage: React.FC = () => {
           />
         </div>
         <div className="max-w-7xl mx-auto">
-          {/* Enhanced Header - Mobile optimized */}
-          <div className="text-center mb-3 xs:mb-4 sm:mb-6 md:mb-8 pt-0 xs:pt-2 sm:pt-4 md:pt-8">
-            <h1 className="text-lg xs:text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-1 sm:mb-2 md:mb-3 tracking-tight">
+          {/* Enhanced Header - Consistent with other pages */}
+          <div className="text-center mb-4 sm:mb-8 md:mb-8 pt-4 sm:pt-12 md:pt-16">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4 tracking-tight">
               Magee Events Hub
             </h1>
-            <p className="text-xs xs:text-sm sm:text-base md:text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto leading-relaxed px-1 xs:px-2 sm:px-4">
+            <p className="text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto leading-relaxed px-4">
               Discover, join, and enjoy amazing events happening at Magee! 
             </p>
           </div>
@@ -574,34 +574,34 @@ const EventsPage: React.FC = () => {
             />
           )}
           {activeView === 'clubs' && (
-            <div className="max-w-4xl mx-auto mb-12 relative group">
-              <div className="relative overflow-hidden backdrop-blur-sm transition-all duration-500 rounded-3xl bg-gradient-to-r from-white/90 via-gray-50/90 to-white/90 dark:from-gray-800/90 dark:via-gray-700/90 dark:to-gray-800/90 shadow-lg border border-red-200/30 dark:border-red-700/20 hover:shadow-xl hover:border-red-200/50 dark:hover:border-red-700/30">
+            <div className="max-w-4xl mx-auto mb-6 xs:mb-8 sm:mb-10 md:mb-12 px-2 xs:px-3 sm:px-4 relative group">
+              <div className="relative overflow-hidden backdrop-blur-sm transition-all duration-500 rounded-xl xs:rounded-2xl sm:rounded-3xl bg-gradient-to-r from-white/90 via-gray-50/90 to-white/90 dark:from-gray-800/90 dark:via-gray-700/90 dark:to-gray-800/90 shadow-lg border border-red-200/30 dark:border-red-700/20 hover:shadow-xl hover:border-red-200/50 dark:hover:border-red-700/30">
                 {/* Subtle decorative elements */}
                 <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-red-500/10 via-pink-500/5 to-purple-500/5 blur-3xl transform rotate-12 group-hover:rotate-[30deg] transition-transform duration-700"></div>
                 <div className="absolute bottom-0 left-0 w-96 h-96 bg-gradient-to-tr from-blue-500/5 via-cyan-500/5 to-red-500/5 blur-3xl transform -rotate-12 group-hover:-rotate-[30deg] transition-transform duration-700"></div>
                 
                 {/* Main content with padding */}
-                <div className="relative p-6 md:p-8">
-                  {/* Icon and heading - improved for mobile */}
-                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
-                    <div className="flex items-center gap-3 sm:gap-4">
-                      <div className="w-12 h-12 sm:w-14 sm:h-14 bg-red-100 dark:bg-red-900/30 rounded-xl flex items-center justify-center text-red-500 dark:text-red-400 shadow-sm transform transition-transform duration-500 group-hover:scale-110">
-                        <Users className="w-6 h-6 sm:w-7 sm:h-7" />
+                <div className="relative p-4 xs:p-5 sm:p-6">
+                  {/* Icon and heading - improved for mobile with always horizontal layout */}
+                  <div className="flex items-center justify-between gap-2 xs:gap-3">
+                    <div className="flex items-center min-w-0">
+                      <div className="w-10 h-10 xs:w-12 xs:h-12 sm:w-14 sm:h-14 flex-shrink-0 bg-red-100 dark:bg-red-900/30 rounded-xl flex items-center justify-center text-red-500 dark:text-red-400 shadow-sm transform transition-transform duration-500 group-hover:scale-110">
+                        <Users className="w-5 h-5 xs:w-6 xs:h-6 sm:w-7 sm:h-7" />
                       </div>
-                      <div>
-                        <div className="flex flex-wrap items-center gap-2 sm:gap-3">
-                          <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-800 dark:text-gray-100 tracking-tight">
+                      <div className="ml-2 xs:ml-3 min-w-0 flex-1">
+                        <div className="flex flex-wrap items-center gap-1 xs:gap-2">
+                          <h3 className="text-base xs:text-lg sm:text-xl md:text-2xl font-bold text-gray-800 dark:text-gray-100 tracking-tight truncate">
                             Don't see your club?
                           </h3>
                           {/* Compact email link when minimized */}
                           <div className={`transition-all duration-300 ease-in-out overflow-hidden ${minimizedClubNote ? 'max-w-xs opacity-100' : 'max-w-0 opacity-0'}`}>
-                            <a href="mailto:1236885@learn.vsb.bc.ca" className="text-sm text-red-500 dark:text-red-400 font-medium hover:text-red-600 dark:hover:text-red-300 transition-colors whitespace-nowrap">
+                            <a href="mailto:1236885@learn.vsb.bc.ca" className="text-xs xs:text-sm text-red-500 dark:text-red-400 font-medium hover:text-red-600 dark:hover:text-red-300 transition-colors whitespace-nowrap">
                               Contact us
                             </a>
                           </div>
                         </div>
-                        <div className={`transition-all duration-300 ease-in-out overflow-hidden ${minimizedClubNote ? 'max-h-0 opacity-0' : 'max-h-20 opacity-100 mt-2'}`}>
-                          <p className="text-base text-gray-600 dark:text-gray-300">
+                        <div className={`transition-all duration-300 ease-in-out overflow-hidden ${minimizedClubNote ? 'max-h-0 opacity-0' : 'max-h-20 opacity-100 mt-1'}`}>
+                          <p className="text-xs xs:text-sm sm:text-base text-gray-600 dark:text-gray-300">
                             Help us make the Magee Events Hub more complete!
                           </p>
                         </div>
@@ -609,7 +609,7 @@ const EventsPage: React.FC = () => {
                     </div>
                     <button 
                       onClick={() => setMinimizedClubNote(prev => !prev)}
-                      className="flex-shrink-0 w-10 h-10 rounded-lg flex items-center justify-center bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+                      className="flex-shrink-0 w-8 h-8 xs:w-9 xs:h-9 sm:w-10 sm:h-10 rounded-lg flex items-center justify-center bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
                       aria-label={minimizedClubNote ? "Expand note" : "Minimize note"}
                     >
                       {minimizedClubNote ? (
@@ -787,7 +787,7 @@ const EventsPage: React.FC = () => {
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 mb-0.5 sm:mb-1">
-                            <span className={`inline-flex items-center px-1.5 sm:px-2 py-0.5 rounded-full text-[10px] sm:text-xs font-medium uppercase tracking-wide ${getCategoryColor(event.category)}`}>
+                            <span className={`inline-flex items-center px-1.5 sm:px-2 py-0.5 rounded-full text-[10px] sm:text-xs font-medium uppercase tracking-wide w-fit ${getCategoryColor(event.category)}`}>
                               {event.category}
                             </span>
                           </div>
@@ -874,7 +874,7 @@ const EventsPage: React.FC = () => {
             )}
           </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 xs:gap-4 sm:gap-6 md:gap-8 lg:gap-10 px-2 xs:px-3 sm:px-4 md:px-5">
+            <div className="grid grid-cols-1 xs:grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 xs:gap-4 sm:gap-5 md:gap-6 lg:gap-8 px-2 xs:px-3 sm:px-4 md:px-5">
               {loading ? (
                 <>
                   <SkeletonCard />
@@ -899,90 +899,90 @@ const EventsPage: React.FC = () => {
                 clubs.map((club) => (
                   <div 
                     key={club.id}
-                    className="group relative bg-white/90 dark:bg-gray-800/90 backdrop-blur-md rounded-3xl shadow-xl border border-gray-100/50 dark:border-gray-700/50 overflow-hidden transition-all duration-500 hover:shadow-2xl hover:scale-[1.02] hover:border-red-200 dark:hover:border-red-700 flex flex-col"
+                    className="group relative bg-white/90 dark:bg-gray-800/90 backdrop-blur-md rounded-xl xs:rounded-2xl sm:rounded-3xl shadow-xl border border-gray-100/50 dark:border-gray-700/50 overflow-hidden transition-all duration-500 hover:shadow-2xl hover:scale-[1.02] hover:border-red-200 dark:hover:border-red-700 flex flex-col"
                   >
                     {/* Soft gradient background */}
                     <div className="absolute inset-0 bg-gradient-to-br from-gray-50/90 via-white/95 to-gray-50/90 dark:from-gray-800/90 dark:via-gray-800/95 dark:to-gray-800/90 opacity-100 group-hover:opacity-90 transition-opacity duration-500"></div>
                     
                     {/* Decorative shapes and accents */}
-                    <div className="absolute top-0 right-0 w-48 h-48 bg-gradient-to-br from-red-500/5 via-pink-500/5 to-purple-500/5 blur-3xl transform rotate-12 group-hover:rotate-[30deg] transition-transform duration-700"></div>
-                    <div className="absolute bottom-0 left-0 w-48 h-48 bg-gradient-to-tr from-blue-500/5 via-cyan-500/5 to-teal-500/5 blur-3xl transform -rotate-12 group-hover:-rotate-[30deg] transition-transform duration-700"></div>
+                    <div className="absolute top-0 right-0 w-36 xs:w-40 sm:w-48 h-36 xs:h-40 sm:h-48 bg-gradient-to-br from-red-500/5 via-pink-500/5 to-purple-500/5 blur-3xl transform rotate-12 group-hover:rotate-[30deg] transition-transform duration-700"></div>
+                    <div className="absolute bottom-0 left-0 w-36 xs:w-40 sm:w-48 h-36 xs:h-40 sm:h-48 bg-gradient-to-tr from-blue-500/5 via-cyan-500/5 to-teal-500/5 blur-3xl transform -rotate-12 group-hover:-rotate-[30deg] transition-transform duration-700"></div>
                     
                     {/* Top Image */}
-                    <div className="relative h-44 overflow-hidden">
+                    <div className="relative h-28 xs:h-32 sm:h-36 md:h-44 overflow-hidden">
                       <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/20 to-black/60 z-10"></div>
                       <img
                         src={`https://source.unsplash.com/800x400/?${club.category.toLowerCase()},${club.name.toLowerCase().replace(/\s+/g, '')}`}
                         alt={club.name}
                         className="w-full h-full object-cover object-center transform group-hover:scale-110 transition-transform duration-700 filter brightness-95"
                       />
-                      <div className="absolute top-4 left-4">
+                      <div className="absolute top-3 xs:top-4 left-3 xs:left-4">
                         <img 
                           src={`https://source.unsplash.com/100x100/?icon,${club.category.toLowerCase()}`} 
                           alt={`${club.name} icon`}
-                          className="w-8 h-8 rounded-lg object-cover opacity-0"
+                          className="w-6 xs:w-7 sm:w-8 h-6 xs:h-7 sm:h-8 rounded-lg object-cover opacity-0"
                         />
                       </div>
                     </div>
                     
                     {/* Club Icon - Styled similar to the screenshot */}
-                    <div className="relative z-20 -mt-8 ml-5">
-                      <div className="w-16 h-16 bg-red-500 rounded-xl flex items-center justify-center text-white shadow-lg relative overflow-hidden">
+                    <div className="relative z-20 -mt-6 xs:-mt-7 sm:-mt-8 ml-3 xs:ml-4 sm:ml-5">
+                      <div className="w-12 h-12 xs:w-14 xs:h-14 sm:w-16 sm:h-16 bg-red-500 rounded-lg xs:rounded-xl flex items-center justify-center text-white shadow-lg relative overflow-hidden">
                         {/* Dynamic gradient based on category */}
                         <div className="absolute inset-0 bg-gradient-to-br from-red-400 to-red-600"></div>
                         <div className="relative z-10">
-                          {iconMap[club.icon || "Users"] || <Users className="w-8 h-8" />}
+                          {iconMap[club.icon || "Users"] || <Users className="w-6 h-6 xs:w-7 xs:h-7 sm:w-8 sm:h-8" />}
                         </div>
                       </div>
                     </div>
 
                     {/* Content - Mobile optimized padding */}
-                    <div className="p-4 xs:p-5 sm:p-6 relative z-10 flex-grow">
+                    <div className="p-3 xs:p-4 sm:p-5 md:p-6 relative z-10 flex-grow">
                       {/* Title and Tag */}
-                      <div className="flex items-center justify-between mb-2">
-                        <h3 className="text-xl font-bold text-gray-900 dark:text-white tracking-tight">
+                      <div className="flex flex-col xs:flex-row xs:items-center justify-between gap-1 xs:gap-2 mb-1.5 xs:mb-2">
+                        <h3 className="text-base xs:text-lg sm:text-xl font-bold text-gray-900 dark:text-white tracking-tight line-clamp-1">
                           {club.name}
                         </h3>
-                        <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 border border-gray-200/50 dark:border-gray-700/50">
+                        <span className="inline-flex items-center px-2 xs:px-2.5 py-0.5 xs:py-1 rounded-full text-[10px] xs:text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 border border-gray-200/50 dark:border-gray-700/50 w-fit">
                           {club.category}
                         </span>
                       </div>
                       
                       {/* Member count */}
-                      <div className="flex items-center gap-1 text-gray-500 dark:text-gray-400 text-sm mb-3">
-                        <Users className="w-4 h-4" />
+                      <div className="flex items-center gap-1 text-gray-500 dark:text-gray-400 text-xs xs:text-sm mb-2 xs:mb-3">
+                        <Users className="w-3 h-3 xs:w-4 xs:h-4" />
                         <span>{club.members} members</span>
                       </div>
                       
                       {/* Meeting Schedule - Improved for mobile */}
-                      <div className="flex flex-col xs:flex-row xs:items-center flex-wrap mb-3 sm:mb-4 gap-2 xs:gap-3">
-                        <div className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-gray-500 dark:text-gray-400">
-                          <Calendar className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-500" />
+                      <div className="flex flex-col xs:flex-row xs:items-center flex-wrap mb-2 xs:mb-3 gap-1 xs:gap-2">
+                        <div className="flex items-center gap-1 xs:gap-1.5 text-[10px] xs:text-xs text-gray-500 dark:text-gray-400">
+                          <Calendar className="w-3 h-3 xs:w-3.5 xs:h-3.5 text-red-500" />
                           <span>{club.meetingDays || "Every Tuesday"}</span>
                         </div>
-                        <div className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-gray-500 dark:text-gray-400">
-                          <Clock className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-500" />
+                        <div className="flex items-center gap-1 xs:gap-1.5 text-[10px] xs:text-xs text-gray-500 dark:text-gray-400">
+                          <Clock className="w-3 h-3 xs:w-3.5 xs:h-3.5 text-red-500" />
                           <span>{club.meetingTime || "3:15 PM"}</span>
                         </div>
                       </div>
                       
                       {/* Description with better line clamping and backdrop blur - mobile optimized */}
-                      <div className="relative mb-4 sm:mb-6 bg-white/50 dark:bg-gray-900/50 backdrop-blur-sm rounded-xl p-2.5 sm:p-3 border border-gray-100/80 dark:border-gray-700/80">
-                        <p className="text-gray-600 dark:text-gray-300 text-xs sm:text-sm leading-relaxed line-clamp-3">
+                      <div className="relative mb-3 xs:mb-4 sm:mb-5 bg-white/50 dark:bg-gray-900/50 backdrop-blur-sm rounded-lg xs:rounded-xl p-2 xs:p-2.5 border border-gray-100/80 dark:border-gray-700/80">
+                        <p className="text-gray-600 dark:text-gray-300 text-[10px] xs:text-xs sm:text-sm leading-relaxed line-clamp-2 xs:line-clamp-3">
                           {club.description}
                         </p>
-                        <div className="absolute bottom-0 left-0 right-0 h-5 sm:h-6 bg-gradient-to-t from-white/90 dark:from-gray-900/90 to-transparent"></div>
+                        <div className="absolute bottom-0 left-0 right-0 h-4 xs:h-5 sm:h-6 bg-gradient-to-t from-white/90 dark:from-gray-900/90 to-transparent"></div>
                       </div>
 
                       {/* Location Tag with Icon - Improved for mobile */}
-                      <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-4 sm:mb-5">
-                        <div className="inline-flex items-center px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200">
-                          <MapPin className="w-3 h-3 mr-1 text-red-500" />
+                      <div className="flex flex-wrap gap-1 xs:gap-1.5 mb-3 xs:mb-4">
+                        <div className="inline-flex items-center px-1.5 xs:px-2 py-0.5 xs:py-1 rounded-md xs:rounded-lg text-[10px] xs:text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200">
+                          <MapPin className="w-2.5 h-2.5 xs:w-3 xs:h-3 mr-0.5 xs:mr-1 text-red-500" />
                           {club.location || "Room 201"}
                         </div>
                         
                         {/* Category Tags - Mobile optimized */}
-                        <div className="inline-flex items-center px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg text-xs font-medium text-white bg-red-500">
+                        <div className="inline-flex items-center px-1.5 xs:px-2 py-0.5 xs:py-1 rounded-md xs:rounded-lg text-[10px] xs:text-xs font-medium text-white bg-red-500">
                           {club.category === "STEM" ? "STEM" : 
                            club.category === "Leadership" ? "LEADERSHIP" : 
                            club.category === "Arts" ? "ARTS" : club.category}
@@ -990,33 +990,33 @@ const EventsPage: React.FC = () => {
                         
                         {/* Tech Lab Tag - Only for relevant clubs */}
                         {(club.category === "STEM" || club.name.includes("Tech") || club.name.includes("Robotics")) && (
-                          <div className="inline-flex items-center px-3 py-1.5 rounded-lg text-xs font-medium bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300">
+                          <div className="inline-flex items-center px-1.5 xs:px-2 py-0.5 xs:py-1 rounded-md xs:rounded-lg text-[10px] xs:text-xs font-medium bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300">
                             Tech Lab
                           </div>
                         )}
                         
                         {/* Arts Room Tag */}
                         {(club.category === "Arts" || club.name.includes("Art")) && (
-                          <div className="inline-flex items-center px-3 py-1.5 rounded-lg text-xs font-medium bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300">
+                          <div className="inline-flex items-center px-1.5 xs:px-2 py-0.5 xs:py-1 rounded-md xs:rounded-lg text-[10px] xs:text-xs font-medium bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300">
                             Art Room
                           </div>
                         )}
                       </div>
                       
                       {/* Action Buttons - Restyled to match screenshot - mobile optimized */}
-                      <div className="flex gap-2 sm:gap-3 mt-auto">
+                      <div className="flex gap-1.5 xs:gap-2 mt-auto">
                         <button
-                          className="flex-1 px-2 sm:px-4 py-1.5 sm:py-2 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 font-medium border border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors duration-200 text-xs sm:text-sm flex items-center justify-center"
+                          className="flex-1 px-1.5 xs:px-2 sm:px-3 py-1 xs:py-1.5 rounded-md xs:rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 font-medium border border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors duration-200 text-[10px] xs:text-xs flex items-center justify-center"
                           onClick={() => setSelectedClub(club)}
                         >
                           <span>Club Details</span>
-                          <svg className="w-3 h-3 sm:w-4 sm:h-4 ml-1 sm:ml-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <svg className="w-2.5 h-2.5 xs:w-3 xs:h-3 ml-0.5 xs:ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                           </svg>
                         </button>
                         
                         <button
-                          className="flex-1 px-2 sm:px-4 py-1.5 sm:py-2 rounded-lg bg-red-500 hover:bg-red-600 text-white font-medium transition-colors duration-200 text-xs sm:text-sm flex items-center justify-center"
+                          className="flex-1 px-1.5 xs:px-2 sm:px-3 py-1 xs:py-1.5 rounded-md xs:rounded-lg bg-red-500 hover:bg-red-600 text-white font-medium transition-colors duration-200 text-[10px] xs:text-xs flex items-center justify-center"
                           onClick={() => {
                             setActiveView('events');
                             setSelectedClubFilter(club.name);
@@ -1024,15 +1024,15 @@ const EventsPage: React.FC = () => {
                           }}
                         >
                           <span>View Events</span>
-                          <Calendar className="w-3 h-3 sm:w-4 sm:h-4 ml-1 sm:ml-1.5" />
+                          <Calendar className="w-2.5 h-2.5 xs:w-3 xs:h-3 ml-0.5 xs:ml-1" />
                         </button>
                       </div>
                       
                       {/* Admin Delete Button - Only shown to admins */}
                       {isAdmin && (
-                        <div className="absolute top-4 right-4 z-20">
+                        <div className="absolute top-2 xs:top-3 right-2 xs:right-3 z-20">
                           <button
-                            className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-md text-white hover:bg-red-600 transition-colors duration-200 flex items-center justify-center"
+                            className="w-6 h-6 xs:w-7 xs:h-7 sm:w-8 sm:h-8 rounded-full bg-black/50 backdrop-blur-md text-white hover:bg-red-600 transition-colors duration-200 flex items-center justify-center"
                             onClick={(e) => {
                               e.stopPropagation();
                               handleDeleteClub(club.id);
@@ -1040,7 +1040,7 @@ const EventsPage: React.FC = () => {
                             aria-label="Delete club"
                             title="Delete club"
                           >
-                            <Trash2 className="w-4 h-4" />
+                            <Trash2 className="w-3 h-3 xs:w-3.5 xs:h-3.5 sm:w-4 sm:h-4" />
                           </button>
                         </div>
                       )}
