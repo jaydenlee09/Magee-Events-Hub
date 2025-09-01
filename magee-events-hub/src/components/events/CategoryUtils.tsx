@@ -8,12 +8,6 @@ import {
   Users, 
   ClipboardList,
   GraduationCap as AcademicIcon,
-  Filter,
-  ChevronDown,
-  ChevronUp,
-  Check,
-  X,
-  Search
 } from "lucide-react";
 
 /**
