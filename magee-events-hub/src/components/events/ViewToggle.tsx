@@ -12,8 +12,8 @@ interface ViewToggleProps {
  */
 const ViewToggle: React.FC<ViewToggleProps> = ({ activeView, onViewChange }) => {
   return (
-    <div className="flex justify-center mb-6 sm:mb-8">
-      <div className="relative inline-flex bg-gray-100/70 dark:bg-gray-800/70 backdrop-blur-md rounded-full p-0.5 sm:p-1 shadow-lg border border-gray-200/30 dark:border-gray-700/30">
+    <div className="flex justify-center mb-4 sm:mb-6 md:mb-8">
+      <div className="relative inline-flex bg-gray-100/70 dark:bg-gray-800/70 backdrop-blur-md rounded-full p-0.5 shadow-lg border border-gray-200/30 dark:border-gray-700/30">
         {/* Animated Background Indicator */}
         <div 
           className={`absolute h-full top-0 transition-all duration-300 ease-in-out rounded-full bg-white dark:bg-gray-700 shadow-md ${
@@ -27,14 +27,14 @@ const ViewToggle: React.FC<ViewToggleProps> = ({ activeView, onViewChange }) => 
         {/* Events Tab */}
         <button
           onClick={() => onViewChange('events')}
-          className={`relative z-10 px-4 sm:px-6 md:px-8 py-2 sm:py-2.5 md:py-3 rounded-full text-sm sm:text-base font-medium sm:font-semibold transition-all duration-300 ${
+          className={`relative z-10 px-3 xs:px-4 sm:px-5 md:px-7 py-1.5 sm:py-2 md:py-2.5 rounded-full text-xs xs:text-sm sm:text-base font-medium sm:font-semibold transition-all duration-300 ${
             activeView === 'events'
               ? 'text-red-500 dark:text-red-400'
               : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
           }`}
         >
-          <span className="flex items-center gap-1.5 sm:gap-2">
-            <Calendar className={`w-4 h-4 sm:w-5 sm:h-5 transition-transform duration-300 ${activeView === 'events' ? 'scale-110' : ''}`} />
+          <span className="flex items-center gap-1 xs:gap-1.5 sm:gap-2">
+            <Calendar className={`w-3.5 h-3.5 xs:w-4 xs:h-4 sm:w-5 sm:h-5 transition-transform duration-300 ${activeView === 'events' ? 'scale-110' : ''}`} />
             <span className="transition-all duration-300 transform origin-left">Events</span>
           </span>
         </button>
@@ -42,14 +42,14 @@ const ViewToggle: React.FC<ViewToggleProps> = ({ activeView, onViewChange }) => 
         {/* Clubs Tab */}
         <button
           onClick={() => onViewChange('clubs')}
-          className={`relative z-10 px-4 sm:px-6 md:px-8 py-2 sm:py-2.5 md:py-3 rounded-full text-sm sm:text-base font-medium sm:font-semibold transition-all duration-300 ${
+          className={`relative z-10 px-3 xs:px-4 sm:px-5 md:px-7 py-1.5 sm:py-2 md:py-2.5 rounded-full text-xs xs:text-sm sm:text-base font-medium sm:font-semibold transition-all duration-300 ${
             activeView === 'clubs'
               ? 'text-red-500 dark:text-red-400'
               : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
           }`}
         >
-          <span className="flex items-center gap-1.5 sm:gap-2">
-            <Users className={`w-4 h-4 sm:w-5 sm:h-5 transition-transform duration-300 ${activeView === 'clubs' ? 'scale-110' : ''}`} />
+          <span className="flex items-center gap-1 xs:gap-1.5 sm:gap-2">
+            <Users className={`w-3.5 h-3.5 xs:w-4 xs:h-4 sm:w-5 sm:h-5 transition-transform duration-300 ${activeView === 'clubs' ? 'scale-110' : ''}`} />
             <span className="transition-all duration-300 transform origin-left">Clubs</span>
           </span>
         </button>

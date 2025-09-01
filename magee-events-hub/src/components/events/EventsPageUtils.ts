@@ -1,7 +1,7 @@
 // Utility functions for the Events Page
 
 /**
- * Formats a date string into a readable format
+ * Formats a date string into a short readable format (for cards)
  */
 export const formatDate = (dateString?: string): string => {
   if (!dateString) return 'Date TBA';
@@ -13,6 +13,27 @@ export const formatDate = (dateString?: string): string => {
     return date.toLocaleDateString('en-US', {
       weekday: 'short',
       month: 'short', 
+      day: 'numeric'
+    });
+  } catch (error) {
+    console.error('Error formatting date:', error);
+    return dateString;
+  }
+};
+
+/**
+ * Formats a date string into a full readable format (for modals/details)
+ */
+export const formatDateFull = (dateString?: string): string => {
+  if (!dateString) return 'Date TBA';
+  
+  try {
+    const [year, month, day] = dateString.split('-').map(Number);
+    const date = new Date(year, month - 1, day);
+    
+    return date.toLocaleDateString('en-US', {
+      weekday: 'long',
+      month: 'long', 
       day: 'numeric'
     });
   } catch (error) {

@@ -18,7 +18,7 @@ const AnimatedBackground: React.FC<AnimatedBackgroundProps> = ({ className = '' 
       <div 
         className="absolute inset-0 dark:opacity-0 opacity-100 transition-opacity duration-500"
         style={{
-          background: "radial-gradient(125% 125% at 50% 10%, #fff 40%, #ef4444 100%)"
+          background: "radial-gradient(125% 125% at 50% 10%, #fff 60%, #f5b2b2ff 85%, #fca5a5 100%)"
         }}
       ></div>
       
@@ -26,7 +26,7 @@ const AnimatedBackground: React.FC<AnimatedBackgroundProps> = ({ className = '' 
       <div 
         className="absolute inset-0 dark:opacity-100 opacity-0 transition-opacity duration-500"
         style={{
-          background: "radial-gradient(125% 125% at 50% 10%, #1e1e2e 40%, #7f1d1d 100%)"
+          background: "radial-gradient(125% 125% at 50% 10%, #1e1e2e 60%, #3f1a1a 85%, #581c1c 100%)"
         }}
       ></div>
       

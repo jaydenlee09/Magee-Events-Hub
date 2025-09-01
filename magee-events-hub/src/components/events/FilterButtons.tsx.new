@@ -73,6 +73,10 @@ const FilterButtons: React.FC<FilterButtonsProps> = ({
       
       {/* Category Pills - Horizontal Scrollable (Primary Filtering Interface) */}
       <div className="relative">
+        {/* Gradient Fades for Scroll Indication */}
+        <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-white via-white/80 to-transparent dark:from-gray-900 dark:via-gray-900/80 dark:to-transparent z-10 pointer-events-none ml-4 md:ml-8 lg:ml-12"></div>
+        <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-white via-white/80 to-transparent dark:from-gray-900 dark:via-gray-900/80 dark:to-transparent z-10 pointer-events-none"></div>
+        
         {/* Scrollable Categories */}
         <div className="flex overflow-x-auto pb-3 scrollbar-hide pl-4 md:pl-8 lg:pl-12 pr-4 gap-2.5">
           <button

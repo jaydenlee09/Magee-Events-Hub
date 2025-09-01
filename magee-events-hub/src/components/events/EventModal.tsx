@@ -1,7 +1,7 @@
 import React from 'react';
 import { Calendar, Clock, MapPin, Users, User, X } from "lucide-react";
 import type { EventData } from './EventsPageTypes';
-import { formatDate, formatTime } from './EventsPageUtils';
+import { formatDateFull, formatTime } from './EventsPageUtils';
 
 interface EventModalProps {
   event: EventData | null;
@@ -63,7 +63,7 @@ const EventModal: React.FC<EventModalProps> = ({ event, onClose }) => {
                   <div className="w-9 h-9 rounded-lg bg-red-100 dark:bg-red-900/30 flex items-center justify-center">
                     <Calendar className="w-5 h-5 text-red-600 dark:text-red-400" />
                   </div>
-                  <span className="font-medium text-gray-900 dark:text-white">{formatDate(event.date)}</span>
+                  <span className="font-medium text-gray-900 dark:text-white">{formatDateFull(event.date)}</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <div className="w-9 h-9 rounded-lg bg-red-100 dark:bg-red-900/30 flex items-center justify-center">

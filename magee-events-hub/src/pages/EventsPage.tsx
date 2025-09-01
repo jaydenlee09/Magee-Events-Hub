@@ -500,7 +500,7 @@ const EventsPage: React.FC = () => {
       />
 
       {/* Enhanced Main Content - Better mobile padding */}
-      <div className={`min-h-screen bg-transparent px-2 xs:px-3 sm:px-4 md:px-6 py-2 xs:py-3 sm:py-4 md:py-6 relative overflow-hidden z-10 ${
+      <div className={`min-h-screen bg-transparent px-1 xs:px-2 sm:px-3 md:px-6 pt-16 xs:pt-20 sm:pt-16 md:pt-16 pb-2 xs:py-3 sm:py-4 md:py-6 relative overflow-hidden z-10 ${
         typeof window !== 'undefined' && document.documentElement.classList.contains('dark')
           ? 'animate-fadeIn-dark'
           : 'animate-fadeIn'
@@ -525,11 +525,11 @@ const EventsPage: React.FC = () => {
         </div>
         <div className="max-w-7xl mx-auto">
           {/* Enhanced Header - Mobile optimized */}
-          <div className="text-center mb-4 xs:mb-5 sm:mb-8 md:mb-12 pt-4 xs:pt-5 sm:pt-8 md:pt-16">
-            <h1 className="text-xl xs:text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-1.5 sm:mb-3 md:mb-4 tracking-tight">
+          <div className="text-center mb-3 xs:mb-4 sm:mb-6 md:mb-8 pt-0 xs:pt-2 sm:pt-4 md:pt-8">
+            <h1 className="text-lg xs:text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-1 sm:mb-2 md:mb-3 tracking-tight">
               Magee Events Hub
             </h1>
-            <p className="text-xs xs:text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto leading-relaxed px-1 xs:px-2 sm:px-4">
+            <p className="text-xs xs:text-sm sm:text-base md:text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto leading-relaxed px-1 xs:px-2 sm:px-4">
               Discover, join, and enjoy amazing events happening at Magee! 
             </p>
           </div>
@@ -695,7 +695,7 @@ const EventsPage: React.FC = () => {
           )}
           {/* Content Grid with enhanced spacing and mobile improvements */}
           {activeView === 'events' ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 xs:gap-4 sm:gap-6 md:gap-8 lg:gap-10 px-0 xs:px-1 sm:px-2 md:px-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 xs:gap-4 sm:gap-6 md:gap-8 lg:gap-10 px-2 xs:px-3 sm:px-4 md:px-5">
               {loading ? (
               <>
                 <SkeletonCard />
@@ -778,7 +778,7 @@ const EventsPage: React.FC = () => {
                   {/* Glass effect top accent bar */}
                   <div className={`h-2 w-full absolute top-0 left-0 ${getCategoryColorGradient(event.category)}`}></div>
                   
-                  <div className="p-3 xs:p-4 sm:p-5 md:p-7 relative z-10">
+                  <div className="p-4 xs:p-5 sm:p-6 md:p-7 relative z-10">
                     {/* Event Header with Category Badge - improved for mobile */}
                     <div className="flex justify-between items-start mb-2 sm:mb-3 md:mb-5">
                       <div className="flex items-start gap-2 sm:gap-3 md:gap-4 flex-1 min-w-0">
@@ -874,7 +874,7 @@ const EventsPage: React.FC = () => {
             )}
           </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 xs:gap-4 sm:gap-6 md:gap-8 lg:gap-10 px-0 xs:px-1 sm:px-2 md:px-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 xs:gap-4 sm:gap-6 md:gap-8 lg:gap-10 px-2 xs:px-3 sm:px-4 md:px-5">
               {loading ? (
                 <>
                   <SkeletonCard />
@@ -937,7 +937,7 @@ const EventsPage: React.FC = () => {
                     </div>
 
                     {/* Content - Mobile optimized padding */}
-                    <div className="p-3 xs:p-4 sm:p-5 relative z-10 flex-grow">
+                    <div className="p-4 xs:p-5 sm:p-6 relative z-10 flex-grow">
                       {/* Title and Tag */}
                       <div className="flex items-center justify-between mb-2">
                         <h3 className="text-xl font-bold text-gray-900 dark:text-white tracking-tight">
@@ -1231,38 +1231,38 @@ const EventsPage: React.FC = () => {
         </div>
       )}
       
-      {/* Modern Floating Feedback Button - Adjusted size for better visibility */}
+      {/* Modern Floating Feedback Button - Increased size */}
       <button
-        className="fixed bottom-4 right-4 sm:bottom-5 sm:right-5 md:bottom-6 md:right-6 z-40 group animate-float"
+        className="fixed bottom-4 right-4 sm:bottom-5 sm:right-5 md:bottom-6 md:right-6 z-40 group animate-float scale-110"
         onClick={() => setShowFeedbackModal(true)}
         aria-label="Send Feedback"
       >
         <div className="relative">
-          {/* Outer glow effect */}
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-cyan-400 rounded-full blur opacity-70 group-hover:opacity-100 transition duration-300 group-hover:blur-md animate-gentle-pulse"></div>
+          {/* Outer glow effect - enlarged */}
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-cyan-400 rounded-full blur-md opacity-70 group-hover:opacity-100 transition duration-300 group-hover:blur-xl animate-gentle-pulse"></div>
           
-          {/* Animated border with shimmer */}
+          {/* Animated border with shimmer - enlarged */}
           <div className="absolute inset-0.5 rounded-full bg-gradient-to-r from-blue-500 via-cyan-400 to-blue-500 opacity-90 group-hover:opacity-100 
                          shadow-lg group-hover:shadow-cyan-500/50 transition-all duration-300 animate-shimmer"></div>
           
-          {/* Button Content with wave effect - Better sized for laptops */}
-          <div className="relative flex items-center gap-2 sm:gap-2.5 bg-gradient-to-r from-blue-600 to-cyan-500 rounded-full px-3.5 py-2.5 sm:px-4 sm:py-3 md:px-5 md:py-3.5 text-white overflow-hidden">
+          {/* Button Content with wave effect - Larger size with increased padding */}
+          <div className="relative flex items-center gap-2 sm:gap-3 bg-gradient-to-r from-blue-600 to-cyan-500 rounded-full px-3 py-2.5 sm:px-4 sm:py-3 md:px-5 md:py-3.5 text-white overflow-hidden">
             {/* Background shimmer effect on hover */}
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 -translate-x-full group-hover:translate-x-full transition-all duration-1000 ease-in-out"></div>
             
-            {/* Message Icon with Animation */}
+            {/* Message Icon with Animation - larger size */}
             <div className="relative flex-shrink-0">
               <FaComments size={18} className="sm:w-5 sm:h-5 md:w-6 md:h-6 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-[5deg]" />
             </div>
             
-            {/* Text with slide animation */}
+            {/* Text with slide animation - larger font */}
             <div className="overflow-hidden">
-              <span className="hidden sm:block whitespace-nowrap text-sm sm:text-base font-medium transform transition-all duration-300 group-hover:translate-x-1 group-hover:text-white/90">
+              <span className="hidden sm:block whitespace-nowrap sm:text-sm md:text-base font-medium transform transition-all duration-300 group-hover:translate-x-1 group-hover:text-white/90">
                 Send Feedback
               </span>
             </div>
             
-            {/* Mobile text (only shows on small screens) */}
+            {/* Mobile text (only shows on small screens) - larger font */}
             <span className="sm:hidden text-sm font-medium">Feedback</span>
           </div>
         </div>
